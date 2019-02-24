@@ -6,5 +6,6 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css'],
 })
 export class AppComponent {
-  title = 'sodel2';
+  title = 'Luau Website';
+  imgPath = "./assets/img/luau_icn2.jpg";
 }

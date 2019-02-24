@@ -1,0 +1,25 @@
+.sec1{
+    background: #fff;
+    box-shadow: 3px 0 13px 0px #888;
+    padding-right: 0px
+}
+.navLink{
+    font-size: 18px;
+    font-weight: 600;
+    color: #8a8989;
+    padding: 10px 25px;
+    cursor: pointer;
+}
+.navLink:focus{
+    color: #23af9b;
+    background-color: #dcf1f1eb;
+    outline: none;
+}
+.icon1{
+    width: 60%;
+    margin: 15%;
+    cursor: pointer;
+}
+.icon1:focus{
+    outline: none
+}

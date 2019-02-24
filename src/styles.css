@@ -1,1 +1,18 @@
 /* You can add global styles to this file, and also import other style files */
+@import "bootstrap/dist/css/bootstrap.min.css";
+
+html, body {
+    height: 100%;
+    margin: 0px;
+}
+
+.area-95{
+    height: 85%;
+    width: 100%; 
+}
+
+.make-center{
+    display: flex;
+    justify-content: center;
+    align-items: center
+}
