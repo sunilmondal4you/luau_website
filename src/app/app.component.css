@@ -4,9 +4,9 @@
     padding-right: 0px
 }
 .navLink{
-    font-size: 18px;
+    font-size: 16px;
     font-weight: 600;
-    color: #8a8989;
+    color: #615f5f;
     padding: 10px 25px;
     cursor: pointer;
 }
@@ -22,4 +22,15 @@
 }
 .icon1:focus{
     outline: none
+}
+.footerSec{
+    position: absolute;
+    bottom: 0;
+    min-width: 90%;
+    padding: 5px 10px;
+}
+.navLinkFooter{
+    font-size: 11px;
+    color: #364052;
+    cursor: pointer;
 }
