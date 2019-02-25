@@ -1,18 +1,23 @@
+@font-face {
+    font-family: sans-serif;
+}
 .sec1{
     background: #fff;
     box-shadow: 3px 0 13px 0px #888;
     padding-right: 0px
 }
 .navLink{
+    padding: 15px 10px 10px 25px;
     font-size: 16px;
+    color: #000;
     font-weight: 600;
-    color: #615f5f;
-    padding: 10px 25px;
+    display: block;
     cursor: pointer;
 }
-.navLink:focus{
-    color: #23af9b;
-    background-color: #dcf1f1eb;
+.navLink:focus, .navLink:hover, .navLink:active{
+    background: #e4f9f4;
+    color: #48d1b3;
+    text-decoration: none;
     outline: none;
 }
 .icon1{

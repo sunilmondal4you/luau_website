@@ -1,9 +1,16 @@
 /* You can add global styles to this file, and also import other style files */
 @import "bootstrap/dist/css/bootstrap.min.css";
 
+@font-face {
+    font-family: 'avenir_next';
+    src: url('assets/fonts/avenir-next/AvenirNextLTPro-It.otf');
+}
+
 html, body {
     height: 100%;
     margin: 0px;
+    font-family: avenir_next;
+    background: #fbfbfb;
 }
 
 .area-95{
