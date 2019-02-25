@@ -1,0 +1,13 @@
+.defaultFont{
+    font-family: serif;
+}
+.suprt-wrp{padding-left: 150px;}
+.suprt-wrp p{
+    font-size: 28px;
+    margin: 0;
+    line-height: 1.5;
+    color: #252525;
+    font-family: sans-serif;
+}
+.suprt-wrp a{color: #48d1b3;cursor: pointer;}
+.suprt-flex, .luauLogo-flex{display: -webkit-flex;display: -moz-flex;display: -ms-flex;display: -o-flex;display: flex;height: 100vh;-webkit-align-items: center;-moz-align-items: center;-ms-align-items: center;-o-align-items: center;align-items: center;}
