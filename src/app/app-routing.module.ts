@@ -7,6 +7,8 @@ import { InqueriesComponent } from './inqueries/inqueries.component';
 import { ServicesComponent } from './services/services.component';
 import { SupportComponent } from './support/support.component';
 import { DownloadComponent } from './download/download.component';
+import { TermsComponent } from './terms/terms.component';
+import { PrivacyComponent } from './privacy/privacy.component';
 
 
 const routes: Routes = [
@@ -17,7 +19,8 @@ const routes: Routes = [
   { path: 'services', component: ServicesComponent, pathMatch: 'full' },
   { path: 'suport',   component: SupportComponent,  pathMatch: 'full' },
   { path: 'download', component: DownloadComponent, pathMatch: 'full' },
-
+  { path: 'terms',    component: TermsComponent,    pathMatch: 'full' },
+  { path: 'privacy',  component: PrivacyComponent,    pathMatch: 'full' },
 ];
 
 @NgModule({

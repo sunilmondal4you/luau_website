@@ -9,6 +9,8 @@ import { InqueriesComponent } from './inqueries/inqueries.component';
 import { ServicesComponent } from './services/services.component';
 import { SupportComponent } from './support/support.component';
 import { DownloadComponent } from './download/download.component';
+import { TermsComponent } from './terms/terms.component';
+import { PrivacyComponent } from './privacy/privacy.component';
 
 @NgModule({
   declarations: [
@@ -18,7 +20,9 @@ import { DownloadComponent } from './download/download.component';
     InqueriesComponent,
     ServicesComponent,
     SupportComponent,
-    DownloadComponent
+    DownloadComponent,
+    TermsComponent,
+    PrivacyComponent
   ],
   imports: [
     BrowserModule,
