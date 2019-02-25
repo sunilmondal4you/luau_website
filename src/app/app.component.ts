@@ -7,5 +7,5 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'Luau Website';
-  imgPath = "./assets/img/luau_icn2.jpg";
+  imgPath = "./assets/img/logo.png";
 }
