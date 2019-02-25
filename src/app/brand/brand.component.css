@@ -4,7 +4,7 @@
 .form-control{
     font-size: 19px;
     padding-left: 20px;
-    border-radius:13px !important ;
+    border-radius:17px !important ;
     border: 1px solid #ced4da05;
     transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
     background: #efefef;
