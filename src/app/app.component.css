@@ -39,4 +39,10 @@
     color: #364052;
     cursor: pointer;
 }
+.navLinkFooter:focus, .navLinkFooter:hover, .navLinkFooter:active{
+    color: #1ba788;
+    font-weight: 600;
+    text-decoration: none;
+    outline: none;
+}
 
