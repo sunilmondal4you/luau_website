@@ -1,6 +1,3 @@
-@font-face {
-    font-family: sans-serif;
-}
 .sec1{
     background: #fff;
     box-shadow: 3px 0 13px 0px #888;
@@ -9,20 +6,23 @@
 .navLink{
     padding: 15px 10px 10px 25px;
     font-size: 16px;
-    color: #000;
-    font-weight: 600;
+    color: #2A292B;
+    font-family: 'avenir_next_db';
+    font-weight: DemiBold;
     display: block;
     cursor: pointer;
 }
 .navLink:focus, .navLink:hover, .navLink:active{
-    background: #e4f9f4;
-    color: #48d1b3;
+    background: #4bd2bc38;
+    color: #4AD2B4;
+    font-weight: bold;
+    font-family: 'avenir_next_b';    
     text-decoration: none;
     outline: none;
 }
 .icon1{
-    width: 60%;
-    margin: 25% 15%;
+    width: 55%;
+    margin: 25% 15% 15%;
     cursor: pointer;
 }
 .icon1:focus{
@@ -35,13 +35,17 @@
     padding: 5px 10px;
 }
 .navLinkFooter{
-    font-size: 11px;
-    color: #364052;
+    color: #C8C8C8;
     cursor: pointer;
+    padding: 0px 10px;
+    font-size: 12px;
+    font-weight: medium;
+    font-family: 'avenir_next_m';
 }
 .navLinkFooter:focus, .navLinkFooter:hover, .navLinkFooter:active{
-    color: #1ba788;
-    font-weight: 600;
+    color: #4AD2B4;
+    font-weight: medium;
+    font-family: 'avenir_next_m';
     text-decoration: none;
     outline: none;
 }
