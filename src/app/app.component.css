@@ -1,7 +1,10 @@
 .sec1{
     background: #fff;
-    box-shadow: 3px 0 13px 0px #888;
-    padding-right: 0px
+    box-shadow: 3px 13px 13px 0px #888;
+    padding: 0px !important;
+}
+.routSec{
+    padding: 0px !important;
 }
 .navLink{
     padding: 15px 10px 10px 25px;

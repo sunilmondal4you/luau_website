@@ -1,8 +1,13 @@
 <!--The content below is only a placeholder and can be replaced.-->
-<div class="container-fluid p-0" style="height: 100%;">
-  <div class="row" style=" height: 100%;width: 100%;">
-    <div class="col-4 col-md-4 col-md-3 col-lg-2 sec1">
-        <img class="icon1" [src]="imgPath" alt="Luau Icon" routerLink="/home">
+<div class="container-fluid p-0" style="height: 100%;" (window:resize)="onResize($event)">
+  <div class="row area-100 m-0">
+    <div class="" *ngIf="mobileView" style="padding:5% 10%; max-height: 65px" >
+      <i class="fas fa-bars fa-2x" *ngIf="!showNavLink" (click)="toggleNavLinks()"></i>
+      <i class="fas fa-times fa-2x" *ngIf="showNavLink" (click)="toggleNavLinks()"></i>
+    </div>
+
+    <div class="col-12 col-md-3 col-lg-2 sec1" *ngIf="!mobileView || showNavLink">
+      <img class="icon1" [src]="imgPath" alt="Luau Icon" routerLink="/home">
 
       <div class="navLink" routerLink="/download">Download</div>
       <div class="navLink" routerLink="/brand">Brand Singup</div>
@@ -11,15 +16,14 @@
       <div class="navLink" routerLink="/suport">Support</div>
 
       <footer class="footerSec">
-          <div class="row">
-              <div class="navLinkFooter col-6 col-lg-6" routerLink="/privacy">Privacy Policy</div>
-              <div class="navLinkFooter col-6 col-lg-6" routerLink="/terms">Terms of Use</div>
-
-          </div>
+        <div class="row">
+          <div class="navLinkFooter col-6 col-lg-6" routerLink="/privacy">Privacy Policy</div>
+          <div class="navLinkFooter col-6 col-lg-6" routerLink="/terms">Terms of Use</div>
+        </div>
       </footer>
-
     </div>
-    <div class="col-8 col-md-8 col-md-9 col-lg-10">
+
+    <div class="col-12 col-md-9 col-lg-10 routSec" *ngIf="!showNavLink">
       <router-outlet></router-outlet>
     </div>
   </div>
