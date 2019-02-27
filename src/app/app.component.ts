@@ -19,7 +19,11 @@ export class AppComponent {
     {"title": "Press Inqueries",  "routLink":"/inqueries"},
     {"title": "Customer Service", "routLink":"/services"},
     {"title": "Suport",           "routLink":"/suport"}
-  ]
+  ];
+  footerLinkList = [
+    {"title": "Privacy Policy",   "routLink":"/privacy"},
+    {"title": "Terms of Use",     "routLink":"/terms"},
+  ];
 
   ngOnInit() {
     if (window.screen.width < 768) { // 768px portrait
@@ -47,7 +51,6 @@ export class AppComponent {
 
     if(this.showNavLink==true){
       this.pageOpen = false;
-      this.showNavLink = true;
     }
   };
 
@@ -57,6 +60,9 @@ export class AppComponent {
 
     if (window.screen.width < 768) { // 768px portrait
       this.mobileView = true;
+
+      // CSS FOR NAVIGATION LINK
+      // return {'font-size.px':23,'padding':'4% 12%' };
     }
   };
   

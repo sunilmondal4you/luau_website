@@ -5,9 +5,10 @@
 }
 .routSec{
     padding: 0px !important;
+    min-height: 65%;
 }
 .navLink{
-    padding: 15px 10px 10px 25px;
+    padding: 4% 10%;
     font-size: 16px;
     color: #2A292B;
     font-family: 'avenir_next_db';
@@ -40,7 +41,8 @@
 .navLinkFooter{
     color: #C8C8C8;
     cursor: pointer;
-    padding: 0px 10px;
+    padding: 0px;
+    text-align: center;
     font-size: 12px;
     font-weight: medium;
     font-family: 'avenir_next_m';
