@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "sodel2": {
+    "luau-website": {
       "root": "",
       "sourceRoot": "src",
       "projectType": "application",
@@ -13,7 +13,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/sodel2",
+            "outputPath": "dist/luau-website",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
@@ -58,18 +58,18 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "sodel2:build"
+            "browserTarget": "luau-website:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "sodel2:build:production"
+              "browserTarget": "luau-website:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "sodel2:build"
+            "browserTarget": "luau-website:build"
           }
         },
         "test": {
@@ -103,7 +103,7 @@
         }
       }
     },
-    "sodel2-e2e": {
+    "luau-website-e2e": {
       "root": "e2e/",
       "projectType": "application",
       "prefix": "",
@@ -112,11 +112,11 @@
           "builder": "@angular-devkit/build-angular:protractor",
           "options": {
             "protractorConfig": "e2e/protractor.conf.js",
-            "devServerTarget": "sodel2:serve"
+            "devServerTarget": "luau-website:serve"
           },
           "configurations": {
             "production": {
-              "devServerTarget": "sodel2:serve:production"
+              "devServerTarget": "luau-website:serve:production"
             }
           }
         },
@@ -132,5 +132,5 @@
       }
     }
   },
-  "defaultProject": "sodel2"
+  "defaultProject": "luau-website"
 }

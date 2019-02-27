@@ -6,14 +6,10 @@
       <i class="fas fa-times fa-2x" *ngIf="showNavLink" (click)="toggleNavLinks()"></i>
     </div>
 
-    <div class="col-12 col-md-3 col-lg-2 sec1" *ngIf="!mobileView || showNavLink">
-      <img class="icon1" [src]="imgPath" alt="Luau Icon" routerLink="/home">
+    <div class="col-12 col-md-3 col-lg-2 sec1" *ngIf="(!mobileView || showNavLink)">
+      <img class="icon1" [ngStyle]="{'margin':innerWidth >= 768? '25% 15% 15%' : '-20% 20% 10%'}" [src]="imgPath" alt="Luau Icon" routerLink="/home">
 
-      <div class="navLink" routerLink="/download">Download</div>
-      <div class="navLink" routerLink="/brand">Brand Singup</div>
-      <div class="navLink" routerLink="/inqueries">Press Inqueries</div>
-      <div class="navLink" routerLink="/services">Customer Service</div>
-      <div class="navLink" routerLink="/suport">Support</div>
+      <div *ngFor="let navObj of linkList" class="navLink" routerLink="{{navObj.routLink}}" (click)="startNavigation()">{{navObj.title}}</div>
 
       <footer class="footerSec">
         <div class="row">
@@ -23,7 +19,7 @@
       </footer>
     </div>
 
-    <div class="col-12 col-md-9 col-lg-10 routSec" *ngIf="!showNavLink">
+    <div class="col-12 col-md-9 col-lg-10 routSec" *ngIf="!showNavLink || pageOpen" [ngStyle]="{'margin-top.%':innerWidth < 768?'-50': '0'}">
       <router-outlet></router-outlet>
     </div>
   </div>
