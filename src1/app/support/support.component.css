@@ -1,0 +1,24 @@
+.suprt-wrp p{
+    margin: 0;
+    line-height: 1.5;
+    color: #2A292B;
+    font-size: 24px;
+    font-weight: medium;
+    font-family: 'avenir_next_m';
+}
+.suprt-wrp a{
+    color: #4AD2B4;
+    cursor: pointer;
+}
+.suprt-flex, .luauLogo-flex{
+    display: -webkit-flex;
+    display: -moz-flex;
+    display: -ms-flex;
+    display: -o-flex;
+    display: flex;
+    height: 100vh;
+    -webkit-align-items: center;
+    -moz-align-items: center;
+    -ms-align-items: center;
+    -o-align-items: center;
+    align-items: center;}

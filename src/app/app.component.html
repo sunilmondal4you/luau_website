@@ -1,16 +1,19 @@
 <!--The content below is only a placeholder and can be replaced.-->
-<div class="container-fluid p-0" style="height: 100%;" (window:resize)="onResize($event)">
+<div class="container-fluid p-0 height-100" (window:resize)="onResize($event)">
   <div class="row area-100 m-0">
-    <div class="" *ngIf="mobileView" style="padding:5% 10%; max-height: 65px">
+    <div class="mobileView" *ngIf="mobileView">
       <i class="fas fa-bars fa-2x" *ngIf="!showNavLink" (click)="toggleNavLinks()"></i>
       <i class="fas fa-times fa-2x" *ngIf="showNavLink" (click)="toggleNavLinks()"></i>
     </div>
 
     <div class="col-12 col-md-3 col-lg-2 sec1" *ngIf="(!mobileView || showNavLink)">
-      <img class="icon1" [ngStyle]="{'margin':innerWidth>=768?'25% 15% 15%':'-20% 20% 10%'}" [src]="imgPath" alt="Luau Icon" routerLink="/home" (click)="startNavigation()">
+      <div class="leftPanelPosition">
+          <img class="icon1" [src]="imgPath" alt="Luau Icon" routerLink="/home" (click)="startNavigation()">
 
-      <div *ngFor="let navObj of linkList" class="navLink" [ngStyle]="{'font-size':innerWidth>=768?'16px':'23px'}" routerLink="{{navObj.routLink}}" (click)="startNavigation()">{{navObj.title}}</div>
-
+          <div><a class="navLink" target="_blank" href="https://itunes.apple.com/in/app/luau-modern-shopping/id1348751802?mt=8">Download</a></div>    
+          <div *ngFor="let navObj of linkList" class="navLink" routerLink="{{navObj.routLink}}" (click)="startNavigation()">{{navObj.title}}</div>    
+      </div>
+      
       <footer class="footerSec">
         <div class="row">
           <div *ngFor="let footerNavObj of footerLinkList" class="navLinkFooter col-6 col-lg-6" routerLink="{{footerNavObj.routLink}}" (click)="startNavigation()">{{footerNavObj.title}}</div>
@@ -18,7 +21,7 @@
       </footer>
     </div>
 
-    <div class="col-12 col-md-9 col-lg-10 routSec" *ngIf="!showNavLink || pageOpen" [ngStyle]="{'margin-top.%':innerWidth < 768?'-55':'0'}">
+    <div class="col-12 col-md-9 col-lg-10 routSec" [ngClass]="{'landscapeMarginTop': mobileView}" *ngIf="!showNavLink || pageOpen">
       <router-outlet></router-outlet>
     </div>
   </div>

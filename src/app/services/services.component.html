@@ -1,18 +1,29 @@
 <div class="container area-100 make-center defaultFont">
-  <div style="min-width:50%">
+  <div class="minWidth-50">
     <h2 class="text-center luau-head">Customer Service</h2>
     <h5 class="text-center luau-subhead">We're here to help.</h5>
-    <div class="form-group">
-      <input type="text" class="form-control luau-inpt" placeholder="user name">
-    </div>
-    <div class="form-group">
-      <input type="text" class="form-control luau-inpt" placeholder="order#">
-    </div>              
-    <div class="form-group">
-      <textarea class="form-control luau-inpt" rows="7" placeholder="how we can help?"></textarea>
-    </div>
-    <div class="text-center btn-wrp">
-      <button class="btn luau-btn">Send Request</button>
-    </div>
+    <form [formGroup]="servicesForm" (ngSubmit)="onSubmit()">
+      <div class="form-group">
+        <input type="text" class="form-control luau-inpt" placeholder="user name" formControlName="userName" [ngClass]="{ 'is-invalid': submitted && f.userName.errors }">
+        <div *ngIf="submitted && f.userName.errors" class="invalid-feedback requireMsg">
+          <div *ngIf="f.userName.errors.required">user name is required.</div>
+        </div>
+      </div>
+      <div class="form-group">
+        <input type="text" class="form-control luau-inpt" placeholder="order#" formControlName="orderDetail" [ngClass]="{ 'is-invalid': submitted && f.orderDetail.errors }">
+        <div *ngIf="submitted && f.orderDetail.errors" class="invalid-feedback requireMsg">
+          <div *ngIf="f.orderDetail.errors.required">order detail is required.</div>
+        </div>
+      </div>              
+      <div class="form-group">
+        <textarea class="form-control luau-inpt" rows="7" placeholder="how we can help?" formControlName="helpDetail" [ngClass]="{ 'is-invalid': submitted && f.helpDetail.errors }"></textarea>
+        <div *ngIf="submitted && f.helpDetail.errors" class="invalid-feedback requireMsg">
+          <div *ngIf="f.helpDetail.errors.required">please provide your queries.</div>
+        </div>
+      </div>
+      <div class="text-center btn-wrp">
+        <button class="btn luau-btn">Send Request</button>
+      </div>
+    </form>
   </div>
 </div>

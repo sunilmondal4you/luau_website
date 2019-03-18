@@ -1,0 +1,13 @@
+.prvcy-head{
+    color: #2a2a2c;
+    font-size: 45px;
+    font-weight: bold; 
+    font-family: 'avenir_next_b'
+}
+.prvcy-descp{
+    color: #000;
+    font-size: 28px;
+    font-weight: Regular;
+    font-family: 'avenir_next_r';
+    line-height: 1.5
+}

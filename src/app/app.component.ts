@@ -9,32 +9,53 @@ import { IfStmt } from '@angular/compiler';
 export class AppComponent {
   title = 'Luau Website';
   imgPath = "./assets/img/logo.png";
-  mobileView = false;
+  public mobileView = false;
   showNavLink = false;
   pageOpen = false;
-  innerWidth = window.innerWidth;
+  
+  homeLink = [{"title": "Home",     "routLink":"/home"}];
+
+  public innerWidth = window.innerWidth;
+  
   linkList = [
-    {"title": "Download",         "routLink":"/download"},
-    {"title": "Brand Singup",     "routLink":"/brand"},
-    {"title": "Press Inqueries",  "routLink":"/inqueries"},
+    {"title": "Brand Signup",     "routLink":"/brand"},
+    {"title": "Press Inquiries",  "routLink":"/inquiries"},
     {"title": "Customer Service", "routLink":"/services"},
-    {"title": "Suport",           "routLink":"/suport"}
+    {"title": "Support",          "routLink":"/support"}
   ];
   footerLinkList = [
     {"title": "Privacy Policy",   "routLink":"/privacy"},
-    {"title": "Terms of Use",     "routLink":"/terms"},
+    {"title": "Terms of Use",     "routLink":"/terms"}
   ];
+  allLinkList = this.homeLink.concat(this.linkList, this.footerLinkList);
 
   ngOnInit() {
-    if (window.screen.width < 768) { // 768px portrait
+    if (window.innerWidth < 768) { // 768px portrait
       this.mobileView = true;
       this.pageOpen = false;
       this.innerWidth = window.innerWidth;
     }
-  }
 
+    let pathFound = false;
+    let externalLinkFound = window.location.href.includes("/v1/products/");     // get true/false
+    if(window.location.pathname != "/" && externalLinkFound){
+      window.location.href='https://itunes.apple.com/in/app/luau-modern-shopping/id1348751802?mt=8';
+    }else{
+      this.allLinkList.forEach(obj => {
+        if(obj.routLink == window.location.pathname){
+          pathFound = true;
+        }
+      });
+
+      if(!pathFound){
+        window.location.pathname = "/home"
+      }
+    }
+  };
+    
   onResize(event) {
-    if (window.screen.width < 768) { // 768px portrait
+    this.innerWidth = window.innerWidth;
+    if (this.innerWidth < 768) { // 768px portrait
       event.target.innerWidth;
       this.mobileView = true;
       this.pageOpen = false;
@@ -43,7 +64,6 @@ export class AppComponent {
       this.mobileView = false;
       this.pageOpen = true;
     }
-    this.innerWidth = window.innerWidth;
   };
 
   toggleNavLinks(){
@@ -58,11 +78,8 @@ export class AppComponent {
     this.pageOpen = true;
     this.showNavLink = !this.showNavLink;
 
-    if (window.screen.width < 768) { // 768px portrait
+    if (this.innerWidth < 768) { // 768px portrait
       this.mobileView = true;
-
-      // CSS FOR NAVIGATION LINK
-      // return {'font-size.px':23,'padding':'4% 12%' };
     }
   };
   

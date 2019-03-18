@@ -1,0 +1,45 @@
+/* You can add global styles to this file, and also import other style files */
+@import "bootstrap/dist/css/bootstrap.min.css";
+
+@font-face {
+    font-family: 'avenir_next_b';
+    src: url('assets/fonts/avenir-next/AvenirNextBold.otf');
+    font-weight: bold;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'avenir_next_db';
+    src: url('assets/fonts/avenir-next/AvenirNextDemiBold.otf');
+    font-weight: DemiBold;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'avenir_next_m';
+    src: url('assets/fonts/avenir-next/AvenirNextMedium.otf');
+    font-weight: medium;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'avenir_next_r';
+    src: url('assets/fonts/avenir-next/AvenirNextRegular.otf');
+    font-weight: regular;
+    font-style: normal;
+}
+
+html, body {
+    height: 100%;
+    margin: 0px;
+    font-family: 'avenir_next_b', 'avenir_next_db', 'avenir_next_m', 'avenir_next_r';
+    background: #fbfbfb;
+}
+
+.area-100{
+    height: 100%;
+    width: 100%; 
+}
+
+.make-center{
+    display: flex;
+    justify-content: center;
+    align-items: center
+}

@@ -1,0 +1,57 @@
+.sec1{
+    background: #fff;
+    box-shadow: 3px 13px 13px 0px #888;
+    padding: 0px !important;
+}
+.routSec{
+    padding: 0px !important;
+    min-height: 65%;
+}
+.navLink{
+    padding: 4% 10%;
+    font-size: 16px;
+    color: #2A292B;
+    font-family: 'avenir_next_db';
+    font-weight: DemiBold;
+    display: block;
+    cursor: pointer;
+}
+.navLink:focus, .navLink:hover, .navLink:active{
+    background: #4bd2bc38;
+    color: #4AD2B4;
+    font-weight: bold;
+    font-family: 'avenir_next_b';    
+    text-decoration: none;
+    outline: none;
+}
+.icon1{
+    width: 50%;
+    margin: 25% 15% 15%;
+    cursor: pointer;
+}
+.icon1:focus{
+    outline: none
+}
+.footerSec{
+    position: absolute;
+    bottom: 0;
+    min-width: 90%;
+    padding: 5px 10px;
+}
+.navLinkFooter{
+    color: #C8C8C8;
+    cursor: pointer;
+    padding: 0px;
+    text-align: center;
+    font-size: 12px;
+    font-weight: medium;
+    font-family: 'avenir_next_m';
+}
+.navLinkFooter:focus, .navLinkFooter:hover, .navLinkFooter:active{
+    color: #4AD2B4;
+    font-weight: medium;
+    font-family: 'avenir_next_m';
+    text-decoration: none;
+    outline: none;
+}
+

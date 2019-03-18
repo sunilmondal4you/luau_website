@@ -1,11 +1,13 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { ReactiveFormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
 import { BrandComponent } from './brand/brand.component';
-import { InqueriesComponent } from './inqueries/inqueries.component';
+import { InquiriesComponent } from './inquiries/inquiries.component';
 import { ServicesComponent } from './services/services.component';
 import { SupportComponent } from './support/support.component';
 import { DownloadComponent } from './download/download.component';
@@ -17,7 +19,7 @@ import { PrivacyComponent } from './privacy/privacy.component';
     AppComponent,
     HomeComponent,
     BrandComponent,
-    InqueriesComponent,
+    InquiriesComponent,
     ServicesComponent,
     SupportComponent,
     DownloadComponent,
@@ -26,6 +28,8 @@ import { PrivacyComponent } from './privacy/privacy.component';
   ],
   imports: [
     BrowserModule,
+    ReactiveFormsModule,
+    HttpClientModule,
     AppRoutingModule
   ],
   providers: [],

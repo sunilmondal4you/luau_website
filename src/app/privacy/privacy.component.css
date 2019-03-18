@@ -1,13 +1,76 @@
-.prvcy-head{
-    color: #2a2a2c;
-    font-size: 45px;
-    font-weight: bold; 
-    font-family: 'avenir_next_b'
+.bigContSec{
+    max-width: 98%;
+    min-height: 95%;
+    margin-top: 0%;
 }
-.prvcy-descp{
-    color: #000;
-    font-size: 28px;
-    font-weight: Regular;
+@media (min-width:768px) {
+    .privacyheader{
+        position: fixed;
+        top: 0%;
+        width: 98%;
+        z-index: 999;
+        margin-left: -11px;
+    }
+    .bigContSec{
+        margin-top:2% !important;
+    }
+    .policy{
+        margin-top:-14%;
+    }
+}
+@media (min-width:1024px) {
+    .policy{
+        margin-top:10%;
+    }
+}
+@media screen and (max-width:767px){
+    .privacyheader{
+        position: fixed;
+        top: 60px;
+        width: 98%;
+        z-index: 999;
+        height: 110px;
+    }
+    .bigContSec{
+        margin-top:33%;
+    }
+    .policy{
+        margin-top:65px;
+    }
+}
+.privacyheader{
+    padding: 10px 0px 0px 10px;
+    color: #fff;
+    background: #3c3c3c;
+}
+.privacyheader h1{
+    font-size: 36px;
+    font-weight: bold;
+    font-family: 'avenir_next_b';
+}
+.privacyheader p{
+    font-size: 18px;
+    font-weight: medium;
+    font-family: 'avenir_next_m';
+}
+
+.policy h1{
+    font-size: 16px;
+    font-weight: DemiBold;
+    font-family: 'avenir_next_db';
+}
+.content p{
+    font-size: 18px !important;
+    font-weight: medium;
+    font-family: 'avenir_next_m';
+}
+.content ul li{
+    font-size: 16px !important;
+    font-weight: medium;
+    font-family: 'avenir_next_m';
+}
+.content ol li{
+    font-size: 16px !important;
+    font-weight: regular;
     font-family: 'avenir_next_r';
-    line-height: 1.5
 }
