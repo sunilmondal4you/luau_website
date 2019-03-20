@@ -8,39 +8,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="icon" type="image/x-icon" href="assets/img/logo.png">
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-  <script type="text/javascript" src="assets/ua-parser.js"></script>
-  <script type="text/javascript">
- 	
- 	var parser = new UAParser();
- 	var nav = window.navigator;
- 	var screen_width = screen.width;
- 	var screen_height = screen.height;
-
- 	parser.setUA(nav.userAgent);
- 	var result = parser.getResult();
-	
-	console.log(result)
-
-	console.log("browser name : " + result.browser.name) //Mobile Safari
-	console.log("browser version : " + result.browser.version) //12.0
-	console.log("browser major : " + result.browser.major) //12
-
-	console.log("device model : " + result.device.model) //iPhone
-	console.log("device type : " + result.device.type) //mobile
-	console.log("device vendor : " + result.browser.vendor) //undefined
-
-	console.log("engine name : " + result.engine.name) //WebKit
-	console.log("engine version : " + result.engine.version) //605.1.15
-
-	console.log("os name : " + result.os.name) //iOS
-	console.log("os version : " + result.os.version) //12.1.4
-
-	console.log("cpu architecture : " + result.cpu.architecture) //undefined
-
-	console.log("screen_width : " + screen_width) //320	
-	console.log("screen_height : " + screen_height) //568
-
-  </script>
+  
 </head>
 <body>
   <app-root></app-root>

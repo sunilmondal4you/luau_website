@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ApiService } from './../api.service';
+
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import * as sha512 from 'js-sha512';
 
@@ -11,12 +13,13 @@ import * as sha512 from 'js-sha512';
 export class ServicesComponent implements OnInit {
   servicesForm: FormGroup;
   submitted = false;
-  apiURL: string = 'http://dev.api.luauet.com/luau-api/scripts/customer_service.php';
+  apiURL: string = 'http://192.168.1.29/luau-api/scripts/customer_service.php';
 
 
   constructor(
     private formBuilder: FormBuilder, 
     private http: HttpClient,
+    private apiService: ApiService,
   ) { }
 
   ngOnInit() {
@@ -50,6 +53,11 @@ export class ServicesComponent implements OnInit {
       };
 
       servicesObj.authToken = sha512.sha512(hashkey);
+
+      // this.apiService.customPostApiCall(servicesObj).subscribe((res:any)=>{
+      //   this.servicesForm.reset();
+      //     alert(res.message);
+      // });
       
       this.http.post(`${this.apiURL}`,servicesObj,{ headers: config }).subscribe(
         (data : any)  => {
