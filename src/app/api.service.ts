@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import * as sha512 from 'js-sha512';
 
@@ -7,20 +6,21 @@ import * as sha512 from 'js-sha512';
   providedIn: 'root'
 })
 export class ApiService {
-  apiURL: string = 'http://192.168.1.29/luau-api/scripts/';
+  // apiURL: string = 'http://dev.api.luauet.com/luau-api/scripts/';
+  apiURL: string = 'http://192.168.1.52/luau-api/scripts/';
+  config = new HttpHeaders().set('Content-Type', 'application/json; charset=utf-8');
+  hashSalt = "#$%@SaltCreationForAuthentication#$%@"
 
   constructor(
-    private formBuilder: FormBuilder, 
     private http: HttpClient,
-  ) { }
+  ) {};
 
-  //   let config = new HttpHeaders().set('Content-Type', 'application/json; charset=utf-8');
-  //   let hashSalt = "#$%@SaltCreationForAuthentication#$%@"
-  //   let hashkey = this.servicesForm.value.email + hashSalt;
+  public customPostApiCall(customdata){
+    let hashkey = customdata.email + this.hashSalt;
+    customdata.authToken = sha512.sha512(hashkey);
 
-  // public customPostApiCall(customdata){
-
-  //   return this.httpClient.post(`${this.apiURL}/customers/`,customer);
-  // }
+    let finalApi = `${this.apiURL}`+ customdata.apiExt;
+    return this.http.post(finalApi,customdata,{ headers: this.config });
+  }
 
 }

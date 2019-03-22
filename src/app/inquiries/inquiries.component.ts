@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import * as sha512 from 'js-sha512';
+import { ApiService } from './../api.service';
 
 @Component({
   selector: 'app-inquiries',
@@ -11,11 +10,10 @@ import * as sha512 from 'js-sha512';
 export class InquiriesComponent implements OnInit {
   inqiriesForm: FormGroup;
   submitted = false;
-  apiURL: string = 'http://dev.api.luauet.com/luau-api/scripts/press_inquiries.php';
 
   constructor(
     private formBuilder: FormBuilder, 
-    private http: HttpClient,
+    private apiService: ApiService,
   ) { }
 
   ngOnInit() {
@@ -36,34 +34,27 @@ export class InquiriesComponent implements OnInit {
     if(this.inqiriesForm.invalid) {
         return;
     }else{
-      let config = new HttpHeaders().set('Content-Type', 'application/json; charset=utf-8');
-      let hashSalt = "#$%@SaltCreationForAuthentication#$%@"
-      let hashkey = this.inqiriesForm.value.email + hashSalt;
-
       let inquiriesObj = {
         "name"        : this.inqiriesForm.value.name,
         "email"       : this.inqiriesForm.value.email,
         "details"     : this.inqiriesForm.value.details,
         "company_name": this.inqiriesForm.value.company_name,
+        "apiExt"      : "press_inquiries.php",
         "authToken"   : "",
       };
 
-      inquiriesObj.authToken = sha512.sha512(hashkey);
-
-      this.http.post(`${this.apiURL}`,inquiriesObj,{ headers: config }).subscribe(
-        (data : any)  => {
-          if(data.status == "success"){
+      this.apiService.customPostApiCall(inquiriesObj).subscribe((res:any)=>{
+        if(res){
+          if(res.status == "success"){
             this.inqiriesForm.reset();
-
-            alert(data.message);
+            window.location.reload();
           }
-        },
-        (error :any)  => {
-          if(error.status == "error"){
-            alert(error.message);
-          }
+          alert(res.message);
+        }else{
+          alert("Something wents wrong.");
         }
-      );
+      },
+      (error) => alert(error.message));
     }
   };
 

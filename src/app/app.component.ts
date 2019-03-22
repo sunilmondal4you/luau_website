@@ -10,7 +10,6 @@ export class AppComponent {
   title = 'Luau Website';
   imgPath = "./assets/img/logo.png";
   public mobileView = false;
-  public baseurl = 'http://dev.api.luauet.com/luau-api/scripts/';
   showNavLink = false;
   pageOpen = false;
   
