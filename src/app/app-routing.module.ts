@@ -8,6 +8,7 @@ import { ServicesComponent } from './services/services.component';
 import { SupportComponent } from './support/support.component';
 import { TermsComponent } from './terms/terms.component';
 import { PrivacyComponent } from './privacy/privacy.component';
+import { DashboardComponent } from './dashboard/dashboard.component';
 
 
 const routes: Routes = [
@@ -19,6 +20,7 @@ const routes: Routes = [
   { path: 'support',  component: SupportComponent,  pathMatch: 'full' },
   { path: 'terms',    component: TermsComponent,    pathMatch: 'full' },
   { path: 'privacy',  component: PrivacyComponent,  pathMatch: 'full' },
+  { path: 'dashboard',component: DashboardComponent,  pathMatch: 'full' },
 ];
 
 @NgModule({

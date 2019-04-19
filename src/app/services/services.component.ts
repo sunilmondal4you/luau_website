@@ -38,7 +38,7 @@ export class ServicesComponent implements OnInit {
         "name"     : this.servicesForm.value.name,
         "email"    : this.servicesForm.value.email,
         "order_id" : this.servicesForm.value.order_id,
-        "details"  : this.servicesForm.value.details,
+        "query_details": this.servicesForm.value.details,
         "apiExt"   : "customer_service.php",
         "authToken": "",
       };

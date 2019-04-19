@@ -37,7 +37,7 @@ export class InquiriesComponent implements OnInit {
       let inquiriesObj = {
         "name"        : this.inqiriesForm.value.name,
         "email"       : this.inqiriesForm.value.email,
-        "details"     : this.inqiriesForm.value.details,
+        "piece_details": this.inqiriesForm.value.details,
         "company_name": this.inqiriesForm.value.company_name,
         "apiExt"      : "press_inquiries.php",
         "authToken"   : "",

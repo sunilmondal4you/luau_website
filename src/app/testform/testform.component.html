@@ -1,0 +1,36 @@
+<div class="container area-100 make-center defaultFont">
+  <div class="minWidth-50">
+    <h2 class="text-center luau-head">Testing Page</h2>
+    <form (ngSubmit)="submitForm()" [formGroup]="testForm">
+      <div class="form-content">
+          <div class="form-group">
+          <input type="text" name="name" formControlName="name" class="form-control luau-inpt" placeholder="Enter your name.">
+          <div *ngIf="testForm.controls.name.hasError('noValue') || testForm.controls.name.touched && testForm.controls.name.invalid" class="alert">
+            Please, enter your name.
+          </div>
+        </div>
+        <div class="form-group">
+          <input type="text" name="street" formControlName="street" class="form-control luau-inpt" placeholder="Enter your name.">
+          <div *ngIf="testForm.controls.street.hasError('noValue') || testForm.controls.street.touched && testForm.controls.street.invalid" class="alert">
+            Please, enter your street name.
+          </div>
+        </div>
+        <div class="form-group">
+          <input type="text" name="number" formControlName="number" class="form-control luau-inpt" placeholder="Enter the number.">
+          <div *ngIf="testForm.controls.number.hasError('noValue') || testForm.controls.number.touched && testForm.controls.number.invalid" class="alert">
+            Please, enter a valid building number.
+          </div>
+        </div>
+        <div class="form-group">
+          <input type="email" name="email" formControlName="email" class="form-control luau-inpt" placeholder="Enter your email.">
+          <div *ngIf="testForm.controls.email.hasError('noValue') || testForm.controls.email.emailRegex || testForm.controls.email.touched && testForm.controls.email.invalid" class="alert">
+            Please, enter a valid email.
+          </div>
+        </div>
+        <div class="form-submit">
+          <button type="submit">Submit</button>
+        </div>
+      </div>
+    </form>  
+  </div>
+</div>

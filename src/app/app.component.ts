@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { IfStmt } from '@angular/compiler';
+import { ApiService } from './api.service';
+import { UAParser } from '../assets/ua-parser';
 
 @Component({
   selector: 'app-root',
@@ -12,6 +14,10 @@ export class AppComponent {
   public mobileView = false;
   showNavLink = false;
   pageOpen = false;
+
+  constructor(
+    private apiService: ApiService,
+  ) { };
   
   homeLink = [{"title": "Home",     "routLink":"/home"}];
 
@@ -21,7 +27,8 @@ export class AppComponent {
     {"title": "Brand Signup",     "routLink":"/brand"},
     {"title": "Press Inquiries",  "routLink":"/inquiries"},
     {"title": "Customer Service", "routLink":"/services"},
-    {"title": "Support",          "routLink":"/support"}
+    {"title": "Support",          "routLink":"/support"},
+    {"title": "Dashboard",        "routLink":"/dashboard"},
   ];
   footerLinkList = [
     {"title": "Privacy Policy",   "routLink":"/privacy"},
@@ -37,8 +44,12 @@ export class AppComponent {
     }
 
     let pathFound = false;
-    let externalLinkFound = window.location.href.includes("/v1/products/");     // get true/false
+    let prodExtension = "/v1/products/"
+    let externalLinkFound = window.location.href.includes(prodExtension);     // get true/false
     if(window.location.pathname != "/" && externalLinkFound){
+      let prod_id = window.location.pathname.substr(prodExtension.length);
+      this.deeplinkingPostCall(Number(prod_id)); 
+
       window.location.href='https://itunes.apple.com/in/app/luau-modern-shopping/id1348751802?mt=8';
     }else{
       this.allLinkList.forEach(obj => {
@@ -82,5 +93,46 @@ export class AppComponent {
       this.mobileView = true;
     }
   };
+
+  deeplinkingPostCall(prod_id:any) {
+    let parser = new UAParser();
+    let nav = window.navigator;
+
+    parser.setUA(nav.userAgent);
+    
+    let result = parser.getResult();
+     
+    let systemObject = {
+      "product_id"   : prod_id,
+      "device_model" : result.device.model,
+      "device_type"  : result.device.type,
+      "os_name"      : result.os.name,
+      "os_version"   : result.os.version,
+      "screen_width" : screen.width,
+      "screen_height": screen.height,
+
+      // "device_vendor"    : result.device.vendor,
+      // "browser_name"     : result.browser.name,
+      // "browser_version"  : result.browser.version,
+      // "browser_major"    : result.browser.major,
+      // "engine_name"      : result.engine.name,
+      // "engine_version"   : result.engine.version, 
+      // "cpu_architecture" : result.cpu.architecture,      
+
+      "apiExt" : "add-deeplinking-data.php",
+    };
+
+    this.apiService.customPostApiCall(systemObject).subscribe((res:any)=>{
+      if(res){
+        if(res.status == "success"){
+          console.log("System data send successfully")
+        }
+      }else{
+        console.log("Post api call for deeplinking fails")
+      }
+    },
+    (error) => console.log(error.message));
+
+  }
   
 }

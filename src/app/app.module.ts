@@ -13,6 +13,7 @@ import { SupportComponent } from './support/support.component';
 import { DownloadComponent } from './download/download.component';
 import { TermsComponent } from './terms/terms.component';
 import { PrivacyComponent } from './privacy/privacy.component';
+import { DashboardComponent } from './dashboard/dashboard.component';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,8 @@ import { PrivacyComponent } from './privacy/privacy.component';
     SupportComponent,
     DownloadComponent,
     TermsComponent,
-    PrivacyComponent
+    PrivacyComponent,
+    DashboardComponent
   ],
   imports: [
     BrowserModule,
