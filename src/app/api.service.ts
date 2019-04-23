@@ -6,14 +6,21 @@ import * as sha512 from 'js-sha512';
   providedIn: 'root'
 })
 export class ApiService {
-  apiURL: string = 'http://dev.api.luauet.com/luau-api/scripts/';
-  // apiURL: string = 'http://192.168.1.126/luau-api/scripts/';
+  // apiURL: string = 'http://dev.api.luauet.com/luau-api/scripts/';
+  apiURL: string = 'http://192.168.1.52/luau-api/scripts/';
   config = new HttpHeaders().set('Content-Type', 'application/json; charset=utf-8');
-  hashSalt = "#$%@SaltCreationForAuthentication#$%@"
+  hashSalt = "#$%@SaltCreationForAuthentication#$%@";
+  orderPageView = false;
+  orderChange = false;
 
   constructor(
     private http: HttpClient,
   ) {};
+
+  public setOrderPageView(orderPageView){
+    this.orderPageView = orderPageView;
+    this.orderChange = true;
+  }
 
   public customPostApiCall(customdata){
     if(customdata.email){
