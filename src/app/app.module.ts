@@ -14,6 +14,7 @@ import { DownloadComponent } from './download/download.component';
 import { TermsComponent } from './terms/terms.component';
 import { PrivacyComponent } from './privacy/privacy.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
+import { OrdersComponent } from './orders/orders.component';
 
 @NgModule({
   declarations: [
@@ -26,7 +27,8 @@ import { DashboardComponent } from './dashboard/dashboard.component';
     DownloadComponent,
     TermsComponent,
     PrivacyComponent,
-    DashboardComponent
+    DashboardComponent,
+    OrdersComponent
   ],
   imports: [
     BrowserModule,

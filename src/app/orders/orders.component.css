@@ -1,0 +1,52 @@
+.headerSec{
+    margin-left: 0px;
+    margin: 50px 40px;
+    
+}
+.luau-head{
+    color: #2A292B;
+    font-size: 45px !important;
+    font-weight: bold;
+    font-family: 'avenir_next_b';
+}
+.cardSec{
+    min-height: 500px;
+    border: 1.5px solid #e9ecef;
+    border-radius: 10px;
+    box-shadow: 0px 1px 5px 1px #fbfbfb;
+    font-weight: medium;
+    font-family: 'avenir_next_m';
+    padding-left: 1px;
+    padding-right: 1px;
+}
+.cusBadge1{
+    color: #4AD2B4;background: #eceeef;padding: 7px 25px;border-radius: 17px;cursor: pointer;
+}
+.cusBadge2{
+    color: #ea0f0f;background: #eceeef;padding: 7px 25px;border-radius: 17px;cursor: pointer;
+}
+.cusHr{
+    font-size:14px;color:#a7a2a2;margin-bottom: 0px;line-height: 11px;margin-left: 9px;
+}
+.v-mid{
+    vertical-align: middle
+}
+.has-search{
+    width: 50%;
+}
+.has-search .form-control {
+    padding-left: 2.375rem;
+}
+
+.has-search .form-control-feedback {
+    position: absolute;
+    z-index: 2;
+    display: block;
+    width: 2.375rem;
+    height: 2.375rem;
+    line-height: 2.375rem;
+    text-align: center;
+    pointer-events: none;
+    color: #aaa;
+    
+}

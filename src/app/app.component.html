@@ -1,5 +1,5 @@
 <!--The content below is only a placeholder and can be replaced.-->
-<div class="container-fluid p-0 height-100" (window:resize)="onResize($event)">
+<!-- <div class="container-fluid p-0 height-100" (window:resize)="onResize($event)">
   <div class="row area-100 m-0">
     <div class="mobileView" *ngIf="mobileView">
       <i class="fas fa-bars fa-2x" *ngIf="!showNavLink" (click)="toggleNavLinks()"></i>
@@ -26,5 +26,35 @@
     </div>
   </div>
 
-</div>
+</div> -->
   
+<div class="container-fluid p-0 height-100" (window:resize)="onResize($event)">
+  <div class="row area-100 m-0">
+    <div class="mobileView" *ngIf="mobileView">
+      <i class="fas fa-bars fa-2x" *ngIf="!showNavLink" (click)="toggleNavLinks()"></i>
+      <i class="fas fa-times fa-2x" *ngIf="showNavLink" (click)="toggleNavLinks()"></i>
+    </div>
+
+    <div class="col-12 col-md-3 col-lg-2 sec1" *ngIf="(!mobileView || showNavLink)">
+      <div class="leftPanelPosition">
+          <img class="icon1" [src]="imgPathM" alt="Luau Icon" style="background: #4ac8cc;border-radius: 45px;height: 90px;width: 90px;margin: 13% 25% 13%;">
+
+          <div style="margin-bottom:30px">
+            <div *ngFor="let navObj of orderViewList1" class="navLink" routerLink="{{navObj.routLink}}" (click)="startNavigation()">{{navObj.title}}</div>
+          </div>
+          <div *ngFor="let navObj of orderViewList2" class="navLink" routerLink="{{navObj.routLink}}" (click)="startNavigation()">{{navObj.title}}</div>       
+      </div>
+      
+      <footer class="footerSec">
+        <div class="row">
+          <div *ngFor="let footerNavObj of footerOrderList" class="navLinkFooter col-12" routerLink="{{footerNavObj.routLink}}" (click)="startNavigation()" style="font-size: 18px;">{{footerNavObj.title}}</div>
+        </div>
+      </footer>
+    </div>
+
+    <div class="col-12 col-md-9 col-lg-10 routSec" [ngClass]="{'landscapeMarginTop': mobileView}" *ngIf="!showNavLink || pageOpen">
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+
+</div>

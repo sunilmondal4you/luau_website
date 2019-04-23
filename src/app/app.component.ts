@@ -36,6 +36,22 @@ export class AppComponent {
   ];
   allLinkList = this.homeLink.concat(this.linkList, this.footerLinkList);
 
+  imgPathM = "./assets/img/modi.jpg";
+  orderViewList1 = [
+    {"title": "Decks-site",       "routLink":"/orders"},
+    {"title": "Featured Products","routLink":"/orders"},
+    {"title": "Feed Widgets",     "routLink":"/orders"}
+  ];
+  orderViewList2 = [
+    {"title": "Product Categories","routLink":"/orders"},
+    {"title": "Tags Database",     "routLink":"/orders"},
+    {"title": "Order",             "routLink":"/orders"},
+    {"title": "Returns",           "routLink":"/orders"}
+  ];
+  footerOrderList = [
+    {"title": "Log out",   "routLink":"/orders"},
+  ];
+
   ngOnInit() {
     if (window.innerWidth < 768) { // 768px portrait
       this.mobileView = true;
