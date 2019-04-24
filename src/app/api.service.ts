@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { BehaviorSubject } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import * as sha512 from 'js-sha512';
 
@@ -10,19 +11,15 @@ export class ApiService {
   apiURL: string = 'http://192.168.1.52/luau-api/scripts/';
   config = new HttpHeaders().set('Content-Type', 'application/json; charset=utf-8');
   hashSalt = "#$%@SaltCreationForAuthentication#$%@";
-  orderPageView = false;
-  orderChange = false;
 
+  private userObj = new BehaviorSubject<any>({"loggedIn":false,"userDetail":{}});
+  public userObjObserveable = this.userObj.asObservable();
+  
   constructor(
     private http: HttpClient,
   ) {};
 
-  public setOrderPageView(orderPageView){
-    this.orderPageView = orderPageView;
-    this.orderChange = true;
-  }
-
-  public customPostApiCall(customdata){
+  public customPostApiCall(customdata:any){
     if(customdata.email){
       let hashkey = customdata.email + this.hashSalt;
       customdata.authToken = sha512.sha512(hashkey);
@@ -34,5 +31,10 @@ export class ApiService {
     let finalApi = `${this.apiURL}`+ customdata.apiExt;
     return this.http.post(finalApi,customdata,{ headers: this.config });
   }
+
+  public updateUserDetail(reqObj:any) {
+    this.userObj.next(reqObj);
+  }
+
 
 }

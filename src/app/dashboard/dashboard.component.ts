@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { AppComponent } from '../app.component';
+import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ApiService } from './../api.service';
+import { routerNgProbeToken } from '@angular/router/src/router_module';
 
 @Component({
   selector: 'app-dashboard',
@@ -11,19 +12,23 @@ import { ApiService } from './../api.service';
 export class DashboardComponent implements OnInit {
   dashboardForm: FormGroup;
   submitted = false;
+  public userData = {};
 
   constructor(
-    private formBuilder: FormBuilder, 
-    private apiService: ApiService,
+    private formBuilder : FormBuilder, 
+    private apiService : ApiService,
+    private router : Router,
   ) { }
 
   ngOnInit() {
+    this.apiService.userObjObserveable.subscribe((data) => {
+      this.userData = data;
+    });
+
     this.dashboardForm = this.formBuilder.group({
       username:     ['', Validators.required],
       password:     ['', Validators.required],
     });
-    console.log(this.apiService.orderPageView);
-    this.apiService.setOrderPageView(true);
   }
 
   get f() { return this.dashboardForm.controls};
@@ -43,11 +48,9 @@ export class DashboardComponent implements OnInit {
 
       this.apiService.customPostApiCall(brandObject).subscribe((res:any)=>{
         if(res){
-          // if(res.status == "success"){
-          //   this.dashboardForm.reset();
-          //   window.location.reload();
-          // }
-          alert(JSON.stringify(res));
+          if(res.status == "success"){
+            this.updateUserDetail(res);
+          }
         }else{
           alert("Something wents wrong.");
         }
@@ -57,5 +60,15 @@ export class DashboardComponent implements OnInit {
 
   };
 
-
+  updateUserDetail(res:any){
+    let orderReqObj = {
+      "loggedIn" : true,
+      "userDatail":{
+        "user_id"  : res.user_id || 1,
+        "token": res.user_token,
+      },
+    }
+    this.apiService.updateUserDetail(orderReqObj);
+    this.router.navigate(['/orders']);
+  };
 }

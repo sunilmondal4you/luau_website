@@ -1,5 +1,5 @@
 <!--The content below is only a placeholder and can be replaced.-->
-<!-- <div class="container-fluid p-0 height-100" (window:resize)="onResize($event)">
+<div class="container-fluid p-0 height-100" (window:resize)="onResize($event)" *ngIf="!userData.loggedIn">
   <div class="row area-100 m-0">
     <div class="mobileView" *ngIf="mobileView">
       <i class="fas fa-bars fa-2x" *ngIf="!showNavLink" (click)="toggleNavLinks()"></i>
@@ -26,9 +26,9 @@
     </div>
   </div>
 
-</div> -->
+</div>
   
-<div class="container-fluid p-0 height-100" (window:resize)="onResize($event)">
+<div class="container-fluid p-0 height-100" (window:resize)="onResize($event)" *ngIf="userData.loggedIn">
   <div class="row area-100 m-0">
     <div class="mobileView" *ngIf="mobileView">
       <i class="fas fa-bars fa-2x" *ngIf="!showNavLink" (click)="toggleNavLinks()"></i>

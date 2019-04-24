@@ -14,6 +14,7 @@ export class AppComponent {
   public mobileView = false;
   showNavLink = false;
   pageOpen = false;
+  public userData = {};
 
   constructor(
     private apiService: ApiService,
@@ -53,6 +54,10 @@ export class AppComponent {
   ];
 
   ngOnInit() {
+    this.apiService.userObjObserveable.subscribe((data) => {
+      this.userData = data;
+    });
+
     if (window.innerWidth < 768) { // 768px portrait
       this.mobileView = true;
       this.pageOpen = false;
