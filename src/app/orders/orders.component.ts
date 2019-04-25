@@ -9,6 +9,13 @@ import { ApiService } from './../api.service';
 export class OrdersComponent implements OnInit {
   public userData = {};
   loaderStart = false;
+  productCardView = false;
+  addressCardView = false;
+  orderList = [];
+  selcProdDetail = {};
+  trackingDetail = {};
+  orderDetail = {};
+
   imgPath = ".././assets/img/modi.jpg";
 
   constructor(private apiService : ApiService,) { }
@@ -32,6 +39,7 @@ export class OrdersComponent implements OnInit {
     this.apiService.customPostApiCall(OrderReqObj).subscribe((res:any)=>{
       if(res){
         this.loaderStart = false;
+        this.orderList = res.objects || [];
         console.log(JSON.stringify(res));
       }else{
         this.loaderStart = false;
@@ -41,8 +49,17 @@ export class OrdersComponent implements OnInit {
     (error) => alert("Order call : "+error.message));
   };
 
-  openProductCard(){
+  openProductCard(order:any){
+    this.addressCardView = false;
+    this.productCardView = !this.productCardView;
+    this.selcProdDetail = order.product_details;
+    this.trackingDetail = order.tracking_details;
 
-  }
+  };
+  openOrderDetailCard(order:any){
+    this.productCardView = false;
+    this.addressCardView = !this.addressCardView;
+    this.orderDetail = order.order_details;
+  };
 
 }
