@@ -39,7 +39,7 @@ export class AppComponent {
   ];
   allLinkList = this.homeLink.concat(this.linkList, this.footerLinkList);
 
-  imgPathM = "./assets/img/modi.jpg";
+  imgPathM = "./assets/img/admin.png";
   orderViewList1 = [
     {"title": "Decks-site",       "routLink":"/orders"},
     {"title": "Featured Products","routLink":"/orders"},
@@ -137,15 +137,6 @@ export class AppComponent {
       "os_version"   : result.os.version,
       "screen_width" : screen.width,
       "screen_height": screen.height,
-
-      // "device_vendor"    : result.device.vendor,
-      // "browser_name"     : result.browser.name,
-      // "browser_version"  : result.browser.version,
-      // "browser_major"    : result.browser.major,
-      // "engine_name"      : result.engine.name,
-      // "engine_version"   : result.engine.version, 
-      // "cpu_architecture" : result.cpu.architecture,      
-
       "apiExt" : "add-deeplinking-data.php",
     };
 
@@ -162,29 +153,27 @@ export class AppComponent {
 
   };
 
-
-
   ///////   LOG OUT   \\\\\\\
   logOutCall() {
     let reqObj = {
       "user_id" : this.userData.userDetail.user_id,
-      "apiExt"  : "luauet-dashbord-logout.php",
+      "token": this.userData.userDetail.token,
+      "apiExt"  : "luauet-dashboard-logout.php",
     }
     this.apiService.customPostApiCall(reqObj).subscribe((res:any)=>{
       if(res.status == "success"){
         this.updateUserDetail();
       }else{
-        
+        console.log(res.message);
       }
     },
     (error) => alert(error.message));
-
   };
 
   updateUserDetail(){
     let updateReqObj = {
       "loggedIn" : false,
-      "userDatail":{ },
+      "userDetail":{ },
     }
     this.apiService.updateUserDetail(updateReqObj);
     this.router.navigate(['/home']);

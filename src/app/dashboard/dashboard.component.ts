@@ -40,16 +40,18 @@ export class DashboardComponent implements OnInit {
     if(this.dashboardForm.invalid) {
         return;
     }else{
-      let brandObject = {
+      let reqObj = {
         "username"  : this.dashboardForm.value.username,
         "password"  : this.dashboardForm.value.password,
         "apiExt"    : "luauet-dashbord-login.php",
       };
 
-      this.apiService.customPostApiCall(brandObject).subscribe((res:any)=>{
+      this.apiService.customPostApiCall(reqObj).subscribe((res:any)=>{
         if(res){
           if(res.status == "success"){
             this.updateUserDetail(res);
+          }else{
+            alert(res.message);
           }
         }else{
           alert("Something wents wrong.");
@@ -63,7 +65,7 @@ export class DashboardComponent implements OnInit {
   updateUserDetail(res:any){
     let orderReqObj = {
       "loggedIn" : true,
-      "userDatail":{
+      "userDetail":{
         "user_id"  : res.user_id || 1,
         "token": res.user_token,
       },

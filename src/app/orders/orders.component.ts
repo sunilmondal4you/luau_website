@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ApiService } from './../api.service';
 
 @Component({
@@ -7,33 +8,38 @@ import { ApiService } from './../api.service';
   styleUrls: ['./orders.component.css']
 })
 export class OrdersComponent implements OnInit {
-  public userData = {};
+  searchForm: FormGroup;
+  public userData:any = {};
   loaderStart = false;
-  productCardView = false;
-  addressCardView = false;
   orderList = [];
-  selcProdDetail = {};
-  trackingDetail = {};
-  orderDetail = {};
+  selcOrderId1:any;
+  selcOrderId2:any;
+  public imgPathP = "./assets/img/product.png";
 
-  imgPath = ".././assets/img/modi.jpg";
-
-  constructor(private apiService : ApiService,) { }
+  constructor(
+    private formBuilder: FormBuilder, 
+    private apiService : ApiService,
+    ) { }
 
   ngOnInit() {
     this.apiService.userObjObserveable.subscribe((data) => {
       this.userData = data;
     });
 
-    this.getUserOrderDetail(this.userData);
-  }
+    this.getUserOrderDetail();
 
-  getUserOrderDetail(res:any){
+    this.searchForm = this.formBuilder.group({
+      order_id: ['', Validators.required],
+    });
+  }
+  get f() { return this.searchForm.controls};
+
+  getUserOrderDetail(){
     this.loaderStart = true;
     let OrderReqObj = {
-      "page" : 1,
-      "user_id": res.userDatail.user_id || 1,
-      "token": res.userDatail.token,
+      "page" : 0,
+      "user_id": this.userData.userDetail.user_id || 1,
+      "token": this.userData.userDetail.token,
       "apiExt"    : "luauet-get-orders.php",
     }
     this.apiService.customPostApiCall(OrderReqObj).subscribe((res:any)=>{
@@ -49,17 +55,31 @@ export class OrdersComponent implements OnInit {
     (error) => alert("Order call : "+error.message));
   };
 
-  openProductCard(order:any){
-    this.addressCardView = false;
-    this.productCardView = !this.productCardView;
-    this.selcProdDetail = order.product_details;
-    this.trackingDetail = order.tracking_details;
+  onSubmit() {
+    if(this.searchForm.value.order_id=="" && this.orderList.length>1) {
+      this.getUserOrderDetail();
+    }else{
+      let searchObj = {
+        "page"    : 0,
+        "user_id" : this.userData.userDetail.user_id,
+        "order_id": this.searchForm.value.order_id,
+        "token"   : this.userData.userDetail.token,
+        "apiExt"  : "luauet-search-order.php",
+      };
+
+      this.apiService.customPostApiCall(searchObj).subscribe((res:any)=>{
+        if(res){
+          if(res.status == "success"){
+            this.orderList = res.objects || [];
+          }
+        }else{
+          alert("Something wents wrong.");
+        }
+      },
+      (error) => alert(error.message));
+    }
 
   };
-  openOrderDetailCard(order:any){
-    this.productCardView = false;
-    this.addressCardView = !this.addressCardView;
-    this.orderDetail = order.order_details;
-  };
+
 
 }
