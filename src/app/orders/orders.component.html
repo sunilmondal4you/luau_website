@@ -22,54 +22,56 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let order of orderList">
-            <td><label style="margin-bottom:0px">{{order.id}}</label>
-              <p class="cusHr">{{order.timestamp}}h</p>
-            </td>
-            <td>{{order.order_status}}</td>
-            <td class="v-mid">
-              <div>
-                <span class="cusBadge1" (click)="openProductCard(order)">Product</span>
-                <div class="row ProductDetailSec" *ngIf="productCardView" >
-                  <div class="col-3 p-0">
-                      <img class="prodImg" [src]="selcProdDetail.image" alt="Luau Icon">
-                  </div>
-                  <div class="col9">
-                    <div class="prodName">{{selcProdDetail.name | slice:0:20}}</div>
-                    <div class="prodStyle">Size: {{selcProdDetail.size}}</div>
-                    <div class="prodStyle">Color: {{selcProdDetail.color}}</div>
-                    <div class="prodStyle"><a href="{{selcProdDetail.product_url}}">Product URL</a></div>
-                  </div>
-                  <div class="prodStyle">Shipping status: In Transit <a href="{{trackingDetail.tracking_url}}">Tracking URL</a></div>
-                </div>
-              </div>
-            </td>
-            <td class="v-mid">
-              <span class="cusBadge2" (click)="openOrderDetailCard(order)">Order Detail</span>
-              <div class="OrderDetailSec" *ngIf="addressCardView">
-                <div class="oSec">
-                  <div class="orderParam1">Address</div>
-                  <div class="orderParam2">{{orderDetail.shipping_address.address_line_one}}, {{orderDetail.shipping_address.zip_code}}</div>
-                </div>
-                <div class="oSec">
-                  <div class="orderParam1">Payment</div>
-                  <div class="orderParam2">
-                    <span style="background:#000;color:#fff;padding:0px 4px;font-weight:700">VISA</span>
-                    <label class="ml-1">{{orderDetail.payment_method.number | slice:11:15}}</label>
+          <ng-container *ngFor="let order of orderList">
+            <tr *ngIf="order.order_status">
+              <td><label class="cusId">{{order.id}}</label>
+                <p class="cusHr">{{order.timestamp}}h</p>
+              </td>
+              <td>{{order.order_status}}</td>
+              <td class="v-mid">
+                <div>
+                  <span class="cusBadge1" (click)="openProductCard(order)">Product</span>
+                  <div class="row ProductDetailSec" *ngIf="productCardView" >
+                    <div class="col-3 p-0">
+                        <img class="prodImg" [src]="selcProdDetail.image" alt="Luau Icon">
+                    </div>
+                    <div class="col9">
+                      <div class="prodName">{{selcProdDetail.name | slice:0:20}}</div>
+                      <div class="prodStyle">Size: {{selcProdDetail.size}}</div>
+                      <div class="prodStyle">Color: {{selcProdDetail.color}}</div>
+                      <div class="prodStyle"><a href="{{selcProdDetail.product_url}}">Product URL</a></div>
+                    </div>
+                    <div class="prodStyle">Shipping status: In Transit <a href="{{trackingDetail.tracking_url}}">Tracking URL</a></div>
                   </div>
                 </div>
-                <div class="oSec">
-                  <div class="orderParam1">Username: {{orderDetail.username}}</div>
-                  <div class="orderParam2">{{orderDetail.user_email}}</div>
+              </td>
+              <td class="v-mid">
+                <span class="cusBadge2" (click)="openOrderDetailCard(order)">Order Detail</span>
+                <div class="OrderDetailSec" *ngIf="addressCardView">
+                  <div class="oSec">
+                    <div class="orderParam1">Address</div>
+                    <div class="orderParam2">{{orderDetail.shipping_address.address_line_one}}, {{orderDetail.shipping_address.zip_code}}</div>
+                  </div>
+                  <div class="oSec">
+                    <div class="orderParam1">Payment</div>
+                    <div class="orderParam2">
+                      <span style="background:#000;color:#fff;padding:0px 4px;font-weight:700">VISA</span>
+                      <label class="ml-1">{{orderDetail.payment_method.number | slice:11:15}}</label>
+                    </div>
+                  </div>
+                  <div class="oSec">
+                    <div class="orderParam1">Username: {{orderDetail.username}}</div>
+                    <div class="orderParam2">{{orderDetail.user_email}}</div>
+                  </div>
+                  <div class="row oSec2">
+                    <div class="col-9 orderAmt">Grand Total</div>
+                    <div class="vol-3 orderAmt">{{orderDetail.order_grand_total || 00.00}}</div>
+                  </div>
                 </div>
-                <div class="row oSec2">
-                  <div class="col-9 orderAmt">Grand Total</div>
-                  <div class="vol-3 orderAmt">{{orderDetail.order_grand_total || 00.00}}</div>
-                </div>
-              </div>
-            </td>
-            <td></td>
-          </tr>
+              </td>
+              <td></td>
+            </tr>
+          </ng-container>
         </tbody>
       </table>
     </div>

@@ -5,7 +5,7 @@
 }
 .luau-head{
     color: #2A292B;
-    font-size: 45px !important;
+    font-size: 48px !important;
     font-weight: bold;
     font-family: 'avenir_next_b';
 }
@@ -20,13 +20,16 @@
     padding-right: 1px;
 }
 .cusBadge1{
-    color: #4AD2B4;background: #eceeef;padding: 7px 25px;border-radius: 17px;cursor: pointer;
+    color: #4AD2B4;background: #eceeef;padding: 7px 25px;border-radius: 17px;cursor: pointer;font-family: 'avenir_next_b';
 }
 .cusBadge2{
-    color: #ea0f0f;background: #eceeef;padding: 7px 25px;border-radius: 17px;cursor: pointer;
+    color: #9D9D9D;background: #eceeef;padding: 7px 25px;border-radius: 17px;cursor: pointer;font-family: 'avenir_next_db';
+}
+.cusId{
+  margin-bottom:0px;font-size: 16px;font-family: 'avenir_next_db';color: #2A292B;
 }
 .cusHr{
-    font-size:14px;color:#a7a2a2;margin-bottom: 0px;line-height: 11px;margin-left: 0px;
+    font-size:12px;color:#9D9D9D;margin-bottom: 0px;line-height: 11px;margin-left: 0px;font-family: 'avenir_next_m';
 }
 .v-mid{
     vertical-align: middle
@@ -51,6 +54,7 @@
     text-align: center;
     pointer-events: none;
     color: #aaa;
+    background: #ECECEC;
     
 }
 
@@ -107,13 +111,11 @@
   .prodName{
     font-size: 14px;
     line-height: 19px;
-    font-weight: medium;
     font-family: 'avenir_next_m';
   }
   .prodStyle{
-    font-size: 13px;
+    font-size: 12px;
     line-height: 15px;
-    font-weight: regular;
     font-family: 'avenir_next_r';
   }
   .OrderDetailSec{
@@ -137,17 +139,17 @@
   .orderParam1{
     font-size: 14px;
     line-height: 30px;
-    font-weight: DemiBold;
+    color: #2A292B;
     font-family: 'avenir_next_db';
   }
   .orderParam2{
     font-size: 16px;
     line-height: 25px;
-    font-weight: regular;
+    color: #2A292B;
     font-family: 'avenir_next_r';
   }
   .orderAmt{
     font-size: 16px;
-    font-weight: bold;
-    font-family: 'avenir_next_b';
+    color: #2A292B;
+    font-family: 'avenir_next_db';
   }

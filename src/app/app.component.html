@@ -47,7 +47,7 @@
       
       <footer class="footerSec">
         <div class="row">
-          <div *ngFor="let footerNavObj of footerOrderList" class="navLinkFooter col-12" routerLink="{{footerNavObj.routLink}}" (click)="startNavigation()" style="font-size: 18px;">{{footerNavObj.title}}</div>
+          <div *ngFor="let footerNavObj of footerOrderList" class="navLinkFooter col-12" routerLink="{{footerNavObj.routLink}}" (click)="startNavigation("logOut")" style="font-size: 18px;">{{footerNavObj.title}}</div>
         </div>
       </footer>
     </div>

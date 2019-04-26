@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { IfStmt } from '@angular/compiler';
 import { ApiService } from './api.service';
 import { UAParser } from '../assets/ua-parser';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -14,10 +15,11 @@ export class AppComponent {
   public mobileView = false;
   showNavLink = false;
   pageOpen = false;
-  public userData = {};
+  public userData:any = {};
 
   constructor(
     private apiService: ApiService,
+    private router: Router,
   ) { };
   
   homeLink = [{"title": "Home",     "routLink":"/home"}];
@@ -106,12 +108,16 @@ export class AppComponent {
     }
   };
 
-  startNavigation(){
+  startNavigation(logOut){
     this.pageOpen = true;
     this.showNavLink = !this.showNavLink;
 
     if (this.innerWidth < 768) { // 768px portrait
       this.mobileView = true;
+    }
+
+    if(logOut){
+      this.logOutCall();
     }
   };
 
@@ -154,6 +160,35 @@ export class AppComponent {
     },
     (error) => console.log(error.message));
 
-  }
+  };
+
+
+
+  ///////   LOG OUT   \\\\\\\
+  logOutCall() {
+    let reqObj = {
+      "user_id" : this.userData.userDetail.user_id,
+      "apiExt"  : "luauet-dashbord-logout.php",
+    }
+    this.apiService.customPostApiCall(reqObj).subscribe((res:any)=>{
+      if(res.status == "success"){
+        this.updateUserDetail();
+      }else{
+        
+      }
+    },
+    (error) => alert(error.message));
+
+  };
+
+  updateUserDetail(){
+    let updateReqObj = {
+      "loggedIn" : false,
+      "userDatail":{ },
+    }
+    this.apiService.updateUserDetail(updateReqObj);
+    this.router.navigate(['/home']);
+  };
+  
   
 }
