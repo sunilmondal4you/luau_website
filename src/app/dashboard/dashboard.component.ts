@@ -70,7 +70,11 @@ export class DashboardComponent implements OnInit {
         "token": res.user_token,
       },
     }
+    
+    /** Update user data to services and Session Storage **/
     this.apiService.updateUserDetail(orderReqObj);
+    sessionStorage.setItem('userObj', JSON.stringify(orderReqObj));
+
     this.router.navigate(['/orders']);
   };
 }

@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { IfStmt } from '@angular/compiler';
 import { ApiService } from './api.service';
 import { UAParser } from '../assets/ua-parser';
 import { Router } from '@angular/router';
@@ -66,23 +65,34 @@ export class AppComponent {
       this.innerWidth = window.innerWidth;
     }
 
-    let pathFound = false;
-    let prodExtension = "/v1/products/"
-    let externalLinkFound = window.location.href.includes(prodExtension);     // get true/false
-    if(window.location.pathname != "/" && externalLinkFound){
-      let prod_id = window.location.pathname.substr(prodExtension.length);
-      this.deeplinkingPostCall(Number(prod_id)); 
+    /** get ueser object from Session storage **/
+    let userObj:any = sessionStorage.getItem("userObj");
+    userObj = JSON.parse(userObj);
 
-      window.location.href='https://itunes.apple.com/in/app/luau-modern-shopping/id1348751802?mt=8';
+    this.userData = userObj || this.userData;
+
+    if(this.userData.loggedIn){
+      this.apiService.updateUserDetail(this.userData);
+      this.router.navigate(['/orders']);
     }else{
-      this.allLinkList.forEach(obj => {
-        if(obj.routLink == window.location.pathname){
-          pathFound = true;
+      let pathFound = false;
+      let prodExtension = "/v1/products/"
+      let externalLinkFound = window.location.href.includes(prodExtension);     // get true/false
+      if(window.location.pathname != "/" && externalLinkFound){
+        let prod_id = window.location.pathname.substr(prodExtension.length);
+        this.deeplinkingPostCall(Number(prod_id)); 
+  
+        window.location.href='https://itunes.apple.com/in/app/luau-modern-shopping/id1348751802?mt=8';
+      }else{
+        this.allLinkList.forEach(obj => {
+          if(obj.routLink == window.location.pathname){
+            pathFound = true;
+          }
+        });
+  
+        if(!pathFound){
+          window.location.pathname = "/home"
         }
-      });
-
-      if(!pathFound){
-        window.location.pathname = "/home"
       }
     }
   };
