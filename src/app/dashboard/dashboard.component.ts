@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ApiService } from './../api.service';
-import { routerNgProbeToken } from '@angular/router/src/router_module';
 
 @Component({
   selector: 'app-dashboard',
@@ -66,6 +65,7 @@ export class DashboardComponent implements OnInit {
     let orderReqObj = {
       "loggedIn" : true,
       "userDetail":{
+        "page" : 0,
         "user_id"  : res.user_id || 1,
         "token": res.user_token,
       },
@@ -73,7 +73,7 @@ export class DashboardComponent implements OnInit {
     
     /** Update user data to services and Session Storage **/
     this.apiService.updateUserDetail(orderReqObj);
-    sessionStorage.setItem('userObj', JSON.stringify(orderReqObj));
+    localStorage.setItem('userObj', JSON.stringify(orderReqObj));
 
     this.router.navigate(['/orders']);
   };

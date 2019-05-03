@@ -168,3 +168,26 @@
     color: #2A292B;
     font-family: 'avenir_next_db';
   }
+
+  .emptyBlock{
+    display: block;
+    height: 100%;
+    width: 100%;
+    position: fixed;
+    z-index: 10;
+    top: 0;
+    left: 0;
+  }
+  .page-item{
+    color: #4e83fe;
+    font-size: 15px;
+    cursor: pointer;
+    font-family: 'avenir_next_r';
+  }
+  .noOrder{
+    min-height:300px;
+    text-align: center;
+    align-items: center;
+    color: #2A292B;
+    font-family: 'avenir_next_db';
+  }

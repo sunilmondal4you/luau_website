@@ -11,15 +11,19 @@ export class OrdersComponent implements OnInit {
   searchForm: FormGroup;
   public userData:any = {};
   loaderStart = false;
-  orderList = [];
+  public orderList = [];
   selcOrderId1:any;
   selcOrderId2:any;
   public imgPathP = "./assets/img/product.png";
 
+  pager: any = {};
+  pagedItems: any[];
+  allItemLen:any;
+
   constructor(
     private formBuilder: FormBuilder, 
     private apiService : ApiService,
-    ) { }
+  ) { }
 
   ngOnInit() {
     this.apiService.userObjObserveable.subscribe((data) => {
@@ -37,7 +41,7 @@ export class OrdersComponent implements OnInit {
   getUserOrderDetail(){
     this.loaderStart = true;
     let OrderReqObj = {
-      "page" : 0,
+      "page" : this.userData.userDetail.page || 0,
       "user_id": this.userData.userDetail.user_id || 1,
       "token": this.userData.userDetail.token,
       "apiExt"    : "luauet-get-orders.php",
@@ -46,6 +50,8 @@ export class OrdersComponent implements OnInit {
       if(res){
         this.loaderStart = false;
         this.orderList = res.objects || [];
+        this.allItemLen = res.order_count;
+        this.setPage((this.userData.userDetail.page+1) || 1);
         console.log(JSON.stringify(res));
       }else{
         this.loaderStart = false;
@@ -56,11 +62,10 @@ export class OrdersComponent implements OnInit {
   };
 
   onSubmit() {
-    if(this.searchForm.value.order_id=="" && this.orderList.length>1) {
+    if(this.searchForm.value.order_id=="") {
       this.getUserOrderDetail();
     }else{
       let searchObj = {
-        "page"    : 0,
         "user_id" : this.userData.userDetail.user_id,
         "order_id": this.searchForm.value.order_id,
         "token"   : this.userData.userDetail.token,
@@ -69,9 +74,8 @@ export class OrdersComponent implements OnInit {
 
       this.apiService.customPostApiCall(searchObj).subscribe((res:any)=>{
         if(res){
-          if(res.status == "success"){
-            this.orderList = res.objects || [];
-          }
+          this.orderList = res.objects || [];
+          console.log(JSON.stringify(res));
         }else{
           alert("Something wents wrong.");
         }
@@ -81,5 +85,18 @@ export class OrdersComponent implements OnInit {
 
   };
 
+  setPage(page: number) {
+    if (page < 1 || page > this.pager.totalPages) {
+        return;
+    }
+
+    if(this.userData.userDetail.page != page-1){
+      this.userData.userDetail.page = page-1
+      this.getUserOrderDetail();
+      this.apiService.updateUserDetail(this.userData);
+    }
+    
+    this.pager = this.apiService.getPager(this.allItemLen, page);
+}
 
 }

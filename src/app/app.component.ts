@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { IfStmt } from '@angular/compiler';
 import { ApiService } from './api.service';
 import { UAParser } from '../assets/ua-parser';
 import { Router } from '@angular/router';
@@ -66,7 +67,7 @@ export class AppComponent {
     }
 
     /** get ueser object from Session storage **/
-    let userObj:any = sessionStorage.getItem("userObj");
+    let userObj:any = localStorage.getItem("userObj");
     userObj = JSON.parse(userObj);
 
     this.userData = userObj || this.userData;
@@ -96,7 +97,7 @@ export class AppComponent {
       }
     }
   };
-    
+
   onResize(event) {
     this.innerWidth = window.innerWidth;
     if (this.innerWidth < 768) { // 768px portrait
@@ -186,6 +187,7 @@ export class AppComponent {
       "userDetail":{ },
     }
     this.apiService.updateUserDetail(updateReqObj);
+    localStorage.removeItem("userObj");
     this.router.navigate(['/home']);
   };
   
