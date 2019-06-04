@@ -1,17 +1,19 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { ApiService } from './../api.service';
+import { CommonService } from './../common.service';
 
 @Component({
   selector: 'app-orders',
   templateUrl: './orders.component.html',
-  styleUrls: ['./orders.component.css']
+  styleUrls: ['./orders.component.css'],
 })
 export class OrdersComponent implements OnInit {
   searchForm: FormGroup;
   public userData:any = {};
   loaderStart = false;
-  public orderList = [];
+  orderList = [];
   selcOrderId1:any;
   selcOrderId2:any;
   public imgPathP = "./assets/img/product.png";
@@ -21,8 +23,10 @@ export class OrdersComponent implements OnInit {
   allItemLen:any;
 
   constructor(
+    private http: HttpClient,
     private formBuilder: FormBuilder, 
     private apiService : ApiService,
+    private commonService: CommonService,
   ) { }
 
   ngOnInit() {
@@ -38,6 +42,18 @@ export class OrdersComponent implements OnInit {
   }
   get f() { return this.searchForm.controls};
 
+  grtShippingStatus(product_details:any){
+    if(product_details.tracking_details.tracking_data){
+      let orderTrackingDetail = product_details.tracking_details.tracking_data[product_details.name];
+      if(orderTrackingDetail){
+        let latestStatus = orderTrackingDetail.tracking_history.length - 1;
+        return orderTrackingDetail.tracking_history[latestStatus].status || "";
+      }else{
+        return "";
+      }
+    }
+  };
+  
   getUserOrderDetail(){
     this.loaderStart = true;
     let OrderReqObj = {
@@ -55,10 +71,58 @@ export class OrdersComponent implements OnInit {
         console.log(JSON.stringify(res));
       }else{
         this.loaderStart = false;
-        alert("Something wents wrong on Order Call!");
+        this.commonService.modalOpenMethod("Something wents wrong on Order Call!");
       }
     },
-    (error) => alert("Order call : "+error.message));
+    (error) => {
+      if(error.status==401){
+        this.commonService.clearStorage("dashboard");
+      }else{
+        this.commonService.modalOpenMethod(error.message);
+      }
+    });
+  };
+
+  createProductUrl(order:any){
+    
+    let prodUrl = order.product_details.product_url;
+    let out_encode = encodeURIComponent(prodUrl);
+    let urlFormat = "txt";
+    let urlLoc = encodeURIComponent("https://luauet.com");
+    let urlKey = "bca470c3ce4d74a630fd09f488cc4d7a";
+
+    let viglink_url = "http://api.viglink.com/api/click?out="+out_encode+"&loc="+urlLoc+"&key="+urlKey+"&format="+urlFormat;
+    
+    this.apiService.viglinkGetApiCall(viglink_url).subscribe((res:any)=>{
+      if(res){
+        
+      }else{
+        this.commonService.modalOpenMethod("Something wents wrong.");
+      }
+    },(error) => {
+      this.commonService.modalOpenMethod(error.message)
+    });
+
+    // console.log(viglink_url)
+    // var win = window.open(viglink_url, '_blank');
+    // win.focus();
+
+  };
+
+  createTrackingUrl(order:any){
+    if(order.product_details.tracking_details.tracking_url){
+      let trackingUrlObj = JSON.parse(order.product_details.tracking_details.tracking_url);
+      if(trackingUrlObj){
+        return trackingUrlObj[order.product_details.name] || "";
+      }
+    }
+  }
+
+  clearSearchField(){
+    this.searchForm = this.formBuilder.group({
+      order_id: ['', Validators.required],
+    });
+    this.getUserOrderDetail();
   };
 
   onSubmit() {
@@ -74,13 +138,19 @@ export class OrdersComponent implements OnInit {
 
       this.apiService.customPostApiCall(searchObj).subscribe((res:any)=>{
         if(res){
-          this.orderList = res.objects || [];
-          console.log(JSON.stringify(res));
+          if(res.objects){
+            this.orderList = res.objects || [];
+          }
         }else{
-          alert("Something wents wrong.");
+          this.commonService.modalOpenMethod("Something wents wrong.");
         }
       },
-      (error) => alert(error.message));
+      (error) => {
+        if(error.status==401){
+          this.commonService.clearStorage("dashboard");
+        }else{
+          this.commonService.modalOpenMethod(error.message)        }
+      });
     }
 
   };
@@ -97,6 +167,28 @@ export class OrdersComponent implements OnInit {
     }
     
     this.pager = this.apiService.getPager(this.allItemLen, page);
-}
+  };
+
+  getCardLastFrorDigit(order:any){
+    let cardNum = order.order_details.payment_method.number;
+    var cardLeng = cardNum.length;
+    return cardNum.slice((cardLeng-4), cardLeng);
+  };
+
+  setCardLogo(order:any){
+    // return "./assets/img/masterCard.png";
+    let cardNum = order.order_details.payment_method.number;
+    if(cardNum.startsWith("4")){
+      return "./assets/img/visaCard.png";
+    }else if(cardNum.startsWith("34") || cardNum.startsWith("37")){
+      return "./assets/img/americanExpCard.png";
+    }else if(cardNum.startsWith("51") || cardNum.startsWith("52") || cardNum.startsWith("53") || cardNum.startsWith("54") || cardNum.startsWith("55")){
+      return "./assets/img/masterCard.png";
+    }else if(cardNum.startsWith("34") || cardNum.startsWith("37")){
+      return "./assets/img/discoverCard.png";
+    }else{
+      return "./assets/img/discoverCard.png";
+    }
+  };
 
 }

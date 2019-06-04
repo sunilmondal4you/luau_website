@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ApiService } from './../api.service';
+import { CommonService } from './../common.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -11,17 +12,21 @@ import { ApiService } from './../api.service';
 export class DashboardComponent implements OnInit {
   dashboardForm: FormGroup;
   submitted = false;
-  public userData = {};
+  public userData:any = {};
 
   constructor(
     private formBuilder : FormBuilder, 
     private apiService : ApiService,
     private router : Router,
+    private commonService: CommonService,
   ) { }
 
   ngOnInit() {
     this.apiService.userObjObserveable.subscribe((data) => {
       this.userData = data;
+      if(data.loggedIn){
+        this.router.navigate(['/orders']);
+      }
     });
 
     this.dashboardForm = this.formBuilder.group({
@@ -50,13 +55,19 @@ export class DashboardComponent implements OnInit {
           if(res.status == "success"){
             this.updateUserDetail(res);
           }else{
-            alert(res.message);
+            this.commonService.modalOpenMethod(res.message);
           }
         }else{
-          alert("Something wents wrong.");
+          this.commonService.modalOpenMethod("Something wents wrong.");
         }
       },
-      (error) => alert(error.message));
+      (error) => {
+        if(error.status==401){
+          this.commonService.clearStorage("dashboard");
+        }else{
+          this.commonService.modalOpenMethod(error.message)
+        }
+      });
     }
 
   };
@@ -69,7 +80,7 @@ export class DashboardComponent implements OnInit {
         "user_id"  : res.user_id || 1,
         "token": res.user_token,
       },
-    }
+    };
     
     /** Update user data to services and Session Storage **/
     this.apiService.updateUserDetail(orderReqObj);

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ApiService } from './../api.service';
+import { CommonService } from './../common.service';
 
 @Component({
   selector: 'app-inquiries',
@@ -10,13 +11,19 @@ import { ApiService } from './../api.service';
 export class InquiriesComponent implements OnInit {
   inqiriesForm: FormGroup;
   submitted = false;
+  public userData:any = {};
 
   constructor(
     private formBuilder: FormBuilder, 
     private apiService: ApiService,
+    private commonService: CommonService,
   ) { }
 
   ngOnInit() {
+    this.apiService.userObjObserveable.subscribe((data) => {
+      this.userData = data;
+    }); 
+
     this.inqiriesForm = this.formBuilder.group({
       name:        ['', Validators.required],
       email:       ['', [Validators.required, Validators.email]],
@@ -46,15 +53,21 @@ export class InquiriesComponent implements OnInit {
       this.apiService.customPostApiCall(inquiriesObj).subscribe((res:any)=>{
         if(res){
           if(res.status == "success"){
-            this.inqiriesForm.reset();
-            window.location.reload();
+            this.ngOnInit();
+            this.submitted = false;
           }
-          alert(res.message);
+          this.commonService.modalOpenMethod(res.message);
         }else{
-          alert("Something wents wrong.");
+          this.commonService.modalOpenMethod("Something wents wrong.");
         }
       },
-      (error) => alert(error.message));
+      (error) => {
+        if(error.status==401){
+          this.commonService.clearStorage("home");
+        }else{
+          this.commonService.modalOpenMethod(error.message)
+        }
+      });
     }
   };
 

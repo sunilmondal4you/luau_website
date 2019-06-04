@@ -10,17 +10,18 @@
         <div class="form-group has-search" (keydown.enter)="onSubmit()">
           <span class="fa fa-search form-control-feedback"></span>
           <input type="text" class="form-control" formControlName="order_id" [ngClass]="{ 'is-invalid': submitted && f.order_id.errors }">
+          <span class="fa fa-times searchCrossIcon" *ngIf="this.searchForm.value.order_id" (click)="clearSearchField()"></span>
           <div *ngIf="submitted && f.order_id.errors" class="invalid-feedback requireMsg">
-              <div *ngIf="f.order_id.errors.required">Order Id is required.</div>
-            </div>
+            <div *ngIf="f.order_id.errors.required">Order Id is required.</div>
+          </div>
         </div>
       </form>
     </div>
     <div class="col-12 cardSec">
-      <table class="table" style="margin-top:-.5px">
+      <table class="table mb-0" style="margin-top:-.5px">
         <thead>
           <tr>
-            <th scope="col" style="color:#4AD2B4">Order</th>
+            <th scope="col" class="orderTxt">Order</th>
             <th scope="col">Status</th>
             <th scope="col"></th>
             <th scope="col"></th>
@@ -33,7 +34,7 @@
               <td><label class="cusId">{{order.id}}</label>
                 <p class="cusHr">{{order.timestamp}}</p>
               </td>
-              <td>{{order.order_status}}</td>
+              <td class="statusMsg">{{order.order_status}}</td>
               <td class="v-mid">
                 <div class="p-rel productCard">
                   <span class="cusBadge1" (click)="selcOrderId1 = order.id">Product</span>
@@ -45,11 +46,15 @@
                       <div class="prodName">{{order.product_details.name | slice:0:20}}</div>
                       <div class="prodStyle">Size: {{order.product_details.size}}</div>
                       <div class="prodStyle">Color: {{order.product_details.color  | slice:0:25}}</div>
-                      <div class="prodStyle"><a href="{{order.product_details.product_url}}" target="_blank">Product URL</a></div>
+                      <div class="prodStyle" style="cursor: pointer">
+                        <a (click)="createProductUrl(order)" target="_blank">Product URL</a>
+                      </div>
                     </div>
-                    <div class="prodStyle">Shipping status: 
-                      <span class="trackData">{{order.product_details.tracking_details.tracking_data}}</span> 
-                      <a href="{{order.product_details.tracking_details.tracking_url}}" target="_blank">Tracking URL</a></div>
+                    <div class="prodStyle">Shipping status:&nbsp; 
+                      <span class="trackData">{{grtShippingStatus(order.product_details)}}&nbsp;</span> 
+                      <a *ngIf="order.product_details.tracking_details.tracking_url" href="{{createTrackingUrl(order)}}" target="_blank">Tracking URL</a>
+                      <a *ngIf="!order.product_details.tracking_details.tracking_url">Tracking URL</a>
+                    </div>
                   </div>
                 </div>
               </td>
@@ -64,8 +69,8 @@
                     <div class="oSec">
                       <div class="orderParam1">Payment</div>
                       <div class="orderParam2">
-                        <span style="background:#000;color:#fff;padding:0px 4px;font-weight:700">VISA</span>
-                        <label class="ml-1">{{(order.order_details.payment_method.number) | slice:(order.order_details.payment_method.number.length-1):15}}</label>
+                        <img class="cardLogo" [src]="setCardLogo(order)" alt="CARD LOGO">
+                        <label class="ml-1">{{getCardLastFrorDigit(order)}}</label>
                       </div>
                     </div>
                     <div class="oSec">
@@ -82,7 +87,7 @@
               <td></td>
             </tr>
           </ng-container>
-          <tr *ngIf="orderList.length==0" class="noOrder">
+          <tr *ngIf="orderList.length==0" class="noOrderSec">
             <td colspan="5">
               <h1>No order available!</h1>
             </td>
@@ -90,7 +95,7 @@
         </tbody>
       </table>
     </div>
-    <div *ngIf="orderList.length>0" class="col-12 p-0">
+    <div class="col-12 p-0">
       <ul class="pagination justify-content-end" *ngIf="pager.pages && pager.pages.length" >
         <li class="page-item" [ngClass]="{disabled:pager.currentPage === 1}">
           <a class="page-link" (click)="setPage(pager.currentPage - 1)">Previous</a>

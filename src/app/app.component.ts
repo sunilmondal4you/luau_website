@@ -3,6 +3,7 @@ import { IfStmt } from '@angular/compiler';
 import { ApiService } from './api.service';
 import { UAParser } from '../assets/ua-parser';
 import { Router } from '@angular/router';
+import { CommonService } from './common.service';
 
 @Component({
   selector: 'app-root',
@@ -20,6 +21,7 @@ export class AppComponent {
   constructor(
     private apiService: ApiService,
     private router: Router,
+    private commonService: CommonService,
   ) { };
   
   homeLink = [{"title": "Home",     "routLink":"/home"}];
@@ -160,7 +162,13 @@ export class AppComponent {
         console.log("Post api call for deeplinking fails")
       }
     },
-    (error) => console.log(error.message));
+    (error) => {
+      if(error.status==401){
+        this.commonService.clearStorage("home");
+      }else{
+        this.commonService.modalOpenMethod(error.message)        
+      }
+    });
 
   };
 
@@ -175,10 +183,16 @@ export class AppComponent {
       if(res.status == "success"){
         this.updateUserDetail();
       }else{
-        console.log(res.message);
+        this.commonService.modalOpenMethod(res.message);
       }
     },
-    (error) => alert(error.message));
+    (error) => {
+      if(error.status==401){
+        this.commonService.clearStorage("dashboard");
+      }else{
+        this.commonService.modalOpenMethod(error.message)        
+      }
+    });
   };
 
   updateUserDetail(){
@@ -190,6 +204,5 @@ export class AppComponent {
     localStorage.removeItem("userObj");
     this.router.navigate(['/home']);
   };
-  
   
 }

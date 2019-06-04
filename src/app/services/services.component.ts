@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ApiService } from './../api.service';
+import { CommonService } from './../common.service';
 
 @Component({
   selector: 'app-services',
@@ -10,13 +11,19 @@ import { ApiService } from './../api.service';
 export class ServicesComponent implements OnInit {
   servicesForm: FormGroup;
   submitted = false;
+  public userData:any = {};
 
   constructor(
     private formBuilder: FormBuilder, 
     private apiService: ApiService,
+    private commonService: CommonService,
   ) { }
 
   ngOnInit() {
+    this.apiService.userObjObserveable.subscribe((data) => {
+      this.userData = data;
+    });
+
     this.servicesForm = this.formBuilder.group({
       name:    ['', Validators.required],
       email:   ['', [Validators.required, Validators.email]],
@@ -46,17 +53,22 @@ export class ServicesComponent implements OnInit {
       this.apiService.customPostApiCall(servicesObj).subscribe((res:any)=>{
         if(res){
           if(res.status == "success"){
-            this.servicesForm.reset();
-            window.location.reload();
+            this.ngOnInit();
+            this.submitted = false;
           }
-          alert(res.message);
+          this.commonService.modalOpenMethod(res.message);
         }else{
-          alert("Something wents wrong.");
+          this.commonService.modalOpenMethod("Something wents wrong.");
         }
       },
-      (error) => alert(error.message));
+      (error) => {
+        if(error.status==401){
+          this.commonService.clearStorage("home");
+        }else{
+          this.commonService.modalOpenMethod(error.message)
+        }
+      });
     }
-
   };
 
 }

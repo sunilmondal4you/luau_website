@@ -13,7 +13,7 @@ export class ApiService {
   config = new HttpHeaders().set('Content-Type', 'application/json; charset=utf-8');
   hashSalt = "#$%@SaltCreationForAuthentication#$%@";
 
-  private userObj = new BehaviorSubject<any>({"loggedIn":false,"userDetail":{}});
+  private userObj = new BehaviorSubject<any>({"loggedIn":false,"userDetail":{},"modalObj":{}});
   public userObjObserveable = this.userObj.asObservable();
   
   constructor(
@@ -31,6 +31,19 @@ export class ApiService {
     
     let finalApi = `${this.apiURL}`+ customdata.apiExt;
     return this.http.post(finalApi,customdata,{ headers: this.config });
+  };
+
+  public viglinkGetApiCall(customUrl:any){
+    let params = {
+      format: "txt",
+      key: "bca470c3ce4d74a630fd09f488cc4d7a",
+      out: "https://www.nike.com/t/dri-fit-coach-vikings-mens-long-sleeve-top-R7kdKs",
+      loc: "https://luauet.com",
+    };
+    let url = "http://api.viglink.com/api/click"
+
+    let respData = this.http.get(url,{params});
+    return respData;
   }
 
   public updateUserDetail(reqObj:any) {

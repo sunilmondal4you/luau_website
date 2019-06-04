@@ -2,6 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
+import { NgbModule, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -15,6 +16,7 @@ import { TermsComponent } from './terms/terms.component';
 import { PrivacyComponent } from './privacy/privacy.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { OrdersComponent } from './orders/orders.component';
+import { ModaltemplateComponent } from './modaltemplate/modaltemplate.component';
 
 @NgModule({
   declarations: [
@@ -28,15 +30,22 @@ import { OrdersComponent } from './orders/orders.component';
     TermsComponent,
     PrivacyComponent,
     DashboardComponent,
-    OrdersComponent
+    OrdersComponent,
+    ModaltemplateComponent
   ],
   imports: [
     BrowserModule,
     ReactiveFormsModule,
     HttpClientModule,
-    AppRoutingModule
+    AppRoutingModule,
+    NgbModule.forRoot()
   ],
-  providers: [],
-  bootstrap: [AppComponent]
+  providers: [
+    NgbActiveModal
+  ],
+  bootstrap: [AppComponent],
+
+  entryComponents: [ ModaltemplateComponent ]
+
 })
 export class AppModule { }

@@ -110,6 +110,7 @@
   .prodImg{
     width: 90%;
     max-width: 70px;
+    max-height: 65px;
     border-radius:15px; 
   }
   .prodName{
@@ -184,10 +185,26 @@
     cursor: pointer;
     font-family: 'avenir_next_r';
   }
-  .noOrder{
-    min-height:300px;
-    text-align: center;
-    align-items: center;
-    color: #2A292B;
-    font-family: 'avenir_next_db';
+  .noOrderSec{
+    min-height:300px;text-align: center;align-items: center
+  }
+  .noOrderSec td h1{
+    margin-top: 15%
+  }
+  .cardLogo{
+    height: 28px;
+    margin: 5px;
+  }
+  .orderTxt{
+    color:#4AD2B4;
+  }
+  .statusMsg{
+    line-height: 35px;
+  }
+  .searchCrossIcon{
+    float: right;
+    margin-top: -26px;
+    margin-right: 10px;
+    color: #aaa;
+    cursor: pointer;
   }
