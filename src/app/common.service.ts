@@ -4,8 +4,8 @@ import { Router } from '@angular/router';
 import { ApiService } from './api.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ModaltemplateComponent } from './modaltemplate/modaltemplate.component';
-import { ConfirmationDialogComponent } from './confirmation-dialog/confirmation-dialog.component';
 import { MatDialog } from '@angular/material';
+import { ConfirmationDialogComponent } from './confirmation-dialog/confirmation-dialog.component';
 
 @Injectable({
   providedIn: 'root'

@@ -3,6 +3,9 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ApiService } from './../api.service';
 import { CommonService } from './../common.service';
 
+import { MatDialog } from '@angular/material';
+import { ConfirmationDialogComponent } from './../confirmation-dialog/confirmation-dialog.component';
+
 @Component({
   selector: 'app-orders',
   templateUrl: './orders.component.html',
@@ -26,6 +29,7 @@ export class OrdersComponent implements OnInit {
     private formBuilder: FormBuilder, 
     private apiService : ApiService,
     private commonService: CommonService,
+    public dialog: MatDialog,
   ) { }
 
   ngOnInit() {
@@ -176,9 +180,13 @@ export class OrdersComponent implements OnInit {
   };
 
   orderCancel(){
-    this.commonService.openDialog().subscribe((result:any) => {
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      width: '350px',
+      data: "Do you confirm the deletion of this data?"
+    });
+    dialogRef.afterClosed().subscribe(result => {
       if(result) {
-        alert('Yes clicked');
+        console.log('Yes clicked');
         // DO SOMETHING
       }
     });

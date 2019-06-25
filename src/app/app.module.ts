@@ -54,7 +54,7 @@ import { ConfirmationDialogComponent } from './confirmation-dialog/confirmation-
   ],
   bootstrap: [AppComponent],
 
-  entryComponents: [ ModaltemplateComponent, ModaltemplateComponent ]
+  entryComponents: [ ModaltemplateComponent, ConfirmationDialogComponent ]
 
 })
 export class AppModule { }
