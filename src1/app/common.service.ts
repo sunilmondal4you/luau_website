@@ -4,8 +4,6 @@ import { Router } from '@angular/router';
 import { ApiService } from './api.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ModaltemplateComponent } from './modaltemplate/modaltemplate.component';
-import { ConfirmationDialogComponent } from './confirmation-dialog/confirmation-dialog.component';
-import { MatDialog } from '@angular/material';
 
 @Injectable({
   providedIn: 'root'
@@ -17,7 +15,6 @@ export class CommonService {
     private router: Router,
     private apiService: ApiService,
     private modalService: NgbModal,
-    public dialog: MatDialog,
   ) { }
 
 
@@ -52,16 +49,5 @@ export class CommonService {
         this.router.navigate(['/home']);
       }
     }, 1000);
-  };
-
-  openDialog() {
-    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
-      width: '350px',
-      data: "Do you confirm the deletion of this data?"
-    });
-    return dialogRef.afterClosed();
-
   }
-
-
 }

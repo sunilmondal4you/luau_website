@@ -24,10 +24,9 @@
             <th scope="col" class="orderTxt">Order</th>
             <th scope="col">Status</th>
             <th scope="col">Retailer</th>
-            <th scope="col emailScraping">Email Scraping</th>
             <th scope="col"></th>
             <th scope="col"></th>
-            <th scope="col"></th>
+            <th scope="col emailScraping"></th>
           </tr>
         </thead>
         <tbody>
@@ -38,17 +37,8 @@
               </td>
               <td class="statusMsg">{{order.order_status}}</td>
               <td class="statusMsg" style="padding: 7px 15px">
-                <img [src]="order.retailer_logo" class="retailerImg">
-              </td>
-              <td class="v-mid emailScraping">
-                <div class="p-rel detailCard">
-                  <span class="cusBadge2" (click)="selcOrderId3 = order.id">Status</span>
-                  <div class="OrderDetailSec" *ngIf="selcOrderId3 == order.id">
-                    <div class="oSec">
-                      <div class="orderParam2">{{order.status_msg || "No data available"}}</div>
-                    </div>
-                  </div>
-                </div>
+                <img [src]="imgURL" class="retailerImg">
+                <!-- <img [src]="order.retailder_logo" class="retailerImg" alt="order.retailder_alt_logo"> -->
               </td>
               <td class="v-mid">
                 <div class="p-rel productCard">
@@ -98,7 +88,14 @@
                 </div>
               </td>
               <td class="v-mid emailScraping">
-                <span class="cusBadge2" (click)="orderCancel()">Cancel</span>
+                <div class="p-rel detailCard">
+                  <span class="cusBadge2" (click)="selcOrderId3 = order.id">Email Scraping Status</span>
+                  <div class="OrderDetailSec" *ngIf="selcOrderId3 == order.id">
+                    <div class="oSec">
+                      <div class="orderParam2">{{order.status_msg || "No data available"}}</div>
+                    </div>
+                  </div>
+                </div>
               </td>
             </tr>
           </ng-container>

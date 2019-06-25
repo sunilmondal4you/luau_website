@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { ApiService } from './../api.service';
 import { CommonService } from './../common.service';
 
@@ -16,6 +15,7 @@ export class OrdersComponent implements OnInit {
   orderList = [];
   selcOrderId1:any;
   selcOrderId2:any;
+  selcOrderId3:any;
   public imgPathP = "./assets/img/product.png";
 
   pager: any = {};
@@ -23,7 +23,6 @@ export class OrdersComponent implements OnInit {
   allItemLen:any;
 
   constructor(
-    private http: HttpClient,
     private formBuilder: FormBuilder, 
     private apiService : ApiService,
     private commonService: CommonService,
@@ -84,7 +83,6 @@ export class OrdersComponent implements OnInit {
   };
 
   createProductUrl(order:any){
-    
     let prodUrl = order.product_details.product_url;
     let out_encode = encodeURIComponent(prodUrl);
     let urlFormat = "txt";
@@ -92,21 +90,7 @@ export class OrdersComponent implements OnInit {
     let urlKey = "bca470c3ce4d74a630fd09f488cc4d7a";
 
     let viglink_url = "http://api.viglink.com/api/click?out="+out_encode+"&loc="+urlLoc+"&key="+urlKey+"&format="+urlFormat;
-    
-    this.apiService.viglinkGetApiCall(viglink_url).subscribe((res:any)=>{
-      if(res){
-        
-      }else{
-        this.commonService.modalOpenMethod("Something wents wrong.");
-      }
-    },(error) => {
-      this.commonService.modalOpenMethod(error.message)
-    });
-
-    // console.log(viglink_url)
-    // var win = window.open(viglink_url, '_blank');
-    // win.focus();
-
+    return viglink_url;
   };
 
   createTrackingUrl(order:any){
@@ -116,7 +100,7 @@ export class OrdersComponent implements OnInit {
         return trackingUrlObj[order.product_details.name] || "";
       }
     }
-  }
+  };
 
   clearSearchField(){
     this.searchForm = this.formBuilder.group({
@@ -189,6 +173,15 @@ export class OrdersComponent implements OnInit {
     }else{
       return "./assets/img/discoverCard.png";
     }
+  };
+
+  orderCancel(){
+    this.commonService.openDialog().subscribe((result:any) => {
+      if(result) {
+        alert('Yes clicked');
+        // DO SOMETHING
+      }
+    });
   };
 
 }

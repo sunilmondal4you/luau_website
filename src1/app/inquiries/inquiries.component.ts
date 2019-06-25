@@ -4,12 +4,12 @@ import { ApiService } from './../api.service';
 import { CommonService } from './../common.service';
 
 @Component({
-  selector: 'app-services',
-  templateUrl: './services.component.html',
-  styleUrls: ['./services.component.css']
+  selector: 'app-inquiries',
+  templateUrl: './inquiries.component.html',
+  styleUrls: ['./inquiries.component.css']
 })
-export class ServicesComponent implements OnInit {
-  servicesForm: FormGroup;
+export class InquiriesComponent implements OnInit {
+  inqiriesForm: FormGroup;
   submitted = false;
   public userData:any = {};
 
@@ -22,35 +22,35 @@ export class ServicesComponent implements OnInit {
   ngOnInit() {
     this.apiService.userObjObserveable.subscribe((data) => {
       this.userData = data;
-    });
+    }); 
 
-    this.servicesForm = this.formBuilder.group({
-      name:    ['', Validators.required],
-      email:   ['', [Validators.required, Validators.email]],
-      order_id:['', Validators.required],
-      details: ['', Validators.required],
+    this.inqiriesForm = this.formBuilder.group({
+      name:        ['', Validators.required],
+      email:       ['', [Validators.required, Validators.email]],
+      details:     ['', Validators.required],
+      company_name:['', Validators.required],
     });
   };
 
-  get f() { return this.servicesForm.controls};
+  get f() { return this.inqiriesForm.controls};
 
   onSubmit() {
     this.submitted = true;
 
     // stop here if form is invalid
-    if(this.servicesForm.invalid) {
+    if(this.inqiriesForm.invalid) {
         return;
     }else{
-      let servicesObj = {
-        "name"     : this.servicesForm.value.name,
-        "email"    : this.servicesForm.value.email,
-        "order_id" : this.servicesForm.value.order_id,
-        "query_details": this.servicesForm.value.details,
-        "apiExt"   : "customer_service.php",
-        "authToken": "",
+      let inquiriesObj = {
+        "name"        : this.inqiriesForm.value.name,
+        "email"       : this.inqiriesForm.value.email,
+        "piece_details": this.inqiriesForm.value.details,
+        "company_name": this.inqiriesForm.value.company_name,
+        "apiExt"      : "press_inquiries.php",
+        "authToken"   : "",
       };
 
-      this.apiService.customPostApiCall(servicesObj).subscribe((res:any)=>{
+      this.apiService.customPostApiCall(inquiriesObj).subscribe((res:any)=>{
         if(res){
           if(res.status == "success"){
             this.ngOnInit();

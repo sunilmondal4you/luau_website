@@ -10,15 +10,3 @@
     color: #4AD2B4;
     cursor: pointer;
 }
-.suprt-flex, .luauLogo-flex{
-    display: -webkit-flex;
-    display: -moz-flex;
-    display: -ms-flex;
-    display: -o-flex;
-    display: flex;
-    height: 100vh;
-    -webkit-align-items: center;
-    -moz-align-items: center;
-    -ms-align-items: center;
-    -o-align-items: center;
-    align-items: center;}

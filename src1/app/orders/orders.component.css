@@ -214,7 +214,7 @@
     padding-right: 0px;
   }
   .retailerImg{
-    max-height: 46px;
-    width: 46px;
-    border-radius: 22px;
+    height: 45px;
+    width: 50px;
+    border-radius: 2px
   }

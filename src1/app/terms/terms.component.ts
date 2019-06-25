@@ -6,10 +6,12 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./terms.component.css']
 })
 export class TermsComponent implements OnInit {
+  innerWidth = innerWidth;
 
   constructor() { }
 
   ngOnInit() {
+
   }
 
 }
