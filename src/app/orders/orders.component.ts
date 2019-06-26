@@ -2,9 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ApiService } from './../api.service';
 import { CommonService } from './../common.service';
+import {MatDialog} from '@angular/material';
 
-import { MatDialog } from '@angular/material';
-import { ConfirmationDialogComponent } from './../confirmation-dialog/confirmation-dialog.component';
 
 @Component({
   selector: 'app-orders',
@@ -29,7 +28,7 @@ export class OrdersComponent implements OnInit {
     private formBuilder: FormBuilder, 
     private apiService : ApiService,
     private commonService: CommonService,
-    public dialog: MatDialog,
+    private dialogRef: MatDialog,
   ) { }
 
   ngOnInit() {
@@ -180,16 +179,16 @@ export class OrdersComponent implements OnInit {
   };
 
   orderCancel(){
-    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
-      width: '350px',
-      data: "Do you confirm the deletion of this data?"
-    });
-    dialogRef.afterClosed().subscribe(result => {
-      if(result) {
+    this.dialogRef.closeAll();
+    this.commonService.openDialog().subscribe((res:any)=>{
+      if(res) {
         console.log('Yes clicked');
         // DO SOMETHING
       }
-    });
-  };
+    },
+    (error) => {});
+  }
+
+  
 
 }
