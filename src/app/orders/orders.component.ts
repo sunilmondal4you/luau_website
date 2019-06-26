@@ -180,7 +180,7 @@ export class OrdersComponent implements OnInit {
 
   orderCancel(selOrder:any){
     this.dialogRef.closeAll();
-    let message = "Are you sure you want to cancel this order"
+    let message = "Are you sure you want to cancel order-"+selOrder.id
     this.commonService.openDialog(message).subscribe((res:any)=>{
       if(res) {
         this.sendNotification(selOrder)

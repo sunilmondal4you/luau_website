@@ -27,7 +27,7 @@
             <th scope="col emailScraping">Email Scraping</th>
             <th scope="col"></th>
             <th scope="col"></th>
-            <th scope="col"></th>
+            <th scope="col">Cancel Order</th>
           </tr>
         </thead>
         <tbody>
@@ -97,9 +97,10 @@
                   </div>
                 </div>
               </td>
-              <td class="v-mid emailScraping">
+              <td class="v-mid emailScraping text-center">
                 <span class="cusBadge2" *ngIf="(order.order_status=='Pending') && (order.order_placement_status!='0')" (click)="orderCancel(order)">Cancel</span>
-                <span class="cusBadge2" *ngIf="order.order_placement_status == '0'" style="cursor: default">Canceled</span>
+                <span class="cusBadge2" *ngIf="order.order_placement_status == '0'" style="cursor: default">Cancelled</span>
+                <span *ngIf="(order.order_status!='Pending') && (order.order_placement_status!='0')">--</span>
               </td>
             </tr>
           </ng-container>
