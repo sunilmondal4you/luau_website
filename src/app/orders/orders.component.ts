@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ApiService } from './../api.service';
 import { CommonService } from './../common.service';
 import {MatDialog} from '@angular/material';
-
+import * as _underscore from 'underscore';
 
 @Component({
   selector: 'app-orders',
@@ -178,17 +178,41 @@ export class OrdersComponent implements OnInit {
     }
   };
 
-  orderCancel(){
+  orderCancel(selOrder:any){
     this.dialogRef.closeAll();
-    this.commonService.openDialog().subscribe((res:any)=>{
+    let message = "Are you sure you want to cancel this order"
+    this.commonService.openDialog(message).subscribe((res:any)=>{
       if(res) {
-        console.log('Yes clicked');
-        // DO SOMETHING
+        this.sendNotification(selOrder)
       }
     },
     (error) => {});
-  }
+  };
 
-  
+  sendNotification(selOrder:any){
+    let sendNotificationObj = {
+      "order_id"      : selOrder.id,
+      "local_order_id": selOrder.local_order_id,
+      "product_name"  : selOrder.product_details.name,
+      "user_id"       : this.userData.userDetail.user_id,
+      "token"         : this.userData.userDetail.token,
+      "apiExt"        : "luauet-send-notifiaction.php",
+    }
+    this.apiService.customPostApiCall(sendNotificationObj).subscribe((res:any)=>{
+      if(res){
+        selOrder.order_placement_status = res.order_placement_status || '0';
+        this.commonService.modalOpenMethod(res.message);
+      }else{
+        this.commonService.modalOpenMethod("Something wents wrong at order cancel");
+      }
+    },
+    (error) => {
+      if(error.status==401){
+        this.commonService.clearStorage("dashboard");
+      }else{
+        this.commonService.modalOpenMethod(error.message);
+      }
+    });
+  };
 
 }

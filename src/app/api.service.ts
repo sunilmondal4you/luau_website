@@ -2,13 +2,14 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import * as sha512 from 'js-sha512';
-import * as _ from 'underscore';
+import * as _underscore from 'underscore';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ApiService {
-  apiURL: string = 'https://prod.api.luauet.com/luau-api/scripts/';
+  // apiURL: string = 'https://prod.api.luauet.com/luau-api/scripts/';
+  apiURL: string = 'http://dev.api.luauet.com/luau-api/scripts/';
   // apiURL: string = 'http://192.168.1.52/luau-api/scripts/';
   config = new HttpHeaders().set('Content-Type', 'application/json; charset=utf-8');
   hashSalt = "#$%@SaltCreationForAuthentication#$%@";
@@ -64,7 +65,7 @@ export class ApiService {
     let endIndex = Math.min(startIndex + pageSize - 1, totalItems - 1);
 
     // create an array of pages to ng-repeat in the pager control
-    let pages = _.range(startPage, endPage + 1);
+    let pages = _underscore.range(startPage, endPage + 1);
 
     // return object with all pager properties required by the view
     return {

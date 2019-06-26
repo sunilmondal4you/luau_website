@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import * as _ from 'underscore';
+import * as _underscore from 'underscore';
 import { Router } from '@angular/router';
 import { ApiService } from './api.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -54,10 +54,10 @@ export class CommonService {
     }, 1000);
   };
 
-  openDialog() {
+  openDialog(message:any) {
     const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
       width: '350px',
-      data: "Do you confirm the deletion of this data?"
+      data: message,
     });
     return dialogRef.afterClosed();
 

@@ -14,6 +14,7 @@ export class ConfirmationDialogComponent implements OnInit{
   ) { }
 
   ngOnInit() {
+    document.getElementsByTagName('html')[0].scrollTop=0
   }
 
   onNoClick(): void {

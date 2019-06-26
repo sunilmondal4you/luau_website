@@ -98,12 +98,13 @@
                 </div>
               </td>
               <td class="v-mid emailScraping">
-                <span class="cusBadge2" (click)="orderCancel()">Cancel</span>
+                <span class="cusBadge2" *ngIf="(order.order_status=='Pending') && (order.order_placement_status!='0')" (click)="orderCancel(order)">Cancel</span>
+                <span class="cusBadge2" *ngIf="order.order_placement_status == '0'" style="cursor: default">Canceled</span>
               </td>
             </tr>
           </ng-container>
           <tr *ngIf="orderList.length==0" class="noOrderSec">
-            <td colspan="6">
+            <td colspan="7">
               <h1>No order available!</h1>
             </td>
           </tr>
