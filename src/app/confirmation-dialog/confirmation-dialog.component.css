@@ -14,10 +14,11 @@
   position: relative !important;
 }
 .btnBg{
-  background: #3fa7f1;
+  background: #59b2f1;
   outline: none;
   color: #fff;
 }
 .btnBg:focus{
+  background: #0e8cfb;
   outline: none;
 }

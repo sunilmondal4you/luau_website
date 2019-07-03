@@ -3,6 +3,11 @@
     margin: 50px 40px;
     
 }
+@media(max-width: 1029px) {
+  .headerSec {
+    margin: 50px 10px;
+  }
+}
 .luau-head{
     color: #2A292B;
     font-size: 48px !important;
@@ -11,13 +16,15 @@
 }
 .cardSec{
     min-height: 500px;
-    border: 1.5px solid #e9ecef;
-    border-radius: 10px;
-    box-shadow: 0px 1px 5px 1px #fbfbfb;
     font-weight: medium;
     font-family: 'avenir_next_m';
     padding-left: 1px;
     padding-right: 1px;
+}
+.cardSec table{
+  border: 1.5px solid #e9ecef;
+  border-radius: 10px;
+  box-shadow: 0px 1px 5px 1px #fbfbfb;
 }
 .cusBadge1{
     color: #4AD2B4;background: #eceeef;padding: 7px 25px;border-radius: 17px;cursor: pointer;font-family: 'avenir_next_b';
@@ -143,6 +150,10 @@
     border: 2px solid #d0d0d08f;
     width: 300px;
   }
+  .positionBottom{
+    bottom: 35px;
+    top: auto
+  }
   .oSec{
       padding: 10px 18px;
       border-bottom: 3px solid #d0d0d08f;
@@ -201,6 +212,9 @@
   .statusMsg{
     line-height: 35px;
   }
+  .statusImg{
+    padding: 7px 15px;
+  }
   .searchCrossIcon{
     float: right;
     margin-top: -26px;
@@ -217,4 +231,13 @@
     max-height: 46px;
     width: 46px;
     border-radius: 22px;
+  }
+  .detailCard{
+    min-width: 143px;
+  }
+  .tableMargin{
+    margin-top:-.5px;
+  }
+  .addressFront{
+    font-size: 13px !important;
   }

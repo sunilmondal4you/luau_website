@@ -127,6 +127,7 @@ export class OrdersComponent implements OnInit {
         if(res){
           if(res.objects){
             this.orderList = res.objects || [];
+            this.allItemLen = undefined;
           }
         }else{
           this.commonService.modalOpenMethod("Something wents wrong.");
@@ -196,10 +197,12 @@ export class OrdersComponent implements OnInit {
       "product_name"  : selOrder.product_details.name,
       "user_id"       : this.userData.userDetail.user_id,
       "token"         : this.userData.userDetail.token,
+      "target_user_id":selOrder.user_id,
       "apiExt"        : "luauet-send-notifiaction.php",
     }
     this.apiService.customPostApiCall(sendNotificationObj).subscribe((res:any)=>{
       if(res){
+        selOrder.order_status = 'Cancelled';
         selOrder.order_placement_status = res.order_placement_status || '0';
         this.commonService.modalOpenMethod(res.message);
       }else{
@@ -214,5 +217,20 @@ export class OrdersComponent implements OnInit {
       }
     });
   };
+
+  positionByIndex(orderIndex:any){
+    setTimeout(() => {
+      if(orderIndex>3){  
+        if(orderIndex==9){
+          document.getElementsByTagName('html')[0].scrollTop=170;
+        }else{
+          document.getElementsByTagName('html')[0].scrollTop=70;
+        }      
+      }
+      else{
+        document.getElementsByTagName('html')[0].scrollTop=140;
+      }
+    }),100;
+  }
 
 }

@@ -17,7 +17,7 @@ export class ConfirmationDialogComponent implements OnInit{
     document.getElementsByTagName('html')[0].scrollTop=0
   }
 
-  onNoClick(): void {
+  onDialogClose(): void {
     this.dialogRef.close();
   }
 

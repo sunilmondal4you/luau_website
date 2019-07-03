@@ -17,30 +17,30 @@
         </div>
       </form>
     </div>
-    <div class="col-12 cardSec">
-      <table class="table mb-0" style="margin-top:-.5px">
+    <div class="col-12 cardSec" id="cardId">
+      <table class="table mb-0 tableMargin">
         <thead>
           <tr>
             <th scope="col" class="orderTxt">Order</th>
             <th scope="col">Status</th>
-            <th scope="col">Retailer</th>
-            <th scope="col emailScraping">Email Scraping</th>
+            <th scope="col" class="text-center">Retailer</th>
+            <th scope="col emailScraping" class=" text-center">Email Scraping</th>
             <th scope="col"></th>
             <th scope="col"></th>
-            <th scope="col">Cancel Order</th>
+            <th scope="col" class=" text-center">Cancel Order</th>
           </tr>
         </thead>
         <tbody>
-          <ng-container *ngFor="let order of orderList">
+          <ng-container *ngFor="let order of orderList;let i = index">
             <tr *ngIf="order.order_status && orderList.length>0">
               <td><label class="cusId">{{order.id}}</label>
                 <p class="cusHr">{{order.timestamp}}</p>
               </td>
               <td class="statusMsg">{{order.order_status}}</td>
-              <td class="statusMsg" style="padding: 7px 15px">
+              <td class="statusMsg text-center statusImg">
                 <img [src]="order.retailer_logo" class="retailerImg">
               </td>
-              <td class="v-mid emailScraping">
+              <td class="v-mid emailScraping text-center">
                 <div class="p-rel detailCard">
                   <span class="cusBadge2" (click)="selcOrderId3 = order.id">Status</span>
                   <div class="OrderDetailSec" *ngIf="selcOrderId3 == order.id">
@@ -72,12 +72,23 @@
                 </div>
               </td>
               <td class="v-mid">
-                <div class="p-rel detailCard">
-                  <span class="cusBadge2" (click)="selcOrderId2 = order.id">Order Detail</span>
-                  <div class="OrderDetailSec" *ngIf="selcOrderId2 == order.id">
+                <div class="p-rel detailCard" id="orderBtnId">
+                  <span class="cusBadge2" (click)="selcOrderId2 = order.id;positionByIndex(i)">Order Detail</span>
+                  <div class="OrderDetailSec" id="orderBoxId" [ngClass]="{'positionBottom': i>3}" *ngIf="selcOrderId2 == order.id">
                     <div class="oSec">
                       <div class="orderParam1">Address</div>
-                      <div class="orderParam2">{{order.order_details.shipping_address.address_line_one}}, {{order.order_details.shipping_address.zip_code}}</div>
+                      <div class="orderParam2">
+                        {{order.order_details.shipping_address.first_name}} 
+                        {{order.order_details.shipping_address.last_name}}
+                      </div>
+                      <div class="orderParam2 addressFront">{{order.order_details.shipping_address.address_line_one}}, 
+                        <span *ngIf="order.order_details.shipping_address.address_line_two">{{order.order_details.shipping_address.address_line_two}}, </span>
+                        <span *ngIf="order.order_details.shipping_address.city">{{order.order_details.shipping_address.city}}, </span>
+                        <span *ngIf="order.order_details.shipping_address.state">{{order.order_details.shipping_address.state}}, </span>
+                        <span *ngIf="order.order_details.shipping_address.country">{{order.order_details.shipping_address.country}}, </span>
+                        <span *ngIf="order.order_details.shipping_address.zip_code">{{order.order_details.shipping_address.zip_code}}, </span>
+                        <span *ngIf="order.order_details.shipping_address.phone_number">{{order.order_details.shipping_address.phone_number}}, </span>
+                      </div>
                     </div>
                     <div class="oSec">
                       <div class="orderParam1">Payment</div>
@@ -99,8 +110,8 @@
               </td>
               <td class="v-mid emailScraping text-center">
                 <span class="cusBadge2" *ngIf="(order.order_status=='Pending') && (order.order_placement_status!='0')" (click)="orderCancel(order)">Cancel</span>
-                <span class="cusBadge2" *ngIf="order.order_placement_status == '0'" style="cursor: default">Cancelled</span>
-                <span *ngIf="(order.order_status!='Pending') && (order.order_placement_status!='0')">--</span>
+                <span class="cusBadge2" *ngIf="order.order_placement_status == '0'" style="cursor: no-drop">Cancelled</span>
+                <span class="cusBadge2" *ngIf="(order.order_status!='Pending') && (order.order_placement_status!='0')" style="cursor: no-drop">Cancel</span>
               </td>
             </tr>
           </ng-container>
@@ -112,7 +123,7 @@
         </tbody>
       </table>
     </div>
-    <div class="col-12 p-0">
+    <div class="col-12 p-0" *ngIf="allItemLen && allItemLen>10">
       <ul class="pagination justify-content-end" *ngIf="pager.pages && pager.pages.length" >
         <li class="page-item" [ngClass]="{disabled:pager.currentPage === 1}">
           <a class="page-link" (click)="setPage(pager.currentPage - 1)">Previous</a>

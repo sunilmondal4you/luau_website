@@ -26,7 +26,7 @@ export class AppComponent {
   
   homeLink = [{"title": "Home",     "routLink":"/home"}];
 
-  public innerWidth = window.innerWidth;
+  public innerWidth = screen.width;
   
   linkList = [
     {"title": "Brand Signup",     "routLink":"/brand"},
@@ -101,7 +101,7 @@ export class AppComponent {
   };
 
   onResize(event) {
-    this.innerWidth = window.innerWidth;
+    this.innerWidth = screen.width;
     if (this.innerWidth < 768) { // 768px portrait
       event.target.innerWidth;
       this.mobileView = true;
