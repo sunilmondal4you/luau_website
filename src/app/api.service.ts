@@ -8,7 +8,7 @@ import * as _underscore from 'underscore';
   providedIn: 'root'
 })
 export class ApiService {
-  //apiURL: string = 'https://prod.api.luauet.com/luau-api/scripts/';
+  // apiURL: string = 'https://prod.api.luauet.com/luau-api/scripts/';
   apiURL: string = 'http://dev.api.luauet.com/luau-api/scripts/';
   // apiURL: string = 'http://192.168.1.52/luau-api/scripts/';
   config = new HttpHeaders().set('Content-Type', 'application/json; charset=utf-8');

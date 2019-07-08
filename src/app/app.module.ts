@@ -21,6 +21,7 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { OrdersComponent } from './orders/orders.component';
 import { ModaltemplateComponent } from './modaltemplate/modaltemplate.component';
 import { ConfirmationDialogComponent } from './confirmation-dialog/confirmation-dialog.component';
+import { ProductpreviewComponent } from './productpreview/productpreview.component';
 
 @NgModule({
   declarations: [
@@ -36,7 +37,8 @@ import { ConfirmationDialogComponent } from './confirmation-dialog/confirmation-
     DashboardComponent,
     OrdersComponent,
     ModaltemplateComponent,
-    ConfirmationDialogComponent
+    ConfirmationDialogComponent,
+    ProductpreviewComponent
   ],
   imports: [
     BrowserModule,

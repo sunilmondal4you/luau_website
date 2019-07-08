@@ -34,6 +34,7 @@ export class AppComponent {
     {"title": "Customer Service", "routLink":"/services"},
     {"title": "Support",          "routLink":"/support"},
     {"title": "Dashboard",        "routLink":"/dashboard"},
+    {"title": "Preview",          "routLink":"/productpreview"},
   ];
   footerLinkList = [
     {"title": "Privacy Policy",   "routLink":"/privacy"},
@@ -86,6 +87,12 @@ export class AppComponent {
         this.deeplinkingPostCall(Number(prod_id)); 
   
         window.location.href='https://itunes.apple.com/in/app/luau-modern-shopping/id1348751802?mt=8';
+        // let redUrl = 'https://itunes.apple.com/in/app/luau-modern-shopping/id1348751802?mt=8';
+        // var newWindow = window.open(redUrl, '_blank');
+        // setTimeout(function () {
+        //   newWindow.document.title = "My Tab Name";
+        // }, 100);
+
       }else{
         this.allLinkList.forEach(obj => {
           if(obj.routLink == window.location.pathname){
@@ -121,7 +128,7 @@ export class AppComponent {
     }
   };
 
-  startNavigation(logOut){
+  startNavigation(oprObj){
     this.pageOpen = true;
     this.showNavLink = !this.showNavLink;
 
@@ -129,7 +136,12 @@ export class AppComponent {
       this.mobileView = true;
     }
 
-    if(logOut){
+    let routPath = window.location.pathname; 
+    if(oprObj !="/productpreview"){
+      this.commonService.updateMetaTitle("Luau Website");
+    }
+
+    if(oprObj=='logOut'){
       this.logOutCall();
     }
   };
