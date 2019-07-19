@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { Meta, Title } from '@angular/platform-browser';
 import * as _underscore from 'underscore';
 import { Router } from '@angular/router';
 import { ApiService } from './api.service';
@@ -19,8 +18,6 @@ export class CommonService {
     private apiService: ApiService,
     private modalService: NgbModal,
     public dialog: MatDialog,
-    private title: Title, 
-    private meta: Meta
   ) { }
 
 
@@ -64,25 +61,7 @@ export class CommonService {
     });
     return dialogRef.afterClosed();
 
-  };
-
-  updateMetaTitle(title: string) {
-    this.title.setTitle(title);
-  };
-
-  updateMetaOgUrl(url: string) {
-    this.meta.updateTag({ name: 'og:url', content: url })
-  };
-
-  updateMetaDescription(desc: string) {
-    this.meta.updateTag({ name: 'description', content: desc })
-  };
-
-  updateMetaDetail(reqObj:any){
-    this.title.setTitle(reqObj.title);
-    this.meta.updateTag({ name: 'og:url', content: reqObj.url });
-    this.meta.updateTag({ name: 'description', content: reqObj.desc });
-  };
+  }
 
 
 }

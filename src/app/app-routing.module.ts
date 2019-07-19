@@ -10,7 +10,6 @@ import { TermsComponent } from './terms/terms.component';
 import { PrivacyComponent } from './privacy/privacy.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { OrdersComponent } from './orders/orders.component';
-import { ProductpreviewComponent } from './productpreview/productpreview.component';
 
 const routes: Routes = [
   { path: '',         component: HomeComponent,     pathMatch: 'full' },
@@ -23,15 +22,6 @@ const routes: Routes = [
   { path: 'privacy',  component: PrivacyComponent,  pathMatch: 'full' },
   { path: 'dashboard',component: DashboardComponent,pathMatch: 'full' },
   { path: 'orders',   component: OrdersComponent,   pathMatch: 'full' },
-  { path: 'productpreview',   
-    component: ProductpreviewComponent,   
-    pathMatch: 'full',    
-    data: {
-      title: 'Product Preview',
-      description:'Description Meta Tag Content',
-      ogUrl: 'your og url'
-    }
-  },
 ];
 
 @NgModule({

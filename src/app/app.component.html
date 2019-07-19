@@ -8,15 +8,15 @@
 
     <div class="col-12 col-md-3 col-lg-2 sec1" *ngIf="(!mobileView || showNavLink)">
       <div class="leftPanelPosition">
-          <img class="icon1" [src]="imgPath" alt="Luau Icon" routerLink="/home" (click)="startNavigation('/home')">
+          <img class="icon1" [src]="imgPath" alt="Luau Icon" routerLink="/home" (click)="startNavigation()">
 
           <div><a class="navLink" target="_blank" href="https://itunes.apple.com/in/app/luau-modern-shopping/id1348751802?mt=8">Download</a></div>    
-          <div *ngFor="let navObj of linkList" class="navLink" routerLink="{{navObj.routLink}}" (click)="startNavigation(navObj.routLink)">{{navObj.title}}</div>    
+          <div *ngFor="let navObj of linkList" class="navLink" routerLink="{{navObj.routLink}}" (click)="startNavigation()">{{navObj.title}}</div>    
       </div>
       
       <footer class="footerSec">
         <div class="row">
-          <div *ngFor="let footerNavObj of footerLinkList" class="navLinkFooter col-6 col-lg-6" routerLink="{{footerNavObj.routLink}}" (click)="startNavigation(footerNavObj.routLink)">{{footerNavObj.title}}</div>
+          <div *ngFor="let footerNavObj of footerLinkList" class="navLinkFooter col-6 col-lg-6" routerLink="{{footerNavObj.routLink}}" (click)="startNavigation()">{{footerNavObj.title}}</div>
         </div>
       </footer>
     </div>
@@ -40,9 +40,9 @@
           <img class="icon1" [src]="imgPathM" alt="Luau Icon" style="background: #4ac8cc;border-radius: 45px;height: 90px;width: 90px;margin: 13% 25% 13%;">
 
           <div style="margin-bottom:30px">
-            <div *ngFor="let navObj of orderViewList1" class="navLink" routerLink="{{navObj.routLink}}" (click)="startNavigation(navObj.routLink)">{{navObj.title}}</div>
+            <div *ngFor="let navObj of orderViewList1" class="navLink" routerLink="{{navObj.routLink}}" (click)="startNavigation()">{{navObj.title}}</div>
           </div>
-          <div *ngFor="let navObj of orderViewList2" class="navLink" routerLink="{{navObj.routLink}}" (click)="startNavigation(navObj.routLink)">{{navObj.title}}</div>       
+          <div *ngFor="let navObj of orderViewList2" class="navLink" routerLink="{{navObj.routLink}}" (click)="startNavigation()">{{navObj.title}}</div>       
       </div>
       
       <footer class="footerSec">
