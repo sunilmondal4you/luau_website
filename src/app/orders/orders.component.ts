@@ -15,6 +15,7 @@ export class OrdersComponent implements OnInit {
   public userData:any = {};
   loaderStart = false;
   orderList = [];
+  pending_count = 0;
   selcOrderId1:any;
   selcOrderId2:any;
   selcOrderId3:any;
@@ -69,6 +70,7 @@ export class OrdersComponent implements OnInit {
         this.loaderStart = false;
         this.orderList = res.objects || [];
         this.allItemLen = res.order_count;
+        this.pending_count = res.pending_count || 0;
         this.setPage((this.userData.userDetail.page+1) || 1);
         console.log(JSON.stringify(res));
       }else{
@@ -231,6 +233,18 @@ export class OrdersComponent implements OnInit {
         document.getElementsByTagName('html')[0].scrollTop=140;
       }
     }),100;
-  }
+  };
+
+  getDifferentialColor(product_details:any){
+    if(product_details.money_differential){
+      product_details.money_differential_disp = 0;
+      if(product_details.money_differential>0)
+        return 'green';
+      else if(product_details.money_differential<0){
+        product_details.money_differential_disp = Math.abs(product_details.money_differential);
+        return 'red';
+      }
+    }
+  };
 
 }

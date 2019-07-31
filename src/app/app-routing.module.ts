@@ -12,7 +12,7 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { OrdersComponent } from './orders/orders.component';
 
 const routes: Routes = [
-  { path: '',         component: HomeComponent,     pathMatch: 'full' },
+  { path: '',         redirectTo:'./home/home.component', pathMatch: 'full' },
   { path: 'home',     component: HomeComponent,     pathMatch: 'full' },
   { path: 'brand',    component: BrandComponent,    pathMatch: 'full' },
   { path: 'inquiries',component: InquiriesComponent,pathMatch: 'full' },

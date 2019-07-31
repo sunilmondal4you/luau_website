@@ -1,6 +1,7 @@
 .headerSec{
     margin-left: 0px;
     margin: 50px 40px;
+    min-width: 400px;
     
 }
 @media(max-width: 1029px) {
@@ -10,9 +11,15 @@
 }
 .luau-head{
     color: #2A292B;
-    font-size: 48px !important;
     font-weight: bold;
     font-family: 'avenir_next_b';
+}
+.head-font-1{
+  font-size: 48px !important;
+}
+.head-font-2{
+  font-size: 17px !important;
+  font-family: 'avenir_next_m';
 }
 .cardSec{
     min-height: 500px;
@@ -48,7 +55,8 @@
   position: relative;
 }
 .has-search{
-    width: 50%;
+  min-width: 180px;
+  width: 50%;
 }
 .has-search .form-control {
     padding-left: 2.375rem;
@@ -166,18 +174,18 @@
   .orderParam1{
     font-size: 14px;
     line-height: 30px;
-    color: #2A292B;
+    color: #1F1F20;
     font-family: 'avenir_next_db';
   }
   .orderParam2{
     font-size: 16px;
     line-height: 25px;
-    color: #2A292B;
+    color: #1F1F20;
     font-family: 'avenir_next_r';
   }
   .orderAmt{
-    font-size: 16px;
-    color: #2A292B;
+    font-size: 14px;
+    color: #1F1F20;
     font-family: 'avenir_next_db';
   }
 
@@ -239,5 +247,5 @@
     margin-top:-.5px;
   }
   .addressFront{
-    font-size: 13px !important;
+    font-size: 16px !important;
   }

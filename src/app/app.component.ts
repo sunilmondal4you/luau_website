@@ -94,7 +94,7 @@ export class AppComponent {
         });
   
         if(!pathFound){
-          window.location.pathname = "/home"
+          this.router.navigate(['/home']);
         }
       }
     }
