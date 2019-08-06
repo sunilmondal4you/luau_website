@@ -249,3 +249,20 @@
   .addressFront{
     font-size: 16px !important;
   }
+  .trakingHeader{
+    width: 100%;
+    font-size: 14px;
+    line-height: 19px;
+    font-family: 'avenir_next_m';
+    text-align: center;
+    text-decoration: underline;
+  }
+  .trackDetailBlock{
+    max-height: 200px;
+    overflow-y: auto;
+    margin-right:-10px
+  }
+  .trackDetailSec{
+    padding: 10px 0px;
+    border-bottom: 1px solid #d4d0d0;
+  }

@@ -1,0 +1,58 @@
+<div>
+  <div class="loader" *ngIf="loaderStart"></div>
+  <div class="headerSec" *ngIf="!loaderStart">
+    <div class="row">
+      <div class="col-6">
+        <h2 class="luau-head head-font-1 mb-0">Tag Database</h2>
+      </div>
+      <div class="col-6">
+        <form [formGroup]="searchForm" (ngSubmit)="onSubmit()">
+          <div class="form-group has-search" (keydown.enter)="onSubmit()">
+            <span class="fa fa-search form-control-feedback"></span>
+            <input type="text" class="form-control" formControlName="tag_name" [ngClass]="{ 'is-invalid': submitted && f.tag_name.errors }">
+            <span class="fa fa-times searchCrossIcon" *ngIf="this.searchForm.value.tag_name" (click)="clearSearchField()"></span>
+            <div *ngIf="submitted && f.tag_name.errors" class="invalid-feedback requireMsg">
+              <div *ngIf="f.tag_name.errors.required">Order Id is required.</div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+    <div class="row">
+  
+      <div class="col-12 tagCardSec" id="cardId">
+        <mat-card class = "tp-card" style="min-height: 75%">
+          <mat-card-header>
+             <div mat-card-avatar class = "tp-header-image"></div>
+             <mat-card-title>HTML5</mat-card-title>
+             <mat-card-subtitle>HTML Basics</mat-card-subtitle>
+          </mat-card-header>
+          <mat-card-content>
+             <p>
+                HTML5 is the next major revision of the HTML standard superseding
+                HTML 4.01, XHTML 1.0, and XHTML 1.1. HTML5 is a standard for
+                structuring and presenting content on the World Wide Web.
+             </p>
+          </mat-card-content>
+          <mat-card-actions>
+             <button mat-button>LIKE</button>
+             <button mat-button>SHARE</button>
+          </mat-card-actions>
+       </mat-card>
+       <mat-card class = "bt-card" style="min-height: 25%">
+        <mat-card-header>
+           <div mat-card-avatar class = "tp-header-image"></div>
+           <mat-card-title> Bottom  Card HTML5</mat-card-title>
+           <mat-card-subtitle>HTML Basics</mat-card-subtitle>
+        </mat-card-header>
+       </mat-card>
+        <!-- <div class="tagCreateSec">
+          AAAAAAAAAAAAAAAAAA
+        </div> -->
+        
+      </div>
+    </div>
+  </div>
+  
+  
+</div>

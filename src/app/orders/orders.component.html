@@ -4,7 +4,8 @@
   <div class="row headerSec" *ngIf="!loaderStart">
     <div class="col-6">
       <h2 class="luau-head head-font-1 mb-0">Orders</h2>
-      <h4 class="luau-head head-font-2 ml-1">Pending Order : {{pending_count}}</h4>
+      <h4 class="luau-head head-font-2 ml-1" *ngIf="pending_count==1">Pending Order : {{pending_count}}</h4>
+      <h4 class="luau-head head-font-2 ml-1" *ngIf="pending_count>1">Pending Orders : {{pending_count}}</h4>
     </div>
     <div class="col-6">
       <form [formGroup]="searchForm" (ngSubmit)="onSubmit()">
@@ -68,11 +69,20 @@
                       <div class="prodStyle">Size: {{order.product_details.size}}</div>
                       <div class="prodStyle">Color: {{order.product_details.color}}</div>
                       <div class="prodStyle"><a [href]="createProductUrl(order)" target="_blank">Product URL</a></div>
+                      <div class="prodStyle">
+                        <a *ngIf="order.product_details.tracking_details.tracking_url" href="{{createTrackingUrl(order)}}" target="_blank">Tracking URL</a>
+                        <a *ngIf="!order.product_details.tracking_details.tracking_url">Tracking URL</a>    
+                      </div>
                     </div>
                     <div class="prodStyle">Shipping status:&nbsp; 
-                      <span class="trackData">{{grtShippingStatus(order.product_details)}}&nbsp;</span> 
-                      <a *ngIf="order.product_details.tracking_details.tracking_url" href="{{createTrackingUrl(order)}}" target="_blank">Tracking URL</a>
-                      <a *ngIf="!order.product_details.tracking_details.tracking_url">Tracking URL</a>
+                      <span class="trackData">{{grtShippingStatus(order.product_details)}}</span> 
+                    </div>
+                    <div class="trakingHeader mt-1" *ngIf="order.product_details.tracking_details.tracking_data">SHIPPING ACTIVITY</div>
+                    <div class="trackDetailBlock" *ngIf="order.product_details.tracking_details.tracking_data">
+                      <div class="trackDetailSec" *ngFor="let trackDetail of order.product_details.tracking_details.tracking_data[order.product_details.name].tracking_history?.reverse()">
+                        <div class="prodStyle">{{trackDetail.status_date|date:'MMMMd @ h:mma':'-0000'}}: {{trackDetail.location.city+", "+trackDetail.location.state}}</div>
+                        <div class="prodStyle">{{trackDetail.substatus.text}}</div>
+                      </div>
                     </div>
                   </div>
                 </div>

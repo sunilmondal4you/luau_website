@@ -49,7 +49,7 @@ export class AppComponent {
   ];
   orderViewList2 = [
     {"title": "Product Categories","routLink":"/orders"},
-    {"title": "Tags Database",     "routLink":"/orders"},
+    {"title": "Tags Database",     "routLink":"/tagsdatabaseComponent"},
     {"title": "Order",             "routLink":"/orders"},
     {"title": "Returns",           "routLink":"/orders"}
   ];

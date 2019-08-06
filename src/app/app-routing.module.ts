@@ -10,6 +10,7 @@ import { TermsComponent } from './terms/terms.component';
 import { PrivacyComponent } from './privacy/privacy.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { OrdersComponent } from './orders/orders.component';
+import { TagsdatabaseComponent } from './tagsdatabase/tagsdatabase.component';
 
 const routes: Routes = [
   { path: '',         redirectTo:'./home/home.component', pathMatch: 'full' },
@@ -22,6 +23,7 @@ const routes: Routes = [
   { path: 'privacy',  component: PrivacyComponent,  pathMatch: 'full' },
   { path: 'dashboard',component: DashboardComponent,pathMatch: 'full' },
   { path: 'orders',   component: OrdersComponent,   pathMatch: 'full' },
+  { path: 'tagsdatabaseComponent',   component: TagsdatabaseComponent,   pathMatch: 'full' },
 ];
 
 @NgModule({

@@ -49,6 +49,7 @@ export class OrdersComponent implements OnInit {
     if(product_details.tracking_details.tracking_data){
       let orderTrackingDetail = product_details.tracking_details.tracking_data[product_details.name];
       if(orderTrackingDetail){
+        orderTrackingDetail.tracking_history = orderTrackingDetail.tracking_history.reverse();
         let latestStatus = orderTrackingDetail.tracking_history.length - 1;
         return orderTrackingDetail.tracking_history[latestStatus].status || "";
       }else{

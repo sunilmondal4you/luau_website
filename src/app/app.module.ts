@@ -21,6 +21,9 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { OrdersComponent } from './orders/orders.component';
 import { ModaltemplateComponent } from './modaltemplate/modaltemplate.component';
 import { ConfirmationDialogComponent } from './confirmation-dialog/confirmation-dialog.component';
+import { TagsdatabaseComponent } from './tagsdatabase/tagsdatabase.component';
+import {DemoMaterialModule} from './material-module';
+
 
 @NgModule({
   declarations: [
@@ -36,7 +39,8 @@ import { ConfirmationDialogComponent } from './confirmation-dialog/confirmation-
     DashboardComponent,
     OrdersComponent,
     ModaltemplateComponent,
-    ConfirmationDialogComponent
+    ConfirmationDialogComponent,
+    TagsdatabaseComponent
   ],
   imports: [
     BrowserModule,
@@ -47,7 +51,9 @@ import { ConfirmationDialogComponent } from './confirmation-dialog/confirmation-
     BrowserModule, 
     BrowserAnimationsModule, 
     MatDialogModule, 
-    MatButtonModule
+    MatButtonModule,
+    DemoMaterialModule
+
   ],
   providers: [
     NgbActiveModal
