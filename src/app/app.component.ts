@@ -74,11 +74,11 @@ export class AppComponent {
 
     this.userData = userObj || this.userData;
 
+    let pathFound = false;
     if(this.userData.loggedIn){
       this.apiService.updateUserDetail(this.userData);
-      this.router.navigate(['/orders']);
+      // this.router.navigate(['/orders']);
     }else{
-      let pathFound = false;
       let prodExtension = "/v1/products/"
       let externalLinkFound = window.location.href.includes(prodExtension);     // get true/false
       if(window.location.pathname != "/" && externalLinkFound){
