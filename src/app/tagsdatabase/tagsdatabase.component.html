@@ -21,55 +21,59 @@
     <div class="row">
       <div class="col-12 tagCardSec" id="cardId">
         <mat-card class="tp-card">
-          <table class="table mb-0 tableMargin">
-            <thead>
-              <tr>
-                <th scope="col" class="orderTxt">Tag</th>
-                <th scope="col" colspan="3">Synonyms</th>
-                <th scope="col"></th>
-              </tr>
-            </thead>
-            <tbody>
-              <ng-container *ngFor="let tags of TAG_LIST;let i = index">
-                <tr *ngIf="TAG_LIST.length>0">
-                  <td class="statusMsg">{{tags.tag_name}}</td>
-                  <td class="statusMsg" colspan="3">{{tags.synonyms}}</td>
-                  <td class="statusMsg text-right pr-4">
-                      <span class="cusBadge2" (click)=deleteTagConfirmation(tags)>Delete</span>
+          <div class="tablePdng">
+            <table class="table mb-0 tableMargin">
+              <thead>
+                <tr>
+                  <th scope="col" class="tblHdr1">Tag</th>
+                  <th scope="col" class="tblHdr2" colspan="3">Synonyms</th>
+                  <th scope="col"></th>
+                </tr>
+              </thead>
+              <tbody>
+                <ng-container *ngFor="let tags of TAG_LIST;let i = index">
+                  <tr *ngIf="TAG_LIST.length>0">
+                    <td class="statusMsg">{{tags.tag_name}}</td>
+                    <td class="statusMsg" colspan="3">{{tags.synonyms}}</td>
+                    <td class="statusMsg text-right pr-4">
+                        <span class="cusBadge2" (click)=deleteTagConfirmation(tags)>Delete</span>
+                    </td>
+  
+                    
+                </ng-container>
+                <tr *ngIf="TAG_LIST.length==0" class="noOrderSec">
+                  <td colspan="5">
+                    <h1>No order available!</h1>
                   </td>
-
-                  
-              </ng-container>
-              <tr *ngIf="TAG_LIST.length==0" class="noOrderSec">
-                <td colspan="5">
-                  <h1>No order available!</h1>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </mat-card>
-
-        <mat-card class="bt-card">
-          <mat-card-header>
-            <mat-card-title> Create New Tag</mat-card-title>   
-          </mat-card-header>
-          <form class="pl-2" [formGroup]="tagCreateForm" (ngSubmit)="onCreateTag()">
-            <div class="row">
-              <div class="col-4 form-group">
-                <input type="text" class="form-control luau-inpt" formControlName="tag_name" placeholder="tag" [ngClass]="{ 'is-invalid': submitted && f.tag_name.errors }">
-                <div *ngIf="submitted && f.tag_name.errors" class="invalid-feedback requireMsg">
-                  <div *ngIf="f.tag_name.errors.required">Tag name is required.</div>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          
+          <mat-card class="bt-card">
+            <mat-card-header>
+              <mat-card-title class="mt-2"> Create New Tag</mat-card-title>   
+            </mat-card-header>
+            <form class="pl-4 pr-4" [formGroup]="tagCreateForm" (ngSubmit)="onCreateTag()">
+              <div class="row">
+                <div class="col-4 form-group">
+                  <input type="text" class="form-control luau-inpt" formControlName="tag_name" placeholder="tag name" [ngClass]="{ 'is-invalid': submitted && f.tag_name.errors }">
+                  <div *ngIf="submitted && f.tag_name.errors" class="invalid-feedback requireMsg">
+                    <div *ngIf="f.tag_name.errors.required">Tag name is required.</div>
+                  </div>
+                </div>
+                <div class="col-6 form-group">
+                  <input type="text" class="form-control luau-inpt" formControlName="synonyms" placeholder="synonyms(optional)">
+                </div>
+                <div class="col-2 form-group btn-wrp">
+                  <span class="fas fa-plus-circle plusIcon" (click)="createNewTag()"></span>
                 </div>
               </div>
-              <div class="col-6 form-group">
-                <input type="text" class="form-control luau-inpt" formControlName="synonyms" placeholder="synonyms">
-              </div>
-              <div class="col-2 form-group text-center btn-wrp">
-                <span class="fas fa-plus-circle plusIcon" (click)="createNewTag()"></span>
-              </div>
-            </div>
-          </form>
+            </form>
+          </mat-card>
         </mat-card>
+
+        
       </div>
     </div>
   </div>

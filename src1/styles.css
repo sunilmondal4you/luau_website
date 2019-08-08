@@ -1,5 +1,6 @@
 /* You can add global styles to this file, and also import other style files */
 @import "bootstrap/dist/css/bootstrap.min.css";
+@import "~@angular/material/prebuilt-themes/indigo-pink.css";
 
 @font-face {
     font-family: 'avenir_next_b';
@@ -101,6 +102,7 @@ html, body {
 /* width */
 ::-webkit-scrollbar {
     width: 6px;
+    height: 6px; 
 }
 
 /* Track */

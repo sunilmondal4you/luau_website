@@ -26,7 +26,7 @@ export class AppComponent {
   
   homeLink = [{"title": "Home",     "routLink":"/home"}];
 
-  public innerWidth = window.innerWidth;
+  public innerWidth = screen.width;
   
   linkList = [
     {"title": "Brand Signup",     "routLink":"/brand"},
@@ -49,7 +49,7 @@ export class AppComponent {
   ];
   orderViewList2 = [
     {"title": "Product Categories","routLink":"/orders"},
-    {"title": "Tags Database",     "routLink":"/orders"},
+    {"title": "Tags Database",     "routLink":"/tagsdatabaseComponent"},
     {"title": "Order",             "routLink":"/orders"},
     {"title": "Returns",           "routLink":"/orders"}
   ];
@@ -74,11 +74,11 @@ export class AppComponent {
 
     this.userData = userObj || this.userData;
 
+    let pathFound = false;
     if(this.userData.loggedIn){
       this.apiService.updateUserDetail(this.userData);
-      this.router.navigate(['/orders']);
+      // this.router.navigate(['/orders']);
     }else{
-      let pathFound = false;
       let prodExtension = "/v1/products/"
       let externalLinkFound = window.location.href.includes(prodExtension);     // get true/false
       if(window.location.pathname != "/" && externalLinkFound){
@@ -94,14 +94,14 @@ export class AppComponent {
         });
   
         if(!pathFound){
-          window.location.pathname = "/home"
+          this.router.navigate(['/home']);
         }
       }
     }
   };
 
   onResize(event) {
-    this.innerWidth = window.innerWidth;
+    this.innerWidth = screen.width;
     if (this.innerWidth < 768) { // 768px portrait
       event.target.innerWidth;
       this.mobileView = true;

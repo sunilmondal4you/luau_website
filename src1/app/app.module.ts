@@ -3,6 +3,9 @@ import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { NgbModule, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import {MatDialogModule} from '@angular/material/dialog'; 
+import {MatButtonModule} from '@angular/material/button'; 
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -17,6 +20,10 @@ import { PrivacyComponent } from './privacy/privacy.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { OrdersComponent } from './orders/orders.component';
 import { ModaltemplateComponent } from './modaltemplate/modaltemplate.component';
+import { ConfirmationDialogComponent } from './confirmation-dialog/confirmation-dialog.component';
+import { TagsdatabaseComponent } from './tagsdatabase/tagsdatabase.component';
+import {DemoMaterialModule} from './material-module';
+
 
 @NgModule({
   declarations: [
@@ -31,21 +38,29 @@ import { ModaltemplateComponent } from './modaltemplate/modaltemplate.component'
     PrivacyComponent,
     DashboardComponent,
     OrdersComponent,
-    ModaltemplateComponent
+    ModaltemplateComponent,
+    ConfirmationDialogComponent,
+    TagsdatabaseComponent
   ],
   imports: [
     BrowserModule,
     ReactiveFormsModule,
     HttpClientModule,
     AppRoutingModule,
-    NgbModule.forRoot()
+    NgbModule.forRoot(),
+    BrowserModule, 
+    BrowserAnimationsModule, 
+    MatDialogModule, 
+    MatButtonModule,
+    DemoMaterialModule
+
   ],
   providers: [
     NgbActiveModal
   ],
   bootstrap: [AppComponent],
 
-  entryComponents: [ ModaltemplateComponent ]
+  entryComponents: [ ModaltemplateComponent, ConfirmationDialogComponent ]
 
 })
 export class AppModule { }

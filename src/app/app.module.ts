@@ -2,6 +2,8 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
+import { HttpModule } from '@angular/http';
+
 import { NgbModule, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import {MatDialogModule} from '@angular/material/dialog'; 
 import {MatButtonModule} from '@angular/material/button'; 
@@ -23,6 +25,7 @@ import { ModaltemplateComponent } from './modaltemplate/modaltemplate.component'
 import { ConfirmationDialogComponent } from './confirmation-dialog/confirmation-dialog.component';
 import { TagsdatabaseComponent } from './tagsdatabase/tagsdatabase.component';
 import {DemoMaterialModule} from './material-module';
+import { KeycloakService } from './keycloak.service';
 
 
 @NgModule({
@@ -46,6 +49,7 @@ import {DemoMaterialModule} from './material-module';
     BrowserModule,
     ReactiveFormsModule,
     HttpClientModule,
+    HttpModule,
     AppRoutingModule,
     NgbModule.forRoot(),
     BrowserModule, 
@@ -56,7 +60,8 @@ import {DemoMaterialModule} from './material-module';
 
   ],
   providers: [
-    NgbActiveModal
+    NgbActiveModal,
+    KeycloakService
   ],
   bootstrap: [AppComponent],
 

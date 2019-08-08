@@ -3,7 +3,9 @@
   <div class="loader" *ngIf="loaderStart"></div>
   <div class="row headerSec" *ngIf="!loaderStart">
     <div class="col-6">
-      <h2 class="luau-head">Orders</h2>
+      <h2 class="luau-head head-font-1 mb-0">Orders</h2>
+      <h4 class="luau-head head-font-2 ml-1" *ngIf="pending_count==1">Pending Order : {{pending_count}}</h4>
+      <h4 class="luau-head head-font-2 ml-1" *ngIf="pending_count>1">Pending Orders : {{pending_count}}</h4>
     </div>
     <div class="col-6">
       <form [formGroup]="searchForm" (ngSubmit)="onSubmit()">
@@ -17,28 +19,43 @@
         </div>
       </form>
     </div>
-    <div class="col-12 cardSec">
-      <table class="table mb-0" style="margin-top:-.5px">
+    <div class="col-12 cardSec" id="cardId">
+      <table class="table mb-0 tableMargin">
         <thead>
           <tr>
             <th scope="col" class="orderTxt">Order</th>
-            <th scope="col">Status</th>
-            <th scope="col">Retailer</th>
+            <th scope="col" class="text-center">Name</th>
+            <th scope="col" class="text-center">Status</th>
+            <th scope="col" class="text-center">Retailer</th>
+            <th scope="col" class="text-center">Price Diff.</th>
+            <th scope="col emailScraping" class=" text-center">Email Scraping</th>
             <th scope="col"></th>
             <th scope="col"></th>
-            <th scope="col emailScraping"></th>
+            <th scope="col" class=" text-center">Cancel Order</th>
           </tr>
         </thead>
         <tbody>
-          <ng-container *ngFor="let order of orderList">
+          <ng-container *ngFor="let order of orderList;let i = index">
             <tr *ngIf="order.order_status && orderList.length>0">
-              <td><label class="cusId">{{order.id}}</label>
+              <td><label class="cusId">#{{order.id}}</label>
                 <p class="cusHr">{{order.timestamp}}</p>
               </td>
-              <td class="statusMsg">{{order.order_status}}</td>
-              <td class="statusMsg" style="padding: 7px 15px">
-                <img [src]="imgURL" class="retailerImg">
-                <!-- <img [src]="order.retailder_logo" class="retailerImg" alt="order.retailder_alt_logo"> -->
+              <td class="statusMsg text-center">{{order.order_details.username}}</td>
+              <td class="statusMsg text-center">{{order.order_status}}</td>
+              <td class="statusMsg text-center statusImg">
+                <img [src]="order.retailer_logo" class="retailerImg">
+              </td>
+              <td class="statusMsg text-center" [style.color]="getDifferentialColor(order.product_details)" *ngIf="order.product_details.money_differential">{{"$"+order.product_details.money_differential_disp || order.product_details.money_differential}}</td>
+              <td class="statusMsg text-center" *ngIf="!order.product_details.money_differential">--</td>
+              <td class="v-mid emailScraping text-center">
+                <div class="p-rel detailCard">
+                  <span class="cusBadge2" (click)="selcOrderId3 = order.id">Status</span>
+                  <div class="OrderDetailSec" *ngIf="selcOrderId3 == order.id">
+                    <div class="oSec">
+                      <div class="orderParam2">{{order.status_msg || "No data available"}}</div>
+                    </div>
+                  </div>
+                </div>
               </td>
               <td class="v-mid">
                 <div class="p-rel productCard">
@@ -52,22 +69,46 @@
                       <div class="prodStyle">Size: {{order.product_details.size}}</div>
                       <div class="prodStyle">Color: {{order.product_details.color}}</div>
                       <div class="prodStyle"><a [href]="createProductUrl(order)" target="_blank">Product URL</a></div>
+                      <div class="prodStyle">
+                        <a *ngIf="order.product_details.tracking_details.tracking_url" href="{{createTrackingUrl(order)}}" target="_blank">Tracking URL</a>
+                        <a *ngIf="!order.product_details.tracking_details.tracking_url">Tracking URL</a>    
+                      </div>
                     </div>
                     <div class="prodStyle">Shipping status:&nbsp; 
-                      <span class="trackData">{{grtShippingStatus(order.product_details)}}&nbsp;</span> 
-                      <a *ngIf="order.product_details.tracking_details.tracking_url" href="{{createTrackingUrl(order)}}" target="_blank">Tracking URL</a>
-                      <a *ngIf="!order.product_details.tracking_details.tracking_url">Tracking URL</a>
+                      <span class="trackData">{{grtShippingStatus(order.product_details)}}</span> 
+                    </div>
+                    <div class="trakingHeader mt-1" *ngIf="order.product_details.tracking_details.tracking_data">SHIPPING ACTIVITY</div>
+                    <div class="trackDetailBlock" *ngIf="order.product_details.tracking_details.tracking_data">
+                      <div class="trackDetailSec" *ngFor="let trackDetail of order.product_details.tracking_details.tracking_data[order.product_details.name].tracking_history?.reverse()">
+                        <div class="prodStyle">{{trackDetail.status_date|date:'MMMMd @ h:mma':'-0000'}}: {{trackDetail.location.city+", "+trackDetail.location.state}}</div>
+                        <div class="prodStyle">{{trackDetail.substatus.text}}</div>
+                      </div>
                     </div>
                   </div>
                 </div>
               </td>
               <td class="v-mid">
-                <div class="p-rel detailCard">
-                  <span class="cusBadge2" (click)="selcOrderId2 = order.id">Order Detail</span>
-                  <div class="OrderDetailSec" *ngIf="selcOrderId2 == order.id">
+                <div class="p-rel detailCard" id="orderBtnId">
+                  <span class="cusBadge2" (click)="selcOrderId2 = order.id;positionByIndex(i)">Order Detail</span>
+                  <div class="OrderDetailSec" id="orderBoxId" [ngClass]="{'positionBottom': i>3}" *ngIf="selcOrderId2 == order.id">
+                    <div class="oSec">
+                      <div class="orderParam1">Order Place Time </div>
+                      <div class="orderParam2">{{order.time}}</div>
+                    </div>
                     <div class="oSec">
                       <div class="orderParam1">Address</div>
-                      <div class="orderParam2">{{order.order_details.shipping_address.address_line_one}}, {{order.order_details.shipping_address.zip_code}}</div>
+                      <div class="orderParam2">
+                        {{order.order_details.shipping_address.first_name}} 
+                        {{order.order_details.shipping_address.last_name}}
+                      </div>
+                      <div class="orderParam2 addressFront">{{order.order_details.shipping_address.address_line_one}}, 
+                        <span *ngIf="order.order_details.shipping_address.address_line_two">{{order.order_details.shipping_address.address_line_two}}, </span>
+                        <span *ngIf="order.order_details.shipping_address.city">{{order.order_details.shipping_address.city}}, </span>
+                        <span *ngIf="order.order_details.shipping_address.state">{{order.order_details.shipping_address.state}}, </span>
+                        <span *ngIf="order.order_details.shipping_address.country">{{order.order_details.shipping_address.country}}, </span>
+                        <span *ngIf="order.order_details.shipping_address.zip_code">{{order.order_details.shipping_address.zip_code}}, </span>
+                        <span *ngIf="order.order_details.shipping_address.phone_number">{{order.order_details.shipping_address.phone_number}}, </span>
+                      </div>
                     </div>
                     <div class="oSec">
                       <div class="orderParam1">Payment</div>
@@ -87,28 +128,26 @@
                   </div>
                 </div>
               </td>
-              <td class="v-mid emailScraping">
-                <div class="p-rel detailCard">
-                  <span class="cusBadge2" (click)="selcOrderId3 = order.id">Email Scraping Status</span>
-                  <div class="OrderDetailSec" *ngIf="selcOrderId3 == order.id">
-                    <div class="oSec">
-                      <div class="orderParam2">{{order.status_msg || "No data available"}}</div>
-                    </div>
-                  </div>
-                </div>
+              <td class="v-mid emailScraping text-center">
+                <span class="cusBadge2" *ngIf="(order.order_status=='Pending') && (order.order_placement_status!='0')" (click)="orderCancel(order)">Cancel</span>
+                <span class="cusBadge2" *ngIf="order.order_placement_status == '0'" style="cursor: no-drop">Cancelled</span>
+                <span class="cusBadge2" *ngIf="(order.order_status!='Pending') && (order.order_placement_status!='0')" style="cursor: no-drop">Cancel</span>
               </td>
             </tr>
           </ng-container>
           <tr *ngIf="orderList.length==0" class="noOrderSec">
-            <td colspan="6">
+            <td colspan="9">
               <h1>No order available!</h1>
             </td>
           </tr>
         </tbody>
       </table>
     </div>
-    <div class="col-12 p-0">
+    <div class="col-12 p-0" *ngIf="allItemLen && allItemLen>10">
       <ul class="pagination justify-content-end" *ngIf="pager.pages && pager.pages.length" >
+        <li class="page-item" [ngClass]="{disabled:pager.currentPage === 1}">
+          <a class="page-link" (click)="setPage(1)">First</a>
+        </li>
         <li class="page-item" [ngClass]="{disabled:pager.currentPage === 1}">
           <a class="page-link" (click)="setPage(pager.currentPage - 1)">Previous</a>
         </li>
@@ -117,6 +156,9 @@
         </li>
         <li class="page-item" [ngClass]="{disabled:pager.currentPage === pager.totalPages}">
           <a class="page-link" (click)="setPage(pager.currentPage + 1)">Next</a>
+        </li>
+        <li class="page-item" [ngClass]="{disabled:pager.currentPage === pager.totalPages}">
+          <a class="page-link" (click)="setPage(pager.totalPages)">Last</a>
         </li>
       </ul>
     </div>

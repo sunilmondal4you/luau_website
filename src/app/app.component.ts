@@ -4,6 +4,11 @@ import { ApiService } from './api.service';
 import { UAParser } from '../assets/ua-parser';
 import { Router } from '@angular/router';
 import { CommonService } from './common.service';
+import { KeycloakService } from './keycloak.service';
+import { Http, Headers, RequestOptions, Response } from '@angular/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-root',
@@ -11,17 +16,23 @@ import { CommonService } from './common.service';
   styleUrls: ['./app.component.css'],
 })
 export class AppComponent {
+  config = new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded');
+
   title = 'Luau Website';
   imgPath = "./assets/img/logo.png";
   public mobileView = false;
   showNavLink = false;
   pageOpen = false;
   public userData:any = {};
+  products: string[] = [];
 
   constructor(
     private apiService: ApiService,
     private router: Router,
     private commonService: CommonService,
+    private http: HttpClient,
+    // private http: Http,
+    private kc: KeycloakService
   ) { };
   
   homeLink = [{"title": "Home",     "routLink":"/home"}];
@@ -58,6 +69,7 @@ export class AppComponent {
   ];
 
   ngOnInit() {
+    this.reloadData();
     this.apiService.userObjObserveable.subscribe((data) => {
       this.userData = data;
     });
@@ -99,6 +111,30 @@ export class AppComponent {
       }
     }
   };
+
+  reloadData() {
+    let reqObj = {
+      "client_id" : "luau-app",
+      "client_secret" : "c8c393b3-b9f0-4aa1-988c-7f12d4caacd7",
+      "grant_type" : "client_credentials"
+    }
+    this.http.post('https://dev.keycloak.luauet.com/auth/realms/luau-dev/protocol/openid-connect/token', reqObj, { headers: this.config }).subscribe((res:any)=>{
+      if(res){
+        if(res.status == "success"){
+          console.log("System data send successfully")
+        }
+      }else{
+        console.log("Post api call for token fails")
+      }
+    },
+    (error) => {
+      if(error.status==401){
+        this.commonService.clearStorage("home");
+      }else{
+        this.commonService.modalOpenMethod(error.message)        
+      }
+    });
+  }
 
   onResize(event) {
     this.innerWidth = screen.width;

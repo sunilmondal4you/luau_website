@@ -2,14 +2,18 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import * as sha512 from 'js-sha512';
-import * as _ from 'underscore';
+import * as _underscore from 'underscore';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ApiService {
-  apiURL: string = 'https://prod.api.luauet.com/luau-api/scripts/';
-  // apiURL: string = 'http://192.168.1.52/luau-api/scripts/';
+  apiURLProd: string = 'https://prod.api.luauet.com/luau-api/scripts/';
+  apiURLStaging: string = 'http://dev.api.luauet.com/luau-api/scripts/';
+
+  // apiURLDev: string = 'https://prod.api.luauet.com/luau-api/scripts/';
+  apiURLDev: string = 'http://dev.api.luauet.com/luau-api/scripts/';
+  // apiURLDev: string = 'http://192.168.1.52/luau-api/scripts/';
   config = new HttpHeaders().set('Content-Type', 'application/json; charset=utf-8');
   hashSalt = "#$%@SaltCreationForAuthentication#$%@";
 
@@ -29,7 +33,16 @@ export class ApiService {
       customdata.authToken = sha512.sha512(hashkey);
     }
     
-    let finalApi = `${this.apiURL}`+ customdata.apiExt;
+    let apiURL;
+    if(window.location.host=="luauet.com"){
+      apiURL=this.apiURLProd;
+    }else if(window.location.host=="dev.dashboard.luauet.com")
+      apiURL=this.apiURLStaging;
+    else {
+      apiURL=this.apiURLDev;
+    }
+
+    let finalApi = `${apiURL}`+ customdata.apiExt;
     return this.http.post(finalApi,customdata,{ headers: this.config });
   };
 
@@ -64,7 +77,7 @@ export class ApiService {
     let endIndex = Math.min(startIndex + pageSize - 1, totalItems - 1);
 
     // create an array of pages to ng-repeat in the pager control
-    let pages = _.range(startPage, endPage + 1);
+    let pages = _underscore.range(startPage, endPage + 1);
 
     // return object with all pager properties required by the view
     return {
