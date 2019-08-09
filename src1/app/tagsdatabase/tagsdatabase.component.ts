@@ -22,8 +22,6 @@ export class TagsdatabaseComponent implements OnInit {
   tagCreateForm: FormGroup;
   loaderStart = false;
   submitted = false;
-  formSubmitted = false;
-
 
   TAG_LIST: PeriodicElement[] = [
     {"tag_name": "Brand Signup",     "synonyms":"brand"},
@@ -65,7 +63,6 @@ export class TagsdatabaseComponent implements OnInit {
   get f() { return (this.searchForm.controls && this.tagCreateForm.controls)};
 
   getTagList(){
-    this.submitted = false;
     // this.loaderStart = true;
     let tagListReqObj = {
       "page" : this.userData.userDetail.page || 0,
@@ -92,7 +89,6 @@ export class TagsdatabaseComponent implements OnInit {
   };
 
   clearSearchField(){
-    this.submitted = false;
     this.searchForm = this.formBuilder.group({
       tag_name: ['', Validators.required],
     });
@@ -100,7 +96,6 @@ export class TagsdatabaseComponent implements OnInit {
 
   onTagSsearch() {
     if(this.searchForm.value.tag_name=="") {
-      this.submitted = true;
       this.getTagList();
     }else{
       let searchObj = {
@@ -112,7 +107,6 @@ export class TagsdatabaseComponent implements OnInit {
       // this.apiService.customPostApiCall(searchObj).subscribe((res:any)=>{
       //   if(res){
       //     if(res.objects){
-          // this.submitted = false;
       //       this.TAG_LIST = res.objects || [];
       //     }
       //   }else{
@@ -130,7 +124,7 @@ export class TagsdatabaseComponent implements OnInit {
   };
 
   createNewTag() {
-    this.formSubmitted = true;
+    this.submitted = true;
 
     // stop here if form is invalid
     if(this.tagCreateForm.invalid) {
@@ -146,7 +140,7 @@ export class TagsdatabaseComponent implements OnInit {
       //   if(res){
       //     if(res.status == "success"){
       //       this.ngOnInit();
-      //       this.formSubmitted = false;
+      //       this.submitted = false;
       //     }
       //     this.commonService.modalOpenMethod(res.message);
       //   }else{

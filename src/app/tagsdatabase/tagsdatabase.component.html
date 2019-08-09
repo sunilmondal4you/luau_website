@@ -57,8 +57,8 @@
             <form class="pl-4 pr-4" [formGroup]="tagCreateForm" (ngSubmit)="onCreateTag()">
               <div class="row">
                 <div class="col-4 form-group">
-                  <input type="text" class="form-control luau-inpt" formControlName="tag_name" placeholder="tag name" [ngClass]="{ 'is-invalid': submitted && f.tag_name.errors }">
-                  <div *ngIf="submitted && f.tag_name.errors" class="invalid-feedback requireMsg">
+                  <input type="text" class="form-control luau-inpt" formControlName="tag_name" placeholder="tag name" [ngClass]="{ 'is-invalid': formSubmitted && f.tag_name.errors }">
+                  <div *ngIf="formSubmitted && f.tag_name.errors" class="invalid-feedback requireMsg">
                     <div *ngIf="f.tag_name.errors.required">Tag name is required.</div>
                   </div>
                 </div>
@@ -71,9 +71,7 @@
               </div>
             </form>
           </mat-card>
-        </mat-card>
-
-        
+        </mat-card>        
       </div>
     </div>
   </div>
