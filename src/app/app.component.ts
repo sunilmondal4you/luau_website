@@ -4,7 +4,6 @@ import { ApiService } from './api.service';
 import { UAParser } from '../assets/ua-parser';
 import { Router } from '@angular/router';
 import { CommonService } from './common.service';
-import { KeycloakService } from './keycloak.service';
 import { Http, Headers, RequestOptions, Response } from '@angular/http';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
@@ -32,7 +31,6 @@ export class AppComponent {
     private commonService: CommonService,
     private http: HttpClient,
     // private http: Http,
-    private kc: KeycloakService
   ) { };
   
   homeLink = [{"title": "Home",     "routLink":"/home"}];

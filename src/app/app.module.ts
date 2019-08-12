@@ -25,7 +25,6 @@ import { ModaltemplateComponent } from './modaltemplate/modaltemplate.component'
 import { ConfirmationDialogComponent } from './confirmation-dialog/confirmation-dialog.component';
 import { TagsdatabaseComponent } from './tagsdatabase/tagsdatabase.component';
 import {DemoMaterialModule} from './material-module';
-import { KeycloakService } from './keycloak.service';
 
 
 @NgModule({
@@ -57,11 +56,9 @@ import { KeycloakService } from './keycloak.service';
     MatDialogModule, 
     MatButtonModule,
     DemoMaterialModule
-
   ],
   providers: [
     NgbActiveModal,
-    KeycloakService
   ],
   bootstrap: [AppComponent],
 

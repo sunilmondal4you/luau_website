@@ -36,6 +36,11 @@ export class TagsdatabaseComponent implements OnInit {
     {"tag_name": "Customer Service", "synonyms":"services"},
     {"tag_name": "Support",          "synonyms":"support"},
     {"tag_name": "Dashboard",        "synonyms":"dashboard"},
+    {"tag_name": "Brand Signup",     "synonyms":"brand"},
+    {"tag_name": "Press Inquiries",  "synonyms":"inquiries"},
+    {"tag_name": "Customer Service", "synonyms":"services"},
+    {"tag_name": "Support",          "synonyms":"support"},
+    {"tag_name": "Dashboard",        "synonyms":"dashboard"},
   ];
 
   constructor(
