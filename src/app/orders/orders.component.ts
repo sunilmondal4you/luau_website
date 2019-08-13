@@ -73,7 +73,7 @@ export class OrdersComponent implements OnInit {
         this.allItemLen = res.order_count;
         this.pending_count = res.pending_count || 0;
         this.setPage((this.userData.userDetail.page+1) || 1);
-        console.log(JSON.stringify(res));
+        // console.log(JSON.stringify(res));
       }else{
         this.loaderStart = false;
         this.commonService.modalOpenMethod("Something wents wrong on Order Call!");

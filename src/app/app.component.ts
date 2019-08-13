@@ -1,11 +1,10 @@
 import { Component } from '@angular/core';
-import { IfStmt } from '@angular/compiler';
 import { ApiService } from './api.service';
+import { TokenService } from './token.service';
 import { UAParser } from '../assets/ua-parser';
 import { Router } from '@angular/router';
 import { CommonService } from './common.service';
-import { Http, Headers, RequestOptions, Response } from '@angular/http';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 
 import { map } from 'rxjs/operators';
 
@@ -30,7 +29,6 @@ export class AppComponent {
     private router: Router,
     private commonService: CommonService,
     private http: HttpClient,
-    // private http: Http,
   ) { };
   
   homeLink = [{"title": "Home",     "routLink":"/home"}];
@@ -57,81 +55,95 @@ export class AppComponent {
     {"title": "Feed Widgets",     "routLink":"/orders"}
   ];
   orderViewList2 = [
-    {"title": "Product Categories","routLink":"/orders"},
+    {"title": "Product Categories","routLink":"/categotiesComponent"},
     {"title": "Tags Database",     "routLink":"/tagsdatabaseComponent"},
     {"title": "Order",             "routLink":"/orders"},
     {"title": "Returns",           "routLink":"/orders"}
   ];
+  allLinkList2 = this.homeLink.concat(this.orderViewList1, this.orderViewList2);
+
   footerOrderList = [
     {"title": "Log out",   "routLink":"/orders"},
   ];
 
   ngOnInit() {
-    this.reloadData();
     this.apiService.userObjObserveable.subscribe((data) => {
       this.userData = data;
-    });
+      this.getKeycloakToken();
 
-    if (window.innerWidth < 768) { // 768px portrait
-      this.mobileView = true;
-      this.pageOpen = false;
-      this.innerWidth = window.innerWidth;
-    }
-
-    /** get ueser object from Session storage **/
-    let userObj:any = localStorage.getItem("userObj");
-    userObj = JSON.parse(userObj);
-
-    this.userData = userObj || this.userData;
-
-    let pathFound = false;
-    if(this.userData.loggedIn){
-      this.apiService.updateUserDetail(this.userData);
-      // this.router.navigate(['/orders']);
-    }else{
-      let prodExtension = "/v1/products/"
-      let externalLinkFound = window.location.href.includes(prodExtension);     // get true/false
-      if(window.location.pathname != "/" && externalLinkFound){
-        let prod_id = window.location.pathname.substr(prodExtension.length);
-        this.deeplinkingPostCall(Number(prod_id)); 
+      if (window.innerWidth < 768) { // 768px portrait
+        this.mobileView = true;
+        this.pageOpen = false;
+        this.innerWidth = window.innerWidth;
+      }
   
-        window.location.href='https://itunes.apple.com/in/app/luau-modern-shopping/id1348751802?mt=8';
+      /** get ueser object from Session storage **/
+      let userObj:any = localStorage.getItem("userObj");
+      userObj = JSON.parse(userObj);
+  
+      this.userData = userObj || this.userData;
+  
+      let pathFound = false;
+      if(this.userData.loggedIn){
+        // this.apiService.updateUserDetail(this.userData);
+        // this.router.navigate(['/orders']);
       }else{
-        this.allLinkList.forEach(obj => {
-          if(obj.routLink == window.location.pathname){
-            pathFound = true;
+        let prodExtension = "/v1/products/"
+        let externalLinkFound = window.location.href.includes(prodExtension);     // get true/false
+        if(window.location.pathname != "/" && externalLinkFound){
+          let prod_id = window.location.pathname.substr(prodExtension.length);
+          this.deeplinkingPostCall(Number(prod_id)); 
+    
+          window.location.href='https://itunes.apple.com/in/app/luau-modern-shopping/id1348751802?mt=8';
+        }else{
+          this.allLinkList.forEach(obj => {
+            if(obj.routLink == window.location.pathname){
+              pathFound = true;
+            }
+          });
+    
+          if(!pathFound){
+            this.router.navigate(['/home']);
           }
-        });
-  
-        if(!pathFound){
-          this.router.navigate(['/home']);
         }
       }
-    }
+    });
+
+    
   };
 
-  reloadData() {
-    let reqObj = {
-      "client_id" : "luau-app",
-      "client_secret" : "c8c393b3-b9f0-4aa1-988c-7f12d4caacd7",
-      "grant_type" : "client_credentials"
-    }
-    this.http.post('https://dev.keycloak.luauet.com/auth/realms/luau-dev/protocol/openid-connect/token', reqObj, { headers: this.config }).subscribe((res:any)=>{
-      if(res){
-        if(res.status == "success"){
-          console.log("System data send successfully")
-        }
-      }else{
-        console.log("Post api call for token fails")
-      }
-    },
-    (error) => {
-      if(error.status==401){
-        this.commonService.clearStorage("home");
-      }else{
-        this.commonService.modalOpenMethod(error.message)        
+  getKeycloakToken() {
+    const params = new HttpParams({
+      fromObject: {
+        client_id: "luau-app",
+        client_secret: "c8c393b3-b9f0-4aa1-988c-7f12d4caacd7",
+        grant_type: "client_credentials"
       }
     });
+
+    if(!this.userData.userDetail.refresh_token){
+      this.http.post('https://dev.keycloak.luauet.com/auth/realms/luau-dev/protocol/openid-connect/token', params, { headers: this.config }).subscribe((res:any)=>{
+        if(res){
+          if(res.refresh_expires_in>0){
+            this.userData.userDetail.access_token = res.access_token;
+            this.userData.userDetail.refresh_token = res.refresh_token;
+  
+            this.apiService.updateUserDetail(this.userData);
+            localStorage.setItem('userObj', JSON.stringify(this.userData));
+
+          }
+        }else{
+          console.log("Post api call for token fails")
+        }
+      },
+      (error) => {
+        if(error.status==401){
+          this.commonService.clearStorage("home");
+        }else{
+          this.commonService.modalOpenMethod(error.message)        
+        }
+      });
+    }
   }
 
   onResize(event) {
@@ -216,6 +228,7 @@ export class AppComponent {
     this.apiService.customPostApiCall(reqObj).subscribe((res:any)=>{
       if(res.status == "success"){
         this.updateUserDetail();
+        this.showNavLink = false
       }else{
         this.commonService.modalOpenMethod(res.message);
       }

@@ -24,7 +24,11 @@ import { OrdersComponent } from './orders/orders.component';
 import { ModaltemplateComponent } from './modaltemplate/modaltemplate.component';
 import { ConfirmationDialogComponent } from './confirmation-dialog/confirmation-dialog.component';
 import { TagsdatabaseComponent } from './tagsdatabase/tagsdatabase.component';
+import { ProductcategoriesComponent } from './productcategories/productcategories.component';
 import {DemoMaterialModule} from './material-module';
+
+import { map } from 'rxjs/operators';
+
 
 
 @NgModule({
@@ -42,7 +46,8 @@ import {DemoMaterialModule} from './material-module';
     OrdersComponent,
     ModaltemplateComponent,
     ConfirmationDialogComponent,
-    TagsdatabaseComponent
+    TagsdatabaseComponent,
+    ProductcategoriesComponent
   ],
   imports: [
     BrowserModule,
@@ -55,7 +60,7 @@ import {DemoMaterialModule} from './material-module';
     BrowserAnimationsModule, 
     MatDialogModule, 
     MatButtonModule,
-    DemoMaterialModule
+    DemoMaterialModule,
   ],
   providers: [
     NgbActiveModal,

@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild} from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ApiService } from './../api.service';
+import { TokenService } from './../token.service';
 import { CommonService } from './../common.service';
 import * as _underscore from 'underscore';
 import {MatDialog} from '@angular/material';
@@ -23,6 +24,7 @@ export class TagsdatabaseComponent implements OnInit {
   loaderStart = false;
   submitted = false;
   formSubmitted = false;
+  getcalled = false;
 
 
   TAG_LIST: PeriodicElement[] = [
@@ -46,6 +48,7 @@ export class TagsdatabaseComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder, 
     private apiService : ApiService,
+    private tokenService : TokenService,
     private commonService: CommonService,
     private dialogRef: MatDialog,
   ) { }
@@ -54,9 +57,12 @@ export class TagsdatabaseComponent implements OnInit {
   ngOnInit() {
     this.apiService.userObjObserveable.subscribe((data) => {
       this.userData = data;
+      if(!this.userData.userDetail.refresh_token){
+        this.getKeycloakToken();
+      }else{
+        this.getTagList();
+      }
     });
-
-    this.getTagList();
 
     this.searchForm = this.formBuilder.group({
       tag_name: ['', Validators.required],
@@ -69,31 +75,58 @@ export class TagsdatabaseComponent implements OnInit {
   }
   get f() { return (this.searchForm.controls && this.tagCreateForm.controls)};
 
-  getTagList(){
-    this.submitted = false;
-    // this.loaderStart = true;
-    let tagListReqObj = {
-      "page" : this.userData.userDetail.page || 0,
-      "user_id": this.userData.userDetail.user_id || 1,
-      "token": this.userData.userDetail.token,
-      "apiExt"    : "luauet-get-tag-data.php",
+  getKeycloakToken() {
+    if(!this.userData.userDetail.access_token){
+      this.tokenService.tokenPostCall().subscribe((res:any)=>{
+        if(res){
+          if(res.refresh_expires_in>0){
+            this.userData.userDetail.access_token = res.access_token;
+            this.userData.userDetail.refresh_token = res.refresh_token;
+            this.getTagList();
+          }
+        }else{
+          console.log("Post api call for token fails")
+        }
+      },
+      (error) => {
+        if(error){
+
+        }
+      });
     }
-    // this.apiService.customPostApiCall(tagListReqObj).subscribe((res:any)=>{
-    //   if(res){
-    //     this.loaderStart = false;
-    //     this.TAG_LIST = res.objects || [];
-    //   }else{
-    //     this.loaderStart = false;
-    //     this.commonService.modalOpenMethod("Something wents wrong on Order Call!");
-    //   }
-    // },
-    // (error) => {
-    //   if(error.status==401){
-    //     this.commonService.clearStorage("dashboard");
-    //   }else{
-    //     this.commonService.modalOpenMethod(error.message);
-    //   }
-    // });
+  };
+
+  getTagList(){
+    if(!this.getcalled){
+      this.submitted = false;
+      // this.loaderStart = true;
+      let tagListReqObj = {
+        "size"    : 10,
+        "page"    : 0,
+        "apiExt"  : "products-tags",
+        "access_token"   : this.userData.userDetail.access_token,
+
+      }
+      this.apiService.olympusmonsGetApiCall(tagListReqObj).subscribe((res:any)=>{
+        this.getcalled = true;
+  
+        if(res){
+          // this.loaderStart = false;
+          this.TAG_LIST = res.objects || [];
+        }else{
+          this.loaderStart = false;
+          this.commonService.modalOpenMethod("Something wents wrong on Order Call!");
+        }
+      },
+      (error) => {
+        this.getcalled = true;
+        // if(error.status==401){
+        //   this.commonService.clearStorage("dashboard");
+        // }else{
+        //   this.commonService.modalOpenMethod(error.message);
+        // }
+      });
+    }
   };
 
   clearSearchField(){
@@ -111,10 +144,10 @@ export class TagsdatabaseComponent implements OnInit {
       let searchObj = {
         "user_id"  : this.userData.userDetail.user_id,
         "tage_name": this.searchForm.value.tag_name,
-        "token"    : this.userData.userDetail.token,
+        "token"    : this.userData.userDetail.refresh_token,
         "apiExt"   : "luauet-search-tag.php",
       };
-      // this.apiService.customPostApiCall(searchObj).subscribe((res:any)=>{
+      // this.apiService.olympusmonsGetApiCall(searchObj).subscribe((res:any)=>{
       //   if(res){
       //     if(res.objects){
           // this.submitted = false;
@@ -144,10 +177,10 @@ export class TagsdatabaseComponent implements OnInit {
       let createTagObj = {
         "tag_name"        : this.tagCreateForm.value.tag_name,
         "synonyms"        : this.tagCreateForm.value.synonyms,
-        "authToken"       : this.userData.userDetail.token,
+        "authToken"       : this.userData.userDetail.refresh_token,
         "apiExt"          : "brand_signup.php",
       };
-      // this.apiService.customPostApiCall(createTagObj).subscribe((res:any)=>{
+      // this.apiService.olympusmonsPostApiCall(createTagObj).subscribe((res:any)=>{
       //   if(res){
       //     if(res.status == "success"){
       //       this.ngOnInit();
@@ -185,10 +218,10 @@ export class TagsdatabaseComponent implements OnInit {
       "tag_name" : selTag.local_order_id,
       "synonyms" : selTag.product_details.name,
       "user_id"  : this.userData.userDetail.user_id,
-      "token"    : this.userData.userDetail.token,
+      "token"    : this.userData.userDetail.refresh_token,
       "apiExt"   : "luauet-delete-tag.php",
     }
-    // this.apiService.customPostApiCall(deleteTagObj).subscribe((res:any)=>{
+    // this.apiService.olympusmonsDelApiCall(deleteTagObj).subscribe((res:any)=>{
     //   if(res){
     //     this.commonService.modalOpenMethod(res.message);
     //     this.getTagList();
