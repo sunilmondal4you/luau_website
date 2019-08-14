@@ -80,6 +80,7 @@ export class OrdersComponent implements OnInit {
       }
     },
     (error) => {
+      this.loaderStart = false;
       if(error.status==401){
         this.commonService.clearStorage("dashboard");
       }else{

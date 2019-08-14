@@ -26,6 +26,7 @@ export class AppComponent {
 
   constructor(
     private apiService: ApiService,
+    private tokenService : TokenService,
     private router: Router,
     private commonService: CommonService,
     private http: HttpClient,
@@ -63,7 +64,7 @@ export class AppComponent {
   allLinkList2 = this.homeLink.concat(this.orderViewList1, this.orderViewList2);
 
   footerOrderList = [
-    {"title": "Log out",   "routLink":"/orders"},
+    {"title": "Log out",   "routLink":"/home"},
   ];
 
   ngOnInit() {
@@ -113,37 +114,16 @@ export class AppComponent {
   };
 
   getKeycloakToken() {
-    const params = new HttpParams({
-      fromObject: {
-        client_id: "luau-app",
-        client_secret: "c8c393b3-b9f0-4aa1-988c-7f12d4caacd7",
-        grant_type: "client_credentials"
+    this.tokenService.tokenPostCall().subscribe((res:any)=>{
+      if(res){
+        if(res.refresh_token){
+          this.userData.userDetail.access_token = res.access_token;
+          this.userData.userDetail.refresh_token = res.refresh_token;
+          this.apiService.updateUserDetail(this.userData);
+          localStorage.setItem('userObj', JSON.stringify(this.userData));
+        }
       }
     });
-
-    if(!this.userData.userDetail.refresh_token){
-      this.http.post('https://dev.keycloak.luauet.com/auth/realms/luau-dev/protocol/openid-connect/token', params, { headers: this.config }).subscribe((res:any)=>{
-        if(res){
-          if(res.refresh_expires_in>0){
-            this.userData.userDetail.access_token = res.access_token;
-            this.userData.userDetail.refresh_token = res.refresh_token;
-  
-            this.apiService.updateUserDetail(this.userData);
-            localStorage.setItem('userObj', JSON.stringify(this.userData));
-
-          }
-        }else{
-          console.log("Post api call for token fails")
-        }
-      },
-      (error) => {
-        if(error.status==401){
-          this.commonService.clearStorage("home");
-        }else{
-          this.commonService.modalOpenMethod(error.message)        
-        }
-      });
-    }
   }
 
   onResize(event) {
@@ -235,6 +215,8 @@ export class AppComponent {
     },
     (error) => {
       if(error.status==401){
+        this.updateUserDetail();
+        this.showNavLink = false
         this.commonService.clearStorage("dashboard");
       }else{
         this.commonService.modalOpenMethod(error.message)        
@@ -243,11 +225,13 @@ export class AppComponent {
   };
 
   updateUserDetail(){
+    this.userData.loggedIn = false;
     let updateReqObj = {
       "loggedIn" : false,
       "userDetail":{ },
     }
     this.apiService.updateUserDetail(updateReqObj);
+    this.userData = updateReqObj;
     localStorage.removeItem("userObj");
     this.router.navigate(['/home']);
   };

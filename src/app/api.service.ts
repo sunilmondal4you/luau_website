@@ -17,6 +17,8 @@ export class ApiService {
   config = new HttpHeaders().set('Content-Type', 'application/json; charset=utf-8');
   hashSalt = "#$%@SaltCreationForAuthentication#$%@";
 
+  omBaseURL = "http://dev.olympusmons.luauet.com/luau/v1/";
+
   private userObj = new BehaviorSubject<any>({"loggedIn":false,"userDetail":{},"modalObj":{}});
   public userObjObserveable = this.userObj.asObservable();
   
@@ -93,44 +95,23 @@ export class ApiService {
     };
   };
 
-  olympusmonsConfig = new HttpHeaders().set('Content-Type', 'application/json; charset=utf-8');
-  omBaseURL = "http://dev.olympusmons.luauet.com/luau/v1";
-
-  public olympusmonsPostApiCall(customdata){
-    const params = new HttpParams({
-      fromObject: {
-        "refresh_token" : customdata.refresh_token,
-      }
-    });
-
-    let finalApi = 'omBaseURL'+ customdata.apiExt + 'products-tags?size='+customdata.size+'&page='+customdata.page;
-    return this.http.post(finalApi, params, { headers: this.olympusmonsConfig });
+  public olympusmonsPostApiCall(customdata,reqParams){
+    let finalApi = this.omBaseURL+ customdata.apiExt;
+    return this.http.post(finalApi,reqParams,{ headers: { 'Authorization': 'Bearer ' + customdata.access_token }});
   };
 
-  public olympusmonsGetApiCall(customdata){
-    let omBaseURL = "http://dev.olympusmons.luauet.com/luau/v1/";
+  public olympusmonsGetApiCall(customdata, reqParams){
+    reqParams = reqParams || {};
+    const params = new HttpParams({fromObject: reqParams});
+    let finalApi = this.omBaseURL + customdata.apiExt;
 
-    const params = new HttpParams({
-      fromObject: {
-        
-      }
-    });
-    let finalApi = omBaseURL + 'products-tags?size='+customdata.size+'&page='+customdata.page;
-    return this.http.get(finalApi,{params, headers: { 'Authorization': 'Bearer ' + customdata.access_token  }});
+    return this.http.get(finalApi,{params, headers: { 'Authorization': 'Bearer ' + customdata.access_token }});
   };
 
-  public olympusmonsPutApiCall(customdata:any){
-    let baseURL = "http://dev.olympusmons.luauet.com/luau/v1";
-
-    let finalApi = `${baseURL}`+ customdata.apiExt;
-    return this.http.post(finalApi,customdata,{ headers: this.olympusmonsConfig });
-  };
-
-  public olympusmonsDelApiCall(customdata:any){
-    let baseURL = "http://dev.olympusmons.luauet.com/luau/v1";
-
-    let finalApi = `${baseURL}`+ customdata.apiExt;
-    return this.http.post(finalApi,customdata,{ headers: this.olympusmonsConfig });
+  public olympusmonsDelApiCall(customdata, reqParams){
+    reqParams = reqParams || {};
+    let finalApi = this.omBaseURL+ customdata.apiExt;
+    return this.http.delete(finalApi, { headers: { 'Authorization': 'Bearer ' + customdata.access_token, 'responseType': 'text' as 'json' }});
   };
 
 }

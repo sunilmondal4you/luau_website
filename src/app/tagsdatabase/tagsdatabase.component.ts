@@ -7,8 +7,8 @@ import * as _underscore from 'underscore';
 import {MatDialog} from '@angular/material';
 
 export interface PeriodicElement {
-  tag_name: string;
-  synonyms: string;
+  name: string;
+  luauTagSynonyms: [];
 }
 
 @Component({
@@ -24,26 +24,10 @@ export class TagsdatabaseComponent implements OnInit {
   loaderStart = false;
   submitted = false;
   formSubmitted = false;
-  getcalled = false;
+  pageSize = 50;
+  page = 0;
 
-
-  TAG_LIST: PeriodicElement[] = [
-    {"tag_name": "Brand Signup",     "synonyms":"brand"},
-    {"tag_name": "Press Inquiries",  "synonyms":"inquiries"},
-    {"tag_name": "Customer Service", "synonyms":"services"},
-    {"tag_name": "Support",          "synonyms":"support"},
-    {"tag_name": "Dashboard",        "synonyms":"dashboard"},
-    {"tag_name": "Brand Signup",     "synonyms":"brand"},
-    {"tag_name": "Press Inquiries",  "synonyms":"inquiries"},
-    {"tag_name": "Customer Service", "synonyms":"services"},
-    {"tag_name": "Support",          "synonyms":"support"},
-    {"tag_name": "Dashboard",        "synonyms":"dashboard"},
-    {"tag_name": "Brand Signup",     "synonyms":"brand"},
-    {"tag_name": "Press Inquiries",  "synonyms":"inquiries"},
-    {"tag_name": "Customer Service", "synonyms":"services"},
-    {"tag_name": "Support",          "synonyms":"support"},
-    {"tag_name": "Dashboard",        "synonyms":"dashboard"},
-  ];
+  TAG_LIST: PeriodicElement[] = [];
 
   constructor(
     private formBuilder: FormBuilder, 
@@ -53,189 +37,200 @@ export class TagsdatabaseComponent implements OnInit {
     private dialogRef: MatDialog,
   ) { }
 
-
   ngOnInit() {
+    this.loaderStart = true;
     this.apiService.userObjObserveable.subscribe((data) => {
       this.userData = data;
       if(!this.userData.userDetail.refresh_token){
-        this.getKeycloakToken();
+        this.getKeycloakToken(function(){});
       }else{
         this.getTagList();
       }
     });
 
     this.searchForm = this.formBuilder.group({
-      tag_name: ['', Validators.required],
+      name: ['', Validators.required],
     });
 
     this.tagCreateForm = this.formBuilder.group({
-      tag_name: ['', Validators.required],
+      name: ['', Validators.required],
       synonyms: [''],
     });
   }
   get f() { return (this.searchForm.controls && this.tagCreateForm.controls)};
 
-  getKeycloakToken() {
-    if(!this.userData.userDetail.access_token){
-      this.tokenService.tokenPostCall().subscribe((res:any)=>{
-        if(res){
-          if(res.refresh_expires_in>0){
-            this.userData.userDetail.access_token = res.access_token;
-            this.userData.userDetail.refresh_token = res.refresh_token;
-            this.getTagList();
-          }
-        }else{
-          console.log("Post api call for token fails")
+  getKeycloakToken(callback){
+    this.tokenService.tokenPostCall().subscribe((res:any)=>{
+      if(res){
+        if(res.refresh_token){
+          this.userData.userDetail.access_token = res.access_token;
+          this.userData.userDetail.refresh_token = res.refresh_token;
+          this.apiService.updateUserDetail(this.userData);
+          callback();
         }
-      },
-      (error) => {
-        if(error){
-
-        }
-      });
-    }
-  };
+      }
+    });
+  }
 
   getTagList(){
-    if(!this.getcalled){
-      this.submitted = false;
-      // this.loaderStart = true;
-      let tagListReqObj = {
-        "size"    : 10,
-        "page"    : 0,
-        "apiExt"  : "products-tags",
-        "access_token"   : this.userData.userDetail.access_token,
-
-      }
-      this.apiService.olympusmonsGetApiCall(tagListReqObj).subscribe((res:any)=>{
-        this.getcalled = true;
-  
-        if(res){
-          // this.loaderStart = false;
-          this.TAG_LIST = res.objects || [];
-        }else{
-          this.loaderStart = false;
-          this.commonService.modalOpenMethod("Something wents wrong on Order Call!");
-        }
-      },
-      (error) => {
-        this.getcalled = true;
-        // if(error.status==401){
-        //   this.commonService.clearStorage("dashboard");
-        // }else{
-        //   this.commonService.modalOpenMethod(error.message);
-        // }
-      });
+    let ref = this;
+    this.submitted = false;
+    this.loaderStart = true;
+    let tagListReqObj = {
+      "apiExt"  : 'products-tags?size='+this.pageSize+'&page='+this.page,
+      "access_token"   : this.userData.userDetail.access_token,
     }
+    let reqParams = {
+      "size"    : this.pageSize,
+      "page"    : 0,
+    };
+    this.apiService.olympusmonsGetApiCall(tagListReqObj, reqParams).subscribe((res:any)=>{  
+      if(res){
+        this.loaderStart = false;
+        this.TAG_LIST = res.content || [];
+      }else{
+        this.loaderStart = false;
+        this.commonService.modalOpenMethod("Something wents wrong on Order Call!");
+      }
+    },
+    (error) => {
+      this.loaderStart = false;
+      if(error.status==401){
+        this.getKeycloakToken(function() {
+          ref.getTagList();
+        });
+      }else if(error.status!=200){
+        this.commonService.modalOpenMethod(error.message);
+      }
+    });
   };
 
   clearSearchField(){
     this.submitted = false;
+    this.searchForm.value.name = "";
     this.searchForm = this.formBuilder.group({
-      tag_name: ['', Validators.required],
+      name: ['', Validators.required],
     });
+    this.getTagList()
   };
 
   onTagSsearch() {
-    if(this.searchForm.value.tag_name=="") {
+    let ref = this;
+    if(this.searchForm.value.name=="") {
       this.submitted = true;
       this.getTagList();
     }else{
       let searchObj = {
-        "user_id"  : this.userData.userDetail.user_id,
-        "tage_name": this.searchForm.value.tag_name,
-        "token"    : this.userData.userDetail.refresh_token,
-        "apiExt"   : "luauet-search-tag.php",
+        "apiExt"  : 'products-tags/search?tagName='+this.searchForm.value.name+'&size='+this.pageSize+'&page='+this.page,
+        "access_token"   : this.userData.userDetail.access_token,
+      }
+      let reqParams = {
+        "size"    : this.pageSize,
+        "page"    : 0,
       };
-      // this.apiService.olympusmonsGetApiCall(searchObj).subscribe((res:any)=>{
-      //   if(res){
-      //     if(res.objects){
-          // this.submitted = false;
-      //       this.TAG_LIST = res.objects || [];
-      //     }
-      //   }else{
-      //     this.commonService.modalOpenMethod("Something wents wrong.");
-      //   }
-      // },
-      // (error) => {
-      //   if(error.status==401){
-      //     this.commonService.clearStorage("dashboard");
-      //   }else{
-      //     this.commonService.modalOpenMethod(error.message)        }
-      // });
+      this.apiService.olympusmonsGetApiCall(searchObj, reqParams).subscribe((res:any)=>{
+        if(res){      
+          this.submitted = false;    
+          this.loaderStart = false;
+          this.TAG_LIST = res.content || [];
+        }else{
+          this.commonService.modalOpenMethod("Something wents wrong.");
+        }
+      },
+      (error) => {
+        if(error.status==401){
+          this.getKeycloakToken(function() {
+            ref.onTagSsearch();
+          });
+        }else if(error.status!=200){
+          this.commonService.modalOpenMethod(error.message)        
+        }
+      });
     }
 
   };
 
   createNewTag() {
+    let ref = this;
     this.formSubmitted = true;
 
     // stop here if form is invalid
     if(this.tagCreateForm.invalid) {
         return;
     }else{
+      let synonymsObj = this.tagCreateForm.value.synonyms?{"name": this.tagCreateForm.value.synonyms} : "";
+      
       let createTagObj = {
-        "tag_name"        : this.tagCreateForm.value.tag_name,
-        "synonyms"        : this.tagCreateForm.value.synonyms,
-        "authToken"       : this.userData.userDetail.refresh_token,
-        "apiExt"          : "brand_signup.php",
+        "luauTagSynonyms" : [],
+        "access_token"       : this.userData.userDetail.access_token,
+        "apiExt"          : "products-tags?",
       };
-      // this.apiService.olympusmonsPostApiCall(createTagObj).subscribe((res:any)=>{
-      //   if(res){
-      //     if(res.status == "success"){
-      //       this.ngOnInit();
-      //       this.formSubmitted = false;
-      //     }
-      //     this.commonService.modalOpenMethod(res.message);
-      //   }else{
-      //     this.commonService.modalOpenMethod("Something wents wrong.");
-      //   }
-      // },
-      // (error) => {
-      //   if(error.status==401){
-      //     this.commonService.clearStorage("home");
-      //   }else{
-      //     this.commonService.modalOpenMethod(error.message)
-      //   }
-      // });
-    };
+      createTagObj.luauTagSynonyms.push(synonymsObj);
+      
+      let reqParams = {
+        "name"            : this.tagCreateForm.value.name,
+        "active"          : true,
+        "luauTagSynonyms" : createTagObj.luauTagSynonyms,
+      };
+      this.apiService.olympusmonsPostApiCall(createTagObj,reqParams).subscribe((res:any)=>{
+        if(res){
+          if(res.id){
+            this.TAG_LIST.push(res)
+            this.commonService.modalOpenMethod("Tag created successfully");
+
+            // this.ngOnInit();
+            this.formSubmitted = false;
+          }
+        }else{
+          this.commonService.modalOpenMethod("Something wents wrong.");
+        }
+      },
+      (error) => {
+        if(error.status==401){
+          this.getKeycloakToken(function() {
+            ref.createNewTag();
+          });
+        }
+      });
+    }
   };
 
   deleteTagConfirmation(selTag:any){
     this.dialogRef.closeAll();
-    let message = "Are you sure you want to cancel order-"+selTag.tag_name
+    let message = "Are you sure you want to cancel order-"+selTag.name
     this.commonService.openDialog(message).subscribe((res:any)=>{
       if(res) {
         this.deleteSelTag(selTag)
       }
-    },
-    (error) => {});
+    },(error) => {});
   };
 
   deleteSelTag(selTag:any){
+    let ref = this;
     let deleteTagObj = {
-      "tag_id"   : selTag.id,
-      "tag_name" : selTag.local_order_id,
-      "synonyms" : selTag.product_details.name,
-      "user_id"  : this.userData.userDetail.user_id,
-      "token"    : this.userData.userDetail.refresh_token,
-      "apiExt"   : "luauet-delete-tag.php",
+      "access_token"    : this.userData.userDetail.access_token,
+      "apiExt"   : "products-tags/"+selTag.id,
     }
-    // this.apiService.olympusmonsDelApiCall(deleteTagObj).subscribe((res:any)=>{
-    //   if(res){
-    //     this.commonService.modalOpenMethod(res.message);
-    //     this.getTagList();
-    //   }else{
-    //     this.commonService.modalOpenMethod("Something wents wrong at order cancel");
-    //   }
-    // },
-    // (error) => {
-    //   if(error.status==401){
-    //     this.commonService.clearStorage("dashboard");
-    //   }else{
-    //     this.commonService.modalOpenMethod(error.message);
-    //   }
-    // });
+    let reqParams = {
+      "tag-id": selTag.id,
+    };
+    this.apiService.olympusmonsDelApiCall(deleteTagObj,reqParams).subscribe((res:any)=>{
+      if(res){
+        this.commonService.modalOpenMethod(res.message);
+        this.getTagList();
+      }else{
+        this.commonService.modalOpenMethod("Something wents wrong at order cancel");
+      }
+    },
+    (error) => {
+      if(error.status==401){
+        this.getKeycloakToken(function() {
+          ref.deleteSelTag(selTag);
+        })
+      }else if(error.status!=200){
+        this.commonService.modalOpenMethod(error.message);
+      }
+    });
   };
   
 
