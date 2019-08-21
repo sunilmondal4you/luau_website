@@ -23,16 +23,14 @@ export class CommonService {
 
   modalOpenMethod(message:any){
     /* Getting user common data */
-    this.apiService.userObjObserveable.subscribe((data) => {
-      this.userData = data;
-    });
+    this.userData = JSON.parse(localStorage.getItem("userObj"));
 
     /* clear previous modal data if any */
     this.userData.modalObj = {};
 
     /* Asigning Modal content to user common data to get into modal-component */
     this.userData.modalObj.content = message;
-    this.apiService.updateUserDetail(this.userData);
+    localStorage.setItem('userObj', JSON.stringify(this.userData));
 
     /* Open Modal */
     this.modalService.open(ModaltemplateComponent);

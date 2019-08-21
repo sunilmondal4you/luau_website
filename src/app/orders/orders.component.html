@@ -27,11 +27,11 @@
             <th scope="col" class="text-center">Name</th>
             <th scope="col" class="text-center">Status</th>
             <th scope="col" class="text-center">Retailer</th>
-            <th scope="col" class="text-center">Price Diff.</th>
-            <th scope="col emailScraping" class=" text-center">Email Scraping</th>
+            <th scope="col" class="text-center priceColWidth">Price Diff.</th>
+            <th scope="col emailScraping" class="text-center">Email Scraping</th>
             <th scope="col"></th>
             <th scope="col"></th>
-            <th scope="col" class=" text-center">Cancel Order</th>
+            <th scope="col" class="text-center cancelColWidth">Cancel Order</th>
           </tr>
         </thead>
         <tbody>
@@ -59,7 +59,7 @@
               </td>
               <td class="v-mid">
                 <div class="p-rel productCard">
-                  <span class="cusBadge1" (click)="selcOrderId1 = order.id">Product</span>
+                  <span class="cusBadge1" (click)="getCompleteTrackingData(order)">Product</span>
                   <div class="row ProductDetailSec" *ngIf="selcOrderId1 == order.id" >
                     <div class="col-3 p-0">
                         <img class="prodImg" [src]="order.product_details.image || imgPathP" alt="Luau Icon">
@@ -70,16 +70,16 @@
                       <div class="prodStyle">Color: {{order.product_details.color}}</div>
                       <div class="prodStyle"><a [href]="createProductUrl(order)" target="_blank">Product URL</a></div>
                       <div class="prodStyle">
-                        <a *ngIf="order.product_details.tracking_details.tracking_url" href="{{createTrackingUrl(order)}}" target="_blank">Tracking URL</a>
+                        <a *ngIf="order.product_details.tracking_details.tracking_url" href="{{order.trackingUrlDisp}}" target="_blank">Tracking URL</a>
                         <a *ngIf="!order.product_details.tracking_details.tracking_url">Tracking URL</a>    
                       </div>
                     </div>
                     <div class="prodStyle">Shipping status:&nbsp; 
-                      <span class="trackData">{{grtShippingStatus(order.product_details)}}</span> 
+                      <span class="trackData">{{order.statusDisp}}</span> 
                     </div>
                     <div class="trakingHeader mt-1" *ngIf="order.product_details.tracking_details.tracking_data">SHIPPING ACTIVITY</div>
                     <div class="trackDetailBlock" *ngIf="order.product_details.tracking_details.tracking_data">
-                      <div class="trackDetailSec" *ngFor="let trackDetail of order.product_details.tracking_details.tracking_data[order.product_details.name].tracking_history?.reverse()">
+                      <div class="trackDetailSec" *ngFor="let trackDetail of order.trackingHistoryDisp.tracking_history">
                         <div class="prodStyle">{{trackDetail.status_date|date:'MMMMd @ h:mma':'-0000'}}: {{trackDetail.location.city+", "+trackDetail.location.state}}</div>
                         <div class="prodStyle">{{trackDetail.substatus.text}}</div>
                       </div>

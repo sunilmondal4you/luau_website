@@ -136,5 +136,5 @@ mat-card{
   font-family: 'avenir_next_r';
 }
 .plusIcon{
-  font-size: 31px;color: #4AD2B4;cursor: pointer;
+  font-size: 31px;color: #4AD2B4;cursor: pointer !important;
 }

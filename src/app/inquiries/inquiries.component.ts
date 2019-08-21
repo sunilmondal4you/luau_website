@@ -20,9 +20,7 @@ export class InquiriesComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.apiService.userObjObserveable.subscribe((data) => {
-      this.userData = data;
-    }); 
+    this.userData = JSON.parse(localStorage.getItem("userObj")); 
 
     this.inqiriesForm = this.formBuilder.group({
       name:        ['', Validators.required],

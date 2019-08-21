@@ -266,3 +266,9 @@
     padding: 10px 0px;
     border-bottom: 1px solid #d4d0d0;
   }
+  .priceColWidth{
+    min-width: 94px;
+  }
+  .cancelColWidth{
+    min-width: 123px;
+  }

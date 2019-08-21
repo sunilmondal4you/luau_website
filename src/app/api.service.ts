@@ -11,15 +11,15 @@ export class ApiService {
   apiURLProd: string = 'https://prod.api.luauet.com/luau-api/scripts/';
   apiURLStaging: string = 'http://dev.api.luauet.com/luau-api/scripts/';
 
-  // apiURLDev: string = 'https://prod.api.luauet.com/luau-api/scripts/';
   apiURLDev: string = 'http://dev.api.luauet.com/luau-api/scripts/';
   // apiURLDev: string = 'http://192.168.1.55/luau-api/scripts/';
   config = new HttpHeaders().set('Content-Type', 'application/json; charset=utf-8');
   hashSalt = "#$%@SaltCreationForAuthentication#$%@";
 
-  omBaseURL = "http://dev.olympusmons.luauet.com/luau/v1/";
-
-  private userObj = new BehaviorSubject<any>({"loggedIn":false,"userDetail":{},"modalObj":{}});
+  public omBaseURL = "http://dev.olympusmons.luauet.com/luau/v1/";
+  
+  private localUserObj = JSON.parse(localStorage.getItem("userObj"));  
+  private userObj = new BehaviorSubject<any>({loggedIn: false});
   public userObjObserveable = this.userObj.asObservable();
   
   constructor(
@@ -96,11 +96,25 @@ export class ApiService {
   };
 
   public olympusmonsPostApiCall(customdata,reqParams){
+    if(window.location.host=="luauet.com"){
+      this.omBaseURL="https://prod.olympusmons.luauet.com/luau/v1/"
+    }else if(window.location.host=="dev.dashboard.luauet.com")
+      this.omBaseURL="http://dev.olympusmons.luauet.com/luau/v1/"
+    else {
+      this.omBaseURL="http://dev.olympusmons.luauet.com/luau/v1/"
+    }
     let finalApi = this.omBaseURL+ customdata.apiExt;
     return this.http.post(finalApi,reqParams,{ headers: { 'Authorization': 'Bearer ' + customdata.access_token }});
   };
 
   public olympusmonsGetApiCall(customdata, reqParams){
+    if(window.location.host=="luauet.com"){
+      this.omBaseURL="https://prod.olympusmons.luauet.com/luau/v1/"
+    }else if(window.location.host=="dev.dashboard.luauet.com")
+      this.omBaseURL="http://dev.olympusmons.luauet.com/luau/v1/"
+    else {
+      this.omBaseURL="http://dev.olympusmons.luauet.com/luau/v1/"
+    }
     reqParams = reqParams || {};
     const params = new HttpParams({fromObject: reqParams});
     let finalApi = this.omBaseURL + customdata.apiExt;
@@ -109,6 +123,13 @@ export class ApiService {
   };
 
   public olympusmonsDelApiCall(customdata, reqParams){
+    if(window.location.host=="luauet.com"){
+      this.omBaseURL="https://prod.olympusmons.luauet.com/luau/v1/"
+    }else if(window.location.host=="dev.dashboard.luauet.com")
+      this.omBaseURL="http://dev.olympusmons.luauet.com/luau/v1/"
+    else {
+      this.omBaseURL="http://dev.olympusmons.luauet.com/luau/v1/"
+    }
     reqParams = reqParams || {};
     let finalApi = this.omBaseURL+ customdata.apiExt;
     return this.http.delete(finalApi, { headers: { 'Authorization': 'Bearer ' + customdata.access_token, 'responseType': 'text' as 'json' }});

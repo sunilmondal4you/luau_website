@@ -51,9 +51,7 @@ export class ProductcategoriesComponent implements OnInit {
 
 
   ngOnInit() {
-    this.apiService.userObjObserveable.subscribe((data) => {
-      this.userData = data;
-    });
+    this.userData = JSON.parse(localStorage.getItem("userObj")); 
 
     this.getCategoriesList();
   }

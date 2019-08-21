@@ -24,8 +24,8 @@ const routes: Routes = [
   { path: 'privacy',  component: PrivacyComponent,  pathMatch: 'full' },
   { path: 'dashboard',component: DashboardComponent,pathMatch: 'full' },
   { path: 'orders',   component: OrdersComponent,   pathMatch: 'full' },
-  { path: 'tagsdatabaseComponent', component: TagsdatabaseComponent,      pathMatch: 'full' },
-  { path: 'categotiesComponent',   component: ProductcategoriesComponent, pathMatch: 'full' },
+  { path: 'tagsdatabase', component: TagsdatabaseComponent,      pathMatch: 'full' },
+  { path: 'categoties',   component: ProductcategoriesComponent, pathMatch: 'full' },
 ];
 
 @NgModule({

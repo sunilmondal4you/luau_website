@@ -17,9 +17,9 @@ export class ModaltemplateComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.apiService.userObjObserveable.subscribe((data) => {
-      this.modalObj = data.modalObj;
-    });
+    this.userData = JSON.parse(localStorage.getItem("userObj"));
+    this.modalObj = this.userData.modalObj;
+
   }
 
 }

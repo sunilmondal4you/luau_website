@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ApiService } from './../api.service';
 import { CommonService } from './../common.service';
+import { globalVars } from './../global';
 
 @Component({
   selector: 'app-dashboard',
@@ -22,12 +23,10 @@ export class DashboardComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.apiService.userObjObserveable.subscribe((data) => {
-      this.userData = data;
-      if(data.loggedIn){
-        this.router.navigate(['/orders']);
-      }
-    });
+    this.userData = JSON.parse(localStorage.getItem("userObj"));
+    if(this.userData && this.userData.loggedIn){
+      this.router.navigate(['/orders']);
+    }
 
     this.dashboardForm = this.formBuilder.group({
       username:     ['', Validators.required],
@@ -83,8 +82,12 @@ export class DashboardComponent implements OnInit {
     };
     
     /** Update user data to services and Session Storage **/
-    this.apiService.updateUserDetail(orderReqObj);
+    globalVars.userObj = orderReqObj;
     localStorage.setItem('userObj', JSON.stringify(orderReqObj));
+    let tempObj = {
+      loggedIn : true,
+    }
+    this.apiService.updateUserDetail(tempObj);
 
     this.router.navigate(['/orders']);
   };

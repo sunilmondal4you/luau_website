@@ -20,8 +20,8 @@
     </div>
     <div class="row">
       <div class="col-12 tagCardSec" id="cardId">
-        <mat-card class="tp-card">
-          <div class="tablePdng">
+        <mat-card class="tp-card" id="id1">
+          <div class="tablePdng" id="id2">
             <table class="table mb-0 tableMargin">
               <thead>
                 <tr>
@@ -39,21 +39,21 @@
                       <span *ngIf="tags.luauTagSynonyms.length==0">--</span>
                     </td>
                     <td class="statusMsg text-right pr-4">
-                        <span class="cusBadge2" (click)=deleteTagConfirmation(tags)>Delete</span>
+                        <span class="cusBadge2" (click)="!deleteBtnDissable && deleteTagConfirmation(tags)">Delete</span>
                     </td>
                   </tr>
                     
                 </ng-container>
                 <tr *ngIf="TAG_LIST.length==0" class="noOrderSec">
                   <td colspan="5">
-                    <h1>No order available!</h1>
+                    <h1>No tags found!</h1>
                   </td>
                 </tr>
               </tbody>
             </table>
           </div>
           
-          <mat-card class="bt-card">
+          <mat-card class="bt-card" id="id3">
             <mat-card-header>
               <mat-card-title class="mt-2"> Create New Tag</mat-card-title>   
             </mat-card-header>
@@ -69,7 +69,7 @@
                   <input type="text" class="form-control luau-inpt" formControlName="synonyms" placeholder="synonyms(optional)">
                 </div>
                 <div class="col-2 form-group btn-wrp">
-                  <span class="fas fa-plus-circle plusIcon" (click)="createNewTag()"></span>
+                  <span class="fas fa-plus-circle plusIcon" (click)="!createBtnDissable && createNewTag()"></span>
                 </div>
               </div>
             </form>

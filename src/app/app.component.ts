@@ -4,6 +4,7 @@ import { TokenService } from './token.service';
 import { UAParser } from '../assets/ua-parser';
 import { Router } from '@angular/router';
 import { CommonService } from './common.service';
+import { globalVars } from './global';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 
 import { map } from 'rxjs/operators';
@@ -56,75 +57,91 @@ export class AppComponent {
     {"title": "Feed Widgets",     "routLink":"/orders"}
   ];
   orderViewList2 = [
-    {"title": "Product Categories","routLink":"/categotiesComponent"},
-    {"title": "Tags Database",     "routLink":"/tagsdatabaseComponent"},
+    // {"title": "Product Categories","routLink":"/categoties"},
+    {"title": "Tags Database",     "routLink":"/tagsdatabase"},
     {"title": "Order",             "routLink":"/orders"},
     {"title": "Returns",           "routLink":"/orders"}
   ];
   allLinkList2 = this.homeLink.concat(this.orderViewList1, this.orderViewList2);
 
   footerOrderList = [
-    {"title": "Log out",   "routLink":"/home"},
+    {"title": "Log out",   "routLink":"/dashboard"},
   ];
 
   ngOnInit() {
-    this.apiService.userObjObserveable.subscribe((data) => {
-      this.userData = data;
-      this.getKeycloakToken();
+    this.getKeycloakToken();
 
-      if (window.innerWidth < 768) { // 768px portrait
-        this.mobileView = true;
-        this.pageOpen = false;
-        this.innerWidth = window.innerWidth;
-      }
-  
-      /** get ueser object from Session storage **/
-      let userObj:any = localStorage.getItem("userObj");
-      userObj = JSON.parse(userObj);
-  
-      this.userData = userObj || this.userData;
-  
-      let pathFound = false;
-      if(this.userData.loggedIn){
-        // this.apiService.updateUserDetail(this.userData);
-        // this.router.navigate(['/orders']);
+    if (window.innerWidth < 768) { // 768px portrait
+      this.mobileView = true;
+      this.pageOpen = false;
+      this.innerWidth = window.innerWidth;
+    }
+    
+    this.apiService.userObjObserveable.subscribe((data) => {
+      this.userData.loggedIn = data.loggedIn;
+    });
+    /** get ueser object from Session storage **/
+    let userObj:any = JSON.parse(localStorage.getItem("userObj"));
+    if (userObj) {
+      globalVars.userObj = userObj;
+      this.apiService.updateUserDetail({loggedIn:userObj.loggedIn});
+      this.userData = userObj;
+    }else{
+      globalVars.userObj = {"loggedIn":false,"page":0,"userDetail":{},"modalObj":{}}
+      this.userData = globalVars.userObj;
+    }
+    
+    let pathFound = false;
+    if(globalVars.userObj.loggedIn){
+      if(window.location.pathname == "/"){
+        this.router.navigate(['/orders']);
       }else{
-        let prodExtension = "/v1/products/"
-        let externalLinkFound = window.location.href.includes(prodExtension);     // get true/false
-        if(window.location.pathname != "/" && externalLinkFound){
-          let prod_id = window.location.pathname.substr(prodExtension.length);
-          this.deeplinkingPostCall(Number(prod_id)); 
-    
-          window.location.href='https://itunes.apple.com/in/app/luau-modern-shopping/id1348751802?mt=8';
-        }else{
-          this.allLinkList.forEach(obj => {
-            if(obj.routLink == window.location.pathname){
-              pathFound = true;
-            }
-          });
-    
-          if(!pathFound){
-            this.router.navigate(['/home']);
+        this.allLinkList2.forEach(obj => {
+          if(obj.routLink == window.location.pathname){
+            this.router.navigate([obj.routLink]);
+            return;
           }
+        });
+      } 
+    }else{
+      if(window.location.pathname=="/orders"){
+        window.location.pathname = '/dashboard'
+        this.router.navigate(['/dashboard']);
+      }
+      let prodExtension = "/v1/products/"
+      let externalLinkFound = window.location.href.includes(prodExtension);     // get true/false
+      if(window.location.pathname != "/" && externalLinkFound){
+        let prod_id = window.location.pathname.substr(prodExtension.length);
+        this.deeplinkingPostCall(Number(prod_id)); 
+  
+        window.location.href='https://itunes.apple.com/in/app/luau-modern-shopping/id1348751802?mt=8';
+      }else{
+        this.allLinkList.forEach(obj => {
+          if(obj.routLink == window.location.pathname){
+            pathFound = true;
+          }
+        });
+  
+        if(!pathFound){
+          this.router.navigate(['/home']);
         }
       }
-    });
-
-    
+    }   
   };
 
   getKeycloakToken() {
-    this.tokenService.tokenPostCall().subscribe((res:any)=>{
-      if(res){
-        if(res.refresh_token){
-          this.userData.userDetail.access_token = res.access_token;
-          this.userData.userDetail.refresh_token = res.refresh_token;
-          this.apiService.updateUserDetail(this.userData);
-          localStorage.setItem('userObj', JSON.stringify(this.userData));
+    if(globalVars.userObj && !globalVars.refresh_token){
+      this.tokenService.tokenPostCall().subscribe((res:any)=>{
+        if(res){
+          if(res.refresh_token){
+            globalVars.access_token = res.access_token;
+            globalVars.refresh_token = res.refresh_token;
+            localStorage.setItem('userObj', JSON.stringify(globalVars.userObj));
+          }
         }
-      }
-    });
-  }
+      });
+    }
+  };
 
   onResize(event) {
     this.innerWidth = screen.width;
@@ -201,13 +218,14 @@ export class AppComponent {
   ///////   LOG OUT   \\\\\\\
   logOutCall() {
     let reqObj = {
-      "user_id" : this.userData.userDetail.user_id,
-      "token": this.userData.userDetail.token,
+      "user_id" : globalVars.userObj.userDetail.user_id,
+      "token": globalVars.userObj.userDetail.token,
       "apiExt"  : "luauet-dashboard-logout.php",
     }
     this.apiService.customPostApiCall(reqObj).subscribe((res:any)=>{
       if(res.status == "success"){
-        this.updateUserDetail();
+        this.apiService.updateUserDetail({loggedIn:false});
+        this.clearUserDetails();
         this.showNavLink = false
       }else{
         this.commonService.modalOpenMethod(res.message);
@@ -215,7 +233,7 @@ export class AppComponent {
     },
     (error) => {
       if(error.status==401){
-        this.updateUserDetail();
+        this.clearUserDetails();
         this.showNavLink = false
         this.commonService.clearStorage("dashboard");
       }else{
@@ -224,16 +242,14 @@ export class AppComponent {
     });
   };
 
-  updateUserDetail(){
-    this.userData.loggedIn = false;
-    let updateReqObj = {
+  clearUserDetails(){
+    this.userData = {
       "loggedIn" : false,
       "userDetail":{ },
     }
-    this.apiService.updateUserDetail(updateReqObj);
-    this.userData = updateReqObj;
+    globalVars.userObj = this.userData;
     localStorage.removeItem("userObj");
-    this.router.navigate(['/home']);
+    window.location.pathname = '/dashboard'
+    this.router.navigate(['/dashboard']);
   };
-  
 }

@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { ApiService } from './../api.service';
 import { CommonService } from './../common.service';
+import { globalVars } from './../global';
 import {MatDialog} from '@angular/material';
 import * as _underscore from 'underscore';
 
@@ -27,15 +29,14 @@ export class OrdersComponent implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder, 
+    private router: Router,
     private apiService : ApiService,
     private commonService: CommonService,
     private dialogRef: MatDialog,
   ) { }
 
   ngOnInit() {
-    this.apiService.userObjObserveable.subscribe((data) => {
-      this.userData = data;
-    });
+    this.userData = JSON.parse(localStorage.getItem("userObj"));
 
     this.getUserOrderDetail();
 
@@ -45,48 +46,81 @@ export class OrdersComponent implements OnInit {
   }
   get f() { return this.searchForm.controls};
 
-  grtShippingStatus(product_details:any){
-    if(product_details.tracking_details.tracking_data){
-      let orderTrackingDetail = product_details.tracking_details.tracking_data[product_details.name];
-      if(orderTrackingDetail){
-        orderTrackingDetail.tracking_history = orderTrackingDetail.tracking_history.reverse();
-        let latestStatus = orderTrackingDetail.tracking_history.length - 1;
-        return orderTrackingDetail.tracking_history[latestStatus].status || "";
-      }else{
-        return "";
-      }
+  getCompleteTrackingData(order:any): String{
+    let orderTrackingDetail:any= {};
+    if(order.product_details.tracking_details.tracking_data){
+      var keysArr = Object.keys(order.product_details.tracking_details.tracking_data)
+      keysArr.forEach(function(arrKey){
+        if(arrKey.indexOf(order.product_details.name) > -1){
+          orderTrackingDetail = order.product_details.tracking_details.tracking_data[arrKey];
+          if(orderTrackingDetail){
+            let latestStatus = orderTrackingDetail.tracking_history.length - 1;
+            order.statusDisp=(orderTrackingDetail.tracking_history[latestStatus].status || "");
+            order.trackingHistoryDisp = orderTrackingDetail;
+            order.trackingHistoryDisp.tracking_history = order.trackingHistoryDisp.tracking_history.reverse();
+            let trackingUrlObj = JSON.parse(order.product_details.tracking_details.tracking_url);
+            if(trackingUrlObj){
+              order.trackingUrlDisp =  trackingUrlObj[arrKey] || "";
+            }
+            return ""
+          }else{
+            return "";
+          }
+        }
+      }) 
     }
-  };
+    this.selcOrderId1 = order.id;
+    return "";
+  };  
+
+  updateLocalStorage(){
+    this.userData.loggedIn = false;
+    let updateReqObj = {
+      "loggedIn" : false,
+      "userDetail":{ },
+    };
+    let tempObj = {
+      "loggedIn" : false,
+    }
+    this.apiService.updateUserDetail(tempObj);
+    this.userData = updateReqObj;
+    localStorage.setItem('userObj', JSON.stringify(this.userData));
+    this.router.navigate(['/dashboard']);
+  }
   
   getUserOrderDetail(){
-    this.loaderStart = true;
-    let OrderReqObj = {
-      "page" : this.userData.userDetail.page || 0,
-      "user_id": this.userData.userDetail.user_id || 1,
-      "token": this.userData.userDetail.token,
-      "apiExt"    : "luauet-get-orders.php",
+    if(this.userData && this.userData.loggedIn){
+      this.loaderStart = true;
+      let OrderReqObj = {
+        "page" : this.userData.userDetail.page || 0,
+        "user_id": this.userData.userDetail.user_id || 1,
+        "token": this.userData.userDetail.token,
+        "apiExt"    : "luauet-get-orders.php",
+      }
+      this.apiService.customPostApiCall(OrderReqObj).subscribe((res:any)=>{
+        if(res){
+          this.loaderStart = false;
+          this.orderList = res.objects || [];
+          this.allItemLen = res.order_count;
+          this.pending_count = res.pending_count || 0;
+          this.setPage((this.userData.userDetail.page+1) || 1);
+          // console.log(JSON.stringify(res));
+        }else{
+          this.loaderStart = false;
+          this.commonService.modalOpenMethod("Something wents wrong on Order Call!");
+        }
+      },
+      (error) => {
+        this.loaderStart = false;
+        if(error.status==401){
+          this.updateLocalStorage();
+        }else{
+          this.commonService.modalOpenMethod(error.message);
+        }
+      });
+    }else{
+      this.ngOnInit();
     }
-    this.apiService.customPostApiCall(OrderReqObj).subscribe((res:any)=>{
-      if(res){
-        this.loaderStart = false;
-        this.orderList = res.objects || [];
-        this.allItemLen = res.order_count;
-        this.pending_count = res.pending_count || 0;
-        this.setPage((this.userData.userDetail.page+1) || 1);
-        // console.log(JSON.stringify(res));
-      }else{
-        this.loaderStart = false;
-        this.commonService.modalOpenMethod("Something wents wrong on Order Call!");
-      }
-    },
-    (error) => {
-      this.loaderStart = false;
-      if(error.status==401){
-        this.commonService.clearStorage("dashboard");
-      }else{
-        this.commonService.modalOpenMethod(error.message);
-      }
-    });
   };
 
   createProductUrl(order:any){
@@ -98,15 +132,6 @@ export class OrdersComponent implements OnInit {
 
     let viglink_url = "http://api.viglink.com/api/click?out="+out_encode+"&loc="+urlLoc+"&key="+urlKey+"&format="+urlFormat;
     return viglink_url;
-  };
-
-  createTrackingUrl(order:any){
-    if(order.product_details.tracking_details.tracking_url){
-      let trackingUrlObj = JSON.parse(order.product_details.tracking_details.tracking_url);
-      if(trackingUrlObj){
-        return trackingUrlObj[order.product_details.name] || "";
-      }
-    }
   };
 
   clearSearchField(){
@@ -155,7 +180,7 @@ export class OrdersComponent implements OnInit {
     if(this.userData.userDetail.page != page-1){
       this.userData.userDetail.page = page-1
       this.getUserOrderDetail();
-      this.apiService.updateUserDetail(this.userData);
+      localStorage.setItem('userObj', JSON.stringify(this.userData));
     }
     
     this.pager = this.apiService.getPager(this.allItemLen, page);
@@ -240,9 +265,10 @@ export class OrdersComponent implements OnInit {
   getDifferentialColor(product_details:any){
     if(product_details.money_differential){
       product_details.money_differential_disp = 0;
-      if(product_details.money_differential>0)
+      if(product_details.money_differential>0){
+        product_details.money_differential_disp = Math.abs(product_details.money_differential);
         return 'green';
-      else if(product_details.money_differential<0){
+      }else if(product_details.money_differential<0){
         product_details.money_differential_disp = Math.abs(product_details.money_differential);
         return 'red';
       }
