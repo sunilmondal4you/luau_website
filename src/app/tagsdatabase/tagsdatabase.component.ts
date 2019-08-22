@@ -101,7 +101,7 @@ export class TagsdatabaseComponent implements OnInit {
     this.submitted = false;
     this.loaderStart = true;
     let tagListReqObj = {
-      "apiExt"  : 'products-tags?size='+this.pageSize+'&page='+this.userData.page,
+      "apiExt"  : 'v1/products-tags?size='+this.pageSize+'&page='+this.userData.page,
       "access_token"   : this.userData.access_token,
     }
     let reqParams = {
@@ -114,7 +114,7 @@ export class TagsdatabaseComponent implements OnInit {
         this.TAG_LIST = res.content || [];
 
         /* Calculate TagList section hieght */
-        this.calculateCardHieght()
+        this.calculateCardHieght();
         
       }else{
         this.loaderStart = false;
@@ -122,6 +122,7 @@ export class TagsdatabaseComponent implements OnInit {
       }
     },
     (error) => {
+      this.calculateCardHieght()
       this.loaderStart = false;
       if(error.status==401){
         this.getKeycloakToken(function() {
@@ -149,7 +150,7 @@ export class TagsdatabaseComponent implements OnInit {
       this.getTagList();
     }else{
       let searchObj = {
-        "apiExt"  : 'products-tags/search?tagName='+this.searchForm.value.name+'&size='+this.pageSize+'&page='+this.userData.page,
+        "apiExt"  : 'v1/products-tags/search?tagName='+this.searchForm.value.name+'&size='+this.pageSize+'&page='+this.userData.page,
         "access_token"   : this.userData.access_token,
       }
       let reqParams = {
@@ -192,7 +193,7 @@ export class TagsdatabaseComponent implements OnInit {
       let createTagObj = {
         "luauTagSynonyms" : [],
         "access_token"    : this.userData.access_token,
-        "apiExt"          : "products-tags?",
+        "apiExt"          : "v1/products-tags?",
       };
       createTagObj.luauTagSynonyms.push(synonymsObj);
       
@@ -248,8 +249,8 @@ export class TagsdatabaseComponent implements OnInit {
     let ref = this;
     this.deleteBtnDissable = true;
     let deleteTagObj = {
-      "access_token"    : this.userData.access_token,
-      "apiExt"   : "products-tags/"+selTag.id,
+      "access_token" : this.userData.access_token,
+      "apiExt"       : "v1/products-tags/"+selTag.id,
     }
     let reqParams = {
       "tag-id": selTag.id,

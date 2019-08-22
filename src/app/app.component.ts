@@ -52,15 +52,15 @@ export class AppComponent {
 
   imgPathM = "./assets/img/admin.png";
   orderViewList1 = [
-    {"title": "Decks-site",       "routLink":"/orders"},
-    {"title": "Featured Products","routLink":"/orders"},
-    {"title": "Feed Widgets",     "routLink":"/orders"}
+    // {"title": "Decks-site",       "routLink":"/orders"},
+    // {"title": "Featured Products","routLink":"/orders"},
+    // {"title": "Feed Widgets",     "routLink":"/orders"}
   ];
   orderViewList2 = [
     // {"title": "Product Categories","routLink":"/categoties"},
     {"title": "Tags Database",     "routLink":"/tagsdatabase"},
     {"title": "Order",             "routLink":"/orders"},
-    {"title": "Returns",           "routLink":"/orders"}
+    // {"title": "Returns",           "routLink":"/orders"}
   ];
   allLinkList2 = this.homeLink.concat(this.orderViewList1, this.orderViewList2);
 
@@ -76,7 +76,7 @@ export class AppComponent {
       this.pageOpen = false;
       this.innerWidth = window.innerWidth;
     }
-    
+    this.apiService.setBaseURL();
     this.apiService.userObjObserveable.subscribe((data) => {
       this.userData.loggedIn = data.loggedIn;
     });

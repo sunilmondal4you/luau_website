@@ -183,7 +183,7 @@ export class OrdersComponent implements OnInit {
       localStorage.setItem('userObj', JSON.stringify(this.userData));
     }
     
-    this.pager = this.apiService.getPager(this.allItemLen, page);
+    this.pager = this.commonService.getPager(this.allItemLen, page);
   };
 
   getCardLastFrorDigit(order:any){

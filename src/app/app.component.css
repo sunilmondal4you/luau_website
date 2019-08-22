@@ -79,7 +79,7 @@
     cursor: pointer;
     text-decoration: none;
 }
-.navLink:focus, .navLink:hover, .navLink:active{
+.navLink:focus, .navLink:hover, .navLink:active, .navLink.active-link{
     background: #4bd2bc38;
     color: #4AD2B4;
     font-weight: bold;
