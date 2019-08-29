@@ -31,6 +31,7 @@ import { ConfirmationDialogComponent } from './dialog/confirmation-dialog/confir
 import { OrderCancelComponent } from './dialog/order-cancel/order-cancel.component';
 import { TrackingnumbersComponent } from './trackingnumbers/trackingnumbers.component';
 import { ReturnsComponent } from './returns/returns.component';
+import { FeaturedproductsComponent } from './featuredproducts/featuredproducts.component';
 
 
 
@@ -53,7 +54,8 @@ import { ReturnsComponent } from './returns/returns.component';
     ProductcategoriesComponent,
     OrderCancelComponent,
     TrackingnumbersComponent,
-    ReturnsComponent
+    ReturnsComponent,
+    FeaturedproductsComponent
   ],
   imports: [
     BrowserModule,

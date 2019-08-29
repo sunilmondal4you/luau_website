@@ -57,11 +57,12 @@ export class AppComponent {
     // {"title": "Feed Widgets",     "routLink":"/orders"}
   ];
   orderViewList2 = [
-    // {"title": "Product Categories","routLink":"/categories"},
-    // {"title": "Tracking Numbers",  "routLink":"/trackingnumbers"},
+    {"title": "Product Categories","routLink":"/categories"},
+    {"title": "Tracking Numbers",  "routLink":"/trackingnumbers"},
     {"title": "Order",             "routLink":"/orders"},
     {"title": "Returns",           "routLink":"/returns"},
     {"title": "Tags Database",     "routLink":"/tagsdatabase"},
+    {"title": "Featured Products", "routLink":"/featuredproducts"},
   ];
   allLinkList2 = this.homeLink.concat(this.orderViewList1, this.orderViewList2);
 
