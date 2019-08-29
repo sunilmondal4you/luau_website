@@ -12,6 +12,8 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { OrdersComponent } from './orders/orders.component';
 import { TagsdatabaseComponent } from './tagsdatabase/tagsdatabase.component';
 import { ProductcategoriesComponent } from './productcategories/productcategories.component';
+import { TrackingnumbersComponent } from './trackingnumbers/trackingnumbers.component';
+import { ReturnsComponent } from './returns/returns.component';
 
 const routes: Routes = [
   { path: '',         redirectTo:'./home/home.component', pathMatch: 'full' },
@@ -24,8 +26,10 @@ const routes: Routes = [
   { path: 'privacy',  component: PrivacyComponent,  pathMatch: 'full' },
   { path: 'dashboard',component: DashboardComponent,pathMatch: 'full' },
   { path: 'orders',   component: OrdersComponent,   pathMatch: 'full' },
-  { path: 'tagsdatabase', component: TagsdatabaseComponent,      pathMatch: 'full' },
-  { path: 'categoties',   component: ProductcategoriesComponent, pathMatch: 'full' },
+  { path: 'tagsdatabase',   component: TagsdatabaseComponent,      pathMatch: 'full' },
+  // { path: 'categories',     component: ProductcategoriesComponent, pathMatch: 'full' },
+  // { path: 'trackingnumbers',component: TrackingnumbersComponent,   pathMatch: 'full' },
+  { path: 'returns',        component: ReturnsComponent,           pathMatch: 'full' },
 ];
 
 @NgModule({

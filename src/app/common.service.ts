@@ -3,9 +3,10 @@ import * as _underscore from 'underscore';
 import { Router } from '@angular/router';
 import { ApiService } from './api.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { ModaltemplateComponent } from './modaltemplate/modaltemplate.component';
 import { MatDialog } from '@angular/material';
-import { ConfirmationDialogComponent } from './confirmation-dialog/confirmation-dialog.component';
+import { ModaltemplateComponent } from './dialog/modaltemplate/modaltemplate.component';
+import { ConfirmationDialogComponent } from './dialog/confirmation-dialog/confirmation-dialog.component';
+import { OrderCancelComponent } from './dialog/order-cancel/order-cancel.component';
 
 @Injectable({
   providedIn: 'root'
@@ -54,6 +55,15 @@ export class CommonService {
 
   openDialog(message:any) {
     const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      width: '350px',
+      data: message,
+    });
+    return dialogRef.afterClosed();
+
+  };
+  
+  orderCancelDialog(message:any) {
+    const dialogRef = this.dialog.open(OrderCancelComponent, {
       width: '350px',
       data: message,
     });

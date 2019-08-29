@@ -21,13 +21,16 @@ import { TermsComponent } from './terms/terms.component';
 import { PrivacyComponent } from './privacy/privacy.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { OrdersComponent } from './orders/orders.component';
-import { ModaltemplateComponent } from './modaltemplate/modaltemplate.component';
-import { ConfirmationDialogComponent } from './confirmation-dialog/confirmation-dialog.component';
 import { TagsdatabaseComponent } from './tagsdatabase/tagsdatabase.component';
 import { ProductcategoriesComponent } from './productcategories/productcategories.component';
 import {DemoMaterialModule} from './material-module';
 
 import { map } from 'rxjs/operators';
+import { ModaltemplateComponent } from './dialog/modaltemplate/modaltemplate.component';
+import { ConfirmationDialogComponent } from './dialog/confirmation-dialog/confirmation-dialog.component';
+import { OrderCancelComponent } from './dialog/order-cancel/order-cancel.component';
+import { TrackingnumbersComponent } from './trackingnumbers/trackingnumbers.component';
+import { ReturnsComponent } from './returns/returns.component';
 
 
 
@@ -47,7 +50,10 @@ import { map } from 'rxjs/operators';
     ModaltemplateComponent,
     ConfirmationDialogComponent,
     TagsdatabaseComponent,
-    ProductcategoriesComponent
+    ProductcategoriesComponent,
+    OrderCancelComponent,
+    TrackingnumbersComponent,
+    ReturnsComponent
   ],
   imports: [
     BrowserModule,
@@ -67,7 +73,7 @@ import { map } from 'rxjs/operators';
   ],
   bootstrap: [AppComponent],
 
-  entryComponents: [ ModaltemplateComponent, ConfirmationDialogComponent ]
+  entryComponents: [ ModaltemplateComponent, ConfirmationDialogComponent, OrderCancelComponent ]
 
 })
 export class AppModule { }

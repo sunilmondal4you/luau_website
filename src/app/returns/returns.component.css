@@ -17,21 +17,17 @@
 .head-font-1{
   font-size: 48px !important;
 }
-.head-font-2{
-  font-size: 17px !important;
-  font-family: 'avenir_next_m';
-}
 .cardSec{
     min-height: 500px;
     font-weight: medium;
     font-family: 'avenir_next_m';
-    padding-left: 1px;
-    padding-right: 1px;
+    padding: 0px 10px;
 }
 .cardSec table{
-  border: 1.5px solid #e9ecef;
   border-radius: 10px;
-  box-shadow: 0px 1px 5px 1px #fbfbfb;
+}
+.table th{
+    border-top: none;
 }
 .cusBadge1{
     color: #4AD2B4;background: #eceeef;padding: 7px 25px;border-radius: 17px;cursor: pointer;font-family: 'avenir_next_b';
@@ -48,9 +44,6 @@
 .v-mid{
     vertical-align: middle
 }
-.p-abs{
-  position: absolute;
-}
 .p-rel{
   position: relative;
 }
@@ -62,7 +55,6 @@
     padding-left: 2.375rem;
     border-radius: 20px;
 }
-
 .has-search .form-control-feedback {
     position: absolute;
     z-index: 2;
@@ -76,8 +68,7 @@
     background: transparent;
     
 }
-
-.loader {
+.loader{
     position: absolute;
     left: 50%;
     top: 50%;
@@ -92,25 +83,17 @@
     height: 100px;
     -webkit-animation: spin 2s linear infinite;
     animation: spin 2s linear infinite;
-  }
-  
-  /* Safari */
-  @-webkit-keyframes spin {
+}
+/* Safari */
+@-webkit-keyframes spin {
     0% { -webkit-transform: rotate(0deg); }
     100% { -webkit-transform: rotate(360deg); }
-  }
-  
-  @keyframes spin {
+}
+@keyframes spin {
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
-  }
-
-  .card1{
-    position: relative;
-    top: 0px;
-  }
-
-  .ProductDetailSec{
+}
+.ProductDetailSec{
     position: absolute;
     top: 42px;
     z-index: 999;
@@ -121,35 +104,35 @@
     padding-right: 2px;
     border: 2px solid #d0d0d08f;
     border-radius: 10px;
-    min-width: 400px;
-  }
-  .prodImg{
+    min-width: 200px;
+}
+.prodImg{
     width: 100%;
     max-width: 70px;
     max-height: 65px;
     border-radius:15px; 
-  }
-  .prodName{
+}
+.prodName{
     font-size: 14px;
     line-height: 19px;
     font-family: 'avenir_next_m';
-  }
-  .prodStyle{
+}
+.prodStyle{
     font-size: 12px;
     line-height: 15px;
     font-family: 'avenir_next_r';
-  }
-  .prodStyle a{
+}
+.prodStyle a{
     font-size: 12px;
     color: #3E99FF;
     font-family: 'avenir_next_r';
-  }
-  .trackData{
+}
+.trackData{
     font-size: 12px;
     color: #2A292B;
     font-family: 'avenir_next_m';
-  }
-  .OrderDetailSec{
+}
+.OrderDetailSec{
     height: auto;
     position: absolute;
     top: 42px;
@@ -158,39 +141,38 @@
     border-radius: 10px;
     border: 2px solid #d0d0d08f;
     width: 300px;
-  }
-  .positionBottom{
+}
+.positionBottom{
     bottom: 35px;
     top: auto
-  }
-  .oSec{
+}
+.oSec{
       padding: 10px 18px;
       border-bottom: 3px solid #d0d0d08f;
-  }
-  .oSec2{
+}
+.oSec2{
     padding: 10px 18px;
     min-height: 60px;
     align-items: center;
-  }
-  .orderParam1{
+}
+.orderParam1{
     font-size: 14px;
     line-height: 30px;
     color: #1F1F20;
     font-family: 'avenir_next_db';
-  }
-  .orderParam2{
+}
+.orderParam2{
     font-size: 16px;
     line-height: 25px;
     color: #1F1F20;
     font-family: 'avenir_next_r';
-  }
-  .orderAmt{
+}
+.orderAmt{
     font-size: 14px;
     color: #1F1F20;
     font-family: 'avenir_next_db';
-  }
-
-  .emptyBlock{
+}
+.emptyBlock{
     display: block;
     height: 100%;
     width: 100%;
@@ -198,81 +180,70 @@
     z-index: 10;
     top: 0;
     left: 0;
-  }
-  .page-item{
+}
+.page-item{
     color: #4e83fe;
     font-size: 15px;
     cursor: pointer;
     font-family: 'avenir_next_r';
-  }
-  .noOrderSec{
+}
+.noOrderSec{
     min-height:300px;text-align: center;align-items: center
-  }
-  .noOrderSec td h1{
+}
+.noOrderSec td h1{
     margin-top: 15%
-  }
-  .cardLogo{
+}
+.cardLogo{
     height: 28px;
     margin: 5px;
-  }
-  .orderTxt{
+}
+.orderTxt{
     color:#4AD2B4;
-  }
-  .statusMsg{
+}
+.statusMsg{
     line-height: 35px;
-  }
-  .statusImg{
+}
+.statusImg{
     padding: 7px 15px;
-  }
-  .searchCrossIcon{
+}
+.searchCrossIcon{
     float: right;
     margin-top: -26px;
     margin-right: 10px;
     color: #aaa;
     cursor: pointer;
-  }
-  .emailScraping{
-    max-width: 235px;
-    padding-left: 0px;
-    padding-right: 0px;
-  }
-  .retailerImg{
+}
+.retailerImg{
     max-height: 46px;
     width: 46px;
     border-radius: 22px;
-  }
-  .detailCard{
+}
+.detailCard{
     min-width: 143px;
-  }
-  .tableMargin{
+}
+.tableMargin{
     margin-top:-.5px;
-  }
-  .addressFront{
+}
+.addressFront{
     font-size: 16px !important;
-  }
-  .trakingHeader{
+}
+.trakingHeader{
     width: 100%;
     font-size: 14px;
     line-height: 19px;
     font-family: 'avenir_next_m';
     text-align: center;
     text-decoration: underline;
-  }
-  .trackDetailBlock{
+}
+.trackDetailBlock{
     max-height: 200px;
     overflow-y: auto;
     margin-right:-10px
-  }
-  .trackDetailSec{
+}
+.trackDetailSec{
     padding: 10px 0px;
     border-bottom: 1px solid #d4d0d0;
-  }
-  .orderColWidth{
-    min-width: 98px;
-  }
-  .priceColWidth{
-    min-width: 94px;
-  }
-  .cancelColWidth{
-    min-width: 123px;
-  }
+}
+.pl35{
+    padding-left: 35px;
+}
