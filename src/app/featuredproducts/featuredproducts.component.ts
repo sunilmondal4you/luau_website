@@ -1362,4 +1362,8 @@ export class FeaturedproductsComponent implements OnInit {
      }, 200);
   };
 
+  createUpdateProduct(){
+    this.prodCreatePageView =! this.prodCreatePageView
+  }
+
 }

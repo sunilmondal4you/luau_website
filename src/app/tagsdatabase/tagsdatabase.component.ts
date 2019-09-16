@@ -26,7 +26,11 @@ export class TagsdatabaseComponent implements OnInit {
   submitted = false;
   formSubmitted = false;
   pageSize = 50;
-  page = 0
+  page = 0;
+
+  pager: any = {};
+  allItemLen: any;
+  firstSearchCall = false;
 
   TAG_LIST = [];
   createBtnDissable=false;
@@ -47,7 +51,7 @@ export class TagsdatabaseComponent implements OnInit {
     
     if(!this.userData.refresh_token){
       this.userData = JSON.parse(localStorage.getItem("userObj")) || globalVars.userObj;
-      this.userData.page = 0;
+      this.userData.userDetail.tagPage = this.userData.userDetail.tagPage || 0;
       this.getKeycloakToken(function(){ref.ngOnInit();});
     }else{
       this.getTagList();
@@ -101,20 +105,23 @@ export class TagsdatabaseComponent implements OnInit {
     this.submitted = false;
     this.loaderStart = true;
     let tagListReqObj = {
-      "apiExt"  : 'v1/products-tags?size='+this.pageSize+'&page='+this.userData.page,
+      "apiExt"  : 'v1/products-tags?size='+this.pageSize+'&page='+this.userData.userDetail.tagPage,
       "access_token"   : this.userData.access_token,
     }
     let reqParams = {
       "size"    : this.pageSize,
-      "page"    : this.userData.page,
+      "page"    : this.userData.userDetail.tagPage,
     };
     this.apiService.olympusmonsGetApiCall(tagListReqObj, reqParams).subscribe((res:any)=>{  
       if(res){
         this.loaderStart = false;
+        this.firstSearchCall = false;
         this.TAG_LIST = res.content || [];
+        this.allItemLen = res.paging.totalElements;
+        this.setPage((this.userData.userDetail.tagPage + 1) || 1);
 
         /* Calculate TagList section hieght */
-        this.calculateCardHieght();
+        this.calculateCardHieght()
         
       }else{
         this.loaderStart = false;
@@ -122,7 +129,7 @@ export class TagsdatabaseComponent implements OnInit {
       }
     },
     (error) => {
-      this.calculateCardHieght()
+      this.calculateCardHieght();
       this.loaderStart = false;
       if(error.status==401){
         this.getKeycloakToken(function() {
@@ -134,9 +141,26 @@ export class TagsdatabaseComponent implements OnInit {
     });
   };
 
+  setPage(tagPage: number) {
+    if (tagPage < 1 || tagPage > this.pager.totalPages) {
+      return;
+    }
+    if (this.userData.userDetail.tagPage != tagPage - 1) {
+      this.userData.userDetail.tagPage = tagPage - 1;
+      if(this.searchForm.value.name)
+        this.onTagSsearch()
+      else
+        this.getTagList();
+      localStorage.setItem('userObj', JSON.stringify(this.userData));
+    }
+    this.pager = this.commonService.getPager(this.allItemLen, tagPage, this.pageSize);
+  };
+
   clearSearchField(){
     this.submitted = false;
     this.searchForm.value.name = "";
+    this.pager = {};
+    this.userData.userDetail.tagPage = 0;
     this.searchForm = this.formBuilder.group({
       name: ['', Validators.required],
     });
@@ -145,23 +169,29 @@ export class TagsdatabaseComponent implements OnInit {
 
   onTagSsearch() {
     let ref = this;
+    if(!this.firstSearchCall){
+      this.userData.userDetail.tagPage = 0
+    }
     if(this.searchForm.value.name=="") {
       this.submitted = true;
       this.getTagList();
     }else{
       let searchObj = {
-        "apiExt"  : 'v1/products-tags/search?tagName='+this.searchForm.value.name+'&size='+this.pageSize+'&page='+this.userData.page,
+        "apiExt"  : 'v1/products-tags/search?tagName='+this.searchForm.value.name+'&size='+this.pageSize+'&page='+this.userData.userDetail.tagPage,
         "access_token"   : this.userData.access_token,
       }
       let reqParams = {
         "size"    : this.pageSize,
-        "page"    : this.userData.page,
+        "page"    : this.userData.userDetail.tagPage || 0,
       };
       this.apiService.olympusmonsGetApiCall(searchObj, reqParams).subscribe((res:any)=>{
         if(res){      
           this.submitted = false;    
           this.loaderStart = false;
           this.TAG_LIST = res.content || [];
+          this.firstSearchCall = true;
+          this.allItemLen = res.paging.totalElements;
+          this.setPage((this.userData.userDetail.tagPage + 1) || 1);
         }else{
           this.commonService.modalOpenMethod("Something wents wrong.");
         }
@@ -206,7 +236,7 @@ export class TagsdatabaseComponent implements OnInit {
         if(res){
           this.createBtnDissable = false;
           if(res.id){
-            this.TAG_LIST.push(res);
+            this.getTagList();
             this.tagCreateForm = this.formBuilder.group({
               name: ['', Validators.required],
               synonyms: [''],
@@ -259,7 +289,7 @@ export class TagsdatabaseComponent implements OnInit {
       if(res){
         this.deleteBtnDissable = false;
         this.commonService.modalOpenMethod(res.message);
-        this.getTagList();
+        this.clearSearchField();
       }else{
         this.deleteBtnDissable = false;
         this.commonService.modalOpenMethod("Something wents wrong at Tag delete");

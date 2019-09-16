@@ -54,7 +54,11 @@ export class ProductcategoriesComponent implements OnInit {
     this.userData = JSON.parse(localStorage.getItem("userObj")); 
 
     this.getCategoriesList();
-  }
+  };
+
+  onResize(event) {
+    this.calculateCardHieght();
+  };
 
   getCategoriesList(){
     this.submitted = false;
@@ -81,6 +85,19 @@ export class ProductcategoriesComponent implements OnInit {
     //     this.commonService.modalOpenMethod(error.message);
     //   }
     // });
+    
+    this.calculateCardHieght();
+  };
+
+  calculateCardHieght(){
+    setTimeout(function(){ 
+      let wh = window.innerHeight;
+      let id2Ele = document.getElementById("tableId");
+      let id2Bound = id2Ele.getBoundingClientRect();
+      let id2PosTop = id2Bound.top;
+      let id2Ht = wh-id2PosTop;
+      document.getElementById("tableId").style.height = id2Ht+"px";
+     }, 200);
   };
 
 

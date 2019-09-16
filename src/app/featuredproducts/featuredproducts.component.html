@@ -3,11 +3,11 @@
   <div class="loader" *ngIf="loaderStart"></div>
 
   <!-- Featured Product List View -->
-  <div class="headerSec" *ngIf="!loaderStart && prodCreatePageView">
+  <div class="headerSec" *ngIf="!loaderStart && !prodCreatePageView">
     <div class="row">
       <div class="col">
         <label class="luau-head head-font-1 mb-0">Featured Products</label>
-        <label class="createBtn text-center">Create New</label>
+        <label class="createBtn text-center" (click)="prodCreatePageView =! prodCreatePageView">Create New</label>
       </div>
     </div>
     <div class="row">
@@ -53,11 +53,11 @@
   </div>
 
   <!-- Create Featured Product View -->
-  <div class="headerSec" *ngIf="!loaderStart && !prodCreatePageView">
+  <div class="headerSec" *ngIf="!loaderStart && prodCreatePageView">
     <div class="row">
       <div class="col">
         <label class="luau-head head-font-1 mb-0">New Products Creation</label>
-        <label class="createBtn text-center">Submit Product</label>
+        <label class="createBtn text-center" (click)="createUpdateProduct()">Submit Product</label>
       </div>
     </div>
     <div class="row">

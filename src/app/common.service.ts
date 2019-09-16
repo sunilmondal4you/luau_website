@@ -3,9 +3,10 @@ import * as _underscore from 'underscore';
 import { Router } from '@angular/router';
 import { ApiService } from './api.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { MatDialog } from '@angular/material';
 import { ModaltemplateComponent } from './dialog/modaltemplate/modaltemplate.component';
+import { MatDialog } from '@angular/material';
 import { ConfirmationDialogComponent } from './dialog/confirmation-dialog/confirmation-dialog.component';
+import { FlaggedInputDialogComponent } from './flagged/flagged-input-dialog/flagged-input-dialog.component';
 import { OrderCancelComponent } from './dialog/order-cancel/order-cancel.component';
 
 @Injectable({
@@ -59,7 +60,6 @@ export class CommonService {
       data: message,
     });
     return dialogRef.afterClosed();
-
   };
   
   orderCancelDialog(message:any) {
@@ -68,7 +68,14 @@ export class CommonService {
       data: message,
     });
     return dialogRef.afterClosed();
-
+  };
+  
+  flaggedInputDialog(message:any) {
+    const dialogRef = this.dialog.open(FlaggedInputDialogComponent, {
+      width: '350px',
+      data: message,
+    });
+    return dialogRef.afterClosed();
   };
 
   getPager(totalItems: number, currentPage: number = 1, pageSize: number = 10) {

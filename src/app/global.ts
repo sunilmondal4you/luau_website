@@ -6,5 +6,6 @@ export class globalVars {
     static access_token:String = ""
     static refresh_token:String = ""
     static selProductDetail:any = [];
-    static selOrderId:any = []
+    static selOrderId:any = [];
+    static flaggedInputData:any = {};
 }

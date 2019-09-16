@@ -51,20 +51,17 @@ export class AppComponent {
   allLinkList = this.homeLink.concat(this.linkList, this.footerLinkList);
 
   imgPathM = "./assets/img/admin.png";
-  orderViewList1 = [
-    // {"title": "Decks-site",       "routLink":"/orders"},
-    // {"title": "Featured Products","routLink":"/orders"},
-    // {"title": "Feed Widgets",     "routLink":"/orders"}
-  ];
+
   orderViewList2 = [
-    {"title": "Product Categories","routLink":"/categories"},
-    {"title": "Tracking Numbers",  "routLink":"/trackingnumbers"},
     {"title": "Order",             "routLink":"/orders"},
     {"title": "Returns",           "routLink":"/returns"},
+    {"title": "Flagged",           "routLink":"/flagged"},
     {"title": "Tags Database",     "routLink":"/tagsdatabase"},
-    {"title": "Featured Products", "routLink":"/featuredproducts"},
+    // {"title": "Product Categories","routLink":"/categories"},
+    // {"title": "Tracking Number",   "routLink":"/trackingnumbers"},
+    // {"title": "Featured Products", "routLink":"/featuredproducts"},
   ];
-  allLinkList2 = this.homeLink.concat(this.orderViewList1, this.orderViewList2);
+  allLinkList2 = this.homeLink.concat(this.orderViewList2);
 
   footerOrderList = [
     {"title": "Log out",   "routLink":"/dashboard"},
@@ -98,12 +95,18 @@ export class AppComponent {
       if(window.location.pathname == "/"){
         this.router.navigate(['/orders']);
       }else{
+        let loggedInPath;
         this.allLinkList2.forEach(obj => {
           if(obj.routLink == window.location.pathname){
-            this.router.navigate([obj.routLink]);
+            loggedInPath = obj.routLink;
             return;
           }
         });
+        if(loggedInPath){
+          this.router.navigate([loggedInPath]);
+        }else{
+          this.router.navigate(['/orders']);
+        }
       } 
     }else{
       if(window.location.pathname=="/orders"){

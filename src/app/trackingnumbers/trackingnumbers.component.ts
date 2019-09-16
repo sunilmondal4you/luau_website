@@ -130,7 +130,7 @@ export class TrackingnumbersComponent implements OnInit {
           },
           "order_grand_total": "8.45",
           "user_email": "a@a.com",
-          "username": "MayankAaaaaaaaaaaa"
+          "username": "Mayank"
         },
         "product_details": [
           {

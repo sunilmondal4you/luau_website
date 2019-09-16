@@ -21,13 +21,13 @@
     min-height: 500px;
     font-weight: medium;
     font-family: 'avenir_next_m';
-    padding: 0px 10px;
+    padding-left: 1px;
+    padding-right: 1px;
 }
 .cardSec table{
+  border: 1.5px solid #e9ecef;
   border-radius: 10px;
-}
-.table th{
-    border-top: none;
+  box-shadow: 0px 1px 5px 1px #fbfbfb;
 }
 .cusBadge1{
     color: #4AD2B4;background: #eceeef;padding: 7px 25px;border-radius: 17px;cursor: pointer;font-family: 'avenir_next_b';

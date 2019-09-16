@@ -26,12 +26,16 @@ import { ProductcategoriesComponent } from './productcategories/productcategorie
 import {DemoMaterialModule} from './material-module';
 
 import { map } from 'rxjs/operators';
+import { ReturnsComponent } from './returns/returns.component';
+import { ReversePipe } from './pipes/reverse.pipe';
+import { FlaggedComponent } from './flagged/flagged.component';
+import { FlaggedInputDialogComponent } from './flagged/flagged-input-dialog/flagged-input-dialog.component';
+import { TrackingnumbersComponent } from './trackingnumbers/trackingnumbers.component';
+import { FeaturedproductsComponent } from './featuredproducts/featuredproducts.component';
+
 import { ModaltemplateComponent } from './dialog/modaltemplate/modaltemplate.component';
 import { ConfirmationDialogComponent } from './dialog/confirmation-dialog/confirmation-dialog.component';
 import { OrderCancelComponent } from './dialog/order-cancel/order-cancel.component';
-import { TrackingnumbersComponent } from './trackingnumbers/trackingnumbers.component';
-import { ReturnsComponent } from './returns/returns.component';
-import { FeaturedproductsComponent } from './featuredproducts/featuredproducts.component';
 
 
 
@@ -52,10 +56,12 @@ import { FeaturedproductsComponent } from './featuredproducts/featuredproducts.c
     ConfirmationDialogComponent,
     TagsdatabaseComponent,
     ProductcategoriesComponent,
-    OrderCancelComponent,
-    TrackingnumbersComponent,
     ReturnsComponent,
-    FeaturedproductsComponent
+    ReversePipe,
+    FlaggedComponent,
+    FlaggedInputDialogComponent,
+    TrackingnumbersComponent,
+    FeaturedproductsComponent,
   ],
   imports: [
     BrowserModule,
@@ -75,7 +81,7 @@ import { FeaturedproductsComponent } from './featuredproducts/featuredproducts.c
   ],
   bootstrap: [AppComponent],
 
-  entryComponents: [ ModaltemplateComponent, ConfirmationDialogComponent, OrderCancelComponent ]
+  entryComponents: [ ModaltemplateComponent, ConfirmationDialogComponent, FlaggedInputDialogComponent, OrderCancelComponent ]
 
 })
 export class AppModule { }

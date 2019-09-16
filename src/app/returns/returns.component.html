@@ -1,9 +1,10 @@
 <div>
-  <div class="emptyBlock" *ngIf="selcOrderId1 || selcOrderId2 || selcOrderId3" (click)="selcOrderId1=null; selcOrderId2=null; selcOrderId3=null"></div>
+  <div class="emptyBlock" *ngIf="selcOrderId1 || selcOrderId2 || selcOrderId3"
+    (click)="selcOrderId1=null; selcOrderId2=null; selcOrderId3=null"></div>
   <div class="loader" *ngIf="loaderStart"></div>
   <div class="row headerSec" *ngIf="!loaderStart">
     <div class="col-6">
-      <h2 class="luau-head head-font-1 mb-0">Return</h2>
+      <h2 class="luau-head head-font-1 mb-0">Returns</h2>
     </div>
     <!-- <div class="col-6">
       <form [formGroup]="searchForm" (ngSubmit)="onSubmit()">
@@ -17,11 +18,12 @@
         </div>
       </form>
     </div> -->
-    <mat-card class="col-12 cardSec" id="cardId">
+    <div class="col-12 cardSec" id="cardId">
       <table class="table mb-0 tableMargin">
         <thead>
           <tr>
             <th scope="col" class="orderTxt">Order</th>
+            <th scope="col" class="">Name</th>
             <th scope="col" class="">Retailer</th>
             <th scope="col" class="pl35">Product</th>
             <th scope="col" class="pl35">Order Detail</th>
@@ -34,35 +36,22 @@
                 <label class="cusId">#{{order.id}}</label>
                 <p class="cusHr">{{order.timestamp}}</p>
               </td>
+              <td class="statusMsg">{{order.order_details.username}}</td>
               <td class="statusMsg statusImg">
                 <img [src]="order.retailer_logo" class="retailerImg">
               </td>
               <td class="v-mid">
                 <div class="p-rel productCard">
-                  <span class="cusBadge1" (click)="getCompleteTrackingData(order)">Product</span>
-                  <div class="row ProductDetailSec" *ngIf="selcOrderId1 == order.id" >
+                  <span class="cusBadge1" (click)="selcOrderId1 = order.id">Product</span>
+                  <div class="row ProductDetailSec" *ngIf="selcOrderId1 == order.id">
                     <div class="col-3 p-0">
-                        <img class="prodImg" [src]="order.product_details.image || imgPathP" alt="Luau Icon">
+                      <img class="prodImg" [src]="order.product_details.image || imgPathP" alt="Luau Icon">
                     </div>
                     <div class="col-9">
                       <div class="prodName">{{order.product_details.name}}</div>
                       <div class="prodStyle">Size: {{order.product_details.size}}</div>
                       <div class="prodStyle">Color: {{order.product_details.color}}</div>
                       <div class="prodStyle"><a [href]="createProductUrl(order)" target="_blank">Product URL</a></div>
-                      <div class="prodStyle">
-                        <a *ngIf="order.product_details.tracking_details && order.product_details.tracking_details.tracking_url" href="{{order.trackingUrlDisp}}" target="_blank">Tracking URL</a>
-                        <a *ngIf="order.product_details.tracking_details && !order.product_details.tracking_details.tracking_url">Tracking URL</a>    
-                      </div>
-                    </div>
-                    <div class="prodStyle">Shipping status:&nbsp; 
-                      <span class="trackData">{{order.statusDisp}}</span> 
-                    </div>
-                    <div class="trakingHeader mt-1" *ngIf="order.product_details.tracking_details && order.product_details.tracking_details.tracking_data">SHIPPING ACTIVITY</div>
-                    <div class="trackDetailBlock" *ngIf="order.product_details.tracking_details && order.product_details.tracking_details.tracking_data">
-                      <div class="trackDetailSec" *ngFor="let trackDetail of order.trackingHistoryDisp.tracking_history">
-                        <div class="prodStyle">{{trackDetail.status_date|date:'MMMMd @ h:mma':'-0000'}}: {{trackDetail.location.city+", "+trackDetail.location.state}}</div>
-                        <div class="prodStyle">{{trackDetail.substatus.text}}</div>
-                      </div>
                     </div>
                   </div>
                 </div>
@@ -70,7 +59,8 @@
               <td class="v-mid">
                 <div class="p-rel detailCard" id="orderBtnId">
                   <span class="cusBadge2" (click)="selcOrderId2 = order.id;positionByIndex(i)">Order Detail</span>
-                  <div class="OrderDetailSec" id="orderBoxId" [ngClass]="{'positionBottom': i>3}" *ngIf="selcOrderId2 == order.id">
+                  <div class="OrderDetailSec" id="orderBoxId" [ngClass]="{'positionBottom': i>3}"
+                    *ngIf="selcOrderId2 == order.id">
                     <div class="oSec">
                       <div class="orderParam1">Order Place Time </div>
                       <div class="orderParam2">{{order.time}}</div>
@@ -78,16 +68,28 @@
                     <div class="oSec">
                       <div class="orderParam1">Address</div>
                       <div class="orderParam2">
-                        {{order.order_details.shipping_address.first_name}} 
+                        {{order.order_details.shipping_address.first_name}}
                         {{order.order_details.shipping_address.last_name}}
                       </div>
-                      <div class="orderParam2 addressFront">{{order.order_details.shipping_address.address_line_one}}, 
-                        <span *ngIf="order.order_details.shipping_address.address_line_two">{{order.order_details.shipping_address.address_line_two}}, </span>
-                        <span *ngIf="order.order_details.shipping_address.city">{{order.order_details.shipping_address.city}}, </span>
-                        <span *ngIf="order.order_details.shipping_address.state">{{order.order_details.shipping_address.state}}, </span>
-                        <span *ngIf="order.order_details.shipping_address.country">{{order.order_details.shipping_address.country}}, </span>
-                        <span *ngIf="order.order_details.shipping_address.zip_code">{{order.order_details.shipping_address.zip_code}}, </span>
-                        <span *ngIf="order.order_details.shipping_address.phone_number">{{order.order_details.shipping_address.phone_number}}, </span>
+                      <div class="orderParam2 addressFront">{{order.order_details.shipping_address.address_line_one}},
+                        <span
+                          *ngIf="order.order_details.shipping_address.address_line_two">{{order.order_details.shipping_address.address_line_two}},
+                        </span>
+                        <span
+                          *ngIf="order.order_details.shipping_address.city">{{order.order_details.shipping_address.city}},
+                        </span>
+                        <span
+                          *ngIf="order.order_details.shipping_address.state">{{order.order_details.shipping_address.state}},
+                        </span>
+                        <span
+                          *ngIf="order.order_details.shipping_address.country">{{order.order_details.shipping_address.country}},
+                        </span>
+                        <span
+                          *ngIf="order.order_details.shipping_address.zip_code">{{order.order_details.shipping_address.zip_code}},
+                        </span>
+                        <span
+                          *ngIf="order.order_details.shipping_address.phone_number">{{order.order_details.shipping_address.phone_number}},
+                        </span>
                       </div>
                     </div>
                     <div class="oSec">
@@ -111,15 +113,15 @@
             </tr>
           </ng-container>
           <tr *ngIf="orderList.length==0" class="noOrderSec">
-            <td colspan="4">
+            <td colspan="5">
               <h1>No order available!</h1>
             </td>
           </tr>
         </tbody>
       </table>
-    </mat-card>
+    </div>
     <div class="col-12 p-0" *ngIf="allItemLen && allItemLen>10">
-      <ul class="pagination justify-content-end" *ngIf="pager.pages && pager.pages.length" >
+      <ul class="pagination justify-content-end" *ngIf="pager.pages && pager.pages.length">
         <li class="page-item" [ngClass]="{disabled:pager.currentPage === 1}">
           <a class="page-link" (click)="setPage(1)">First</a>
         </li>
@@ -138,5 +140,5 @@
       </ul>
     </div>
   </div>
-  
+
 </div>

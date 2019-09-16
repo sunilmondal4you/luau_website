@@ -12,8 +12,9 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { OrdersComponent } from './orders/orders.component';
 import { TagsdatabaseComponent } from './tagsdatabase/tagsdatabase.component';
 import { ProductcategoriesComponent } from './productcategories/productcategories.component';
-import { TrackingnumbersComponent } from './trackingnumbers/trackingnumbers.component';
 import { ReturnsComponent } from './returns/returns.component';
+import { FlaggedComponent } from './flagged/flagged.component';
+import { TrackingnumbersComponent } from './trackingnumbers/trackingnumbers.component';
 import { FeaturedproductsComponent } from './featuredproducts/featuredproducts.component';
 
 const routes: Routes = [
@@ -27,12 +28,12 @@ const routes: Routes = [
   { path: 'privacy',  component: PrivacyComponent,  pathMatch: 'full' },
   { path: 'dashboard',component: DashboardComponent,pathMatch: 'full' },
   { path: 'orders',   component: OrdersComponent,   pathMatch: 'full' },
+  { path: 'returns',  component: ReturnsComponent,  pathMatch: 'full' },
+  { path: 'flagged',  component: FlaggedComponent,  pathMatch: 'full' },
   { path: 'tagsdatabase',    component: TagsdatabaseComponent,      pathMatch: 'full' },
-  { path: 'categories',      component: ProductcategoriesComponent, pathMatch: 'full' },
-  { path: 'trackingnumbers', component: TrackingnumbersComponent,   pathMatch: 'full' },
-  { path: 'returns',         component: ReturnsComponent,           pathMatch: 'full' },
-  { path: 'featuredproducts',component: FeaturedproductsComponent,  pathMatch: 'full' },
-
+  // { path: 'categories',      component: ProductcategoriesComponent, pathMatch: 'full' },
+  // { path: 'trackingnumbers', component: TrackingnumbersComponent,   pathMatch: 'full' },
+  // { path: 'featuredproducts',component: FeaturedproductsComponent,  pathMatch: 'full' },
 ];
 
 @NgModule({

@@ -138,9 +138,3 @@ mat-card{
 .plusIcon{
   font-size: 31px;color: #4AD2B4;cursor: pointer !important;
 }
-.noOrderSec{
-  min-height:300px;text-align: center;align-items: center
-}
-.noOrderSec td h1{
-  margin-top: 15%
-}
