@@ -1,0 +1,15 @@
+.modal-body{
+    font-size: 18px;
+    color: #2A292B;
+    text-align: center;
+    font-family: 'avenir_next_m';  
+}
+.modalBtn{
+    background: #e9ebec;
+    min-width: 70px;
+    font-family: 'avenir_next_m';  
+}
+.modalBtn:hover, .modalBtn:focus{
+    background: #e9ebec;
+    box-shadow: none;
+}

@@ -1,0 +1,32 @@
+.confirmationDialog{
+    position: absolute;
+    top: 36%;
+    left: 40%;
+    min-height: 200px;
+    min-width: 350px;
+    text-align: center;
+    background: #ffffff;
+    border-radius: 3px;
+    padding: 20px 40px;
+    z-index: 999999;
+    font-family: avenir_next_db;
+  }
+  .cdk-overlay-container{
+    position: relative !important;
+  }
+  .btnBg{
+    background: #59b2f1;
+    outline: none;
+    color: #fff;
+  }
+  .btnBg:focus{
+    background: #0e8cfb;
+    outline: none;
+  }
+  .modal-body{
+    min-height: 95px;
+    text-align: left;
+  }
+  .modal-title{
+    font-family: avenir_next_db;
+  }

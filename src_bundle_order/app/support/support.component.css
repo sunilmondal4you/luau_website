@@ -1,0 +1,12 @@
+.suprt-wrp p{
+    margin: 0;
+    line-height: 1.5;
+    color: #2A292B;
+    font-size: 24px;
+    font-weight: medium;
+    font-family: 'avenir_next_m';
+}
+.suprt-wrp a{
+    color: #4AD2B4;
+    cursor: pointer;
+}

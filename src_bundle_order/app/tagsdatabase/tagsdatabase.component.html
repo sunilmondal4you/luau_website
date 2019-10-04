@@ -1,0 +1,81 @@
+<div>
+  <div class="loader" *ngIf="loaderStart"></div>
+  <div class="headerSec" *ngIf="!loaderStart">
+    <div class="row">
+      <div class="col-6">
+        <h2 class="luau-head head-font-1 mb-0">Tag Database</h2>
+      </div>
+      <div class="col-6">
+        <form [formGroup]="searchForm" (ngSubmit)="onTagSsearch()">
+          <div class="form-group has-search" (keydown.enter)="onTagSsearch()">
+            <span class="fa fa-search form-control-feedback"></span>
+            <input type="text" class="form-control" formControlName="name" [ngClass]="{ 'is-invalid': submitted && f.name.errors }">
+            <span class="fa fa-times searchCrossIcon" *ngIf="this.searchForm.value.name" (click)="clearSearchField()"></span>
+            <div *ngIf="submitted && f.name.errors" class="invalid-feedback requireMsg">
+              <div *ngIf="f.name.errors.required">Tag Name is required.</div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-12 tagCardSec" id="cardId">
+        <mat-card class="tp-card" id="id1">
+          <div class="tablePdng" id="id2">
+            <table class="table mb-0 tableMargin">
+              <thead>
+                <tr>
+                  <th scope="col" class="tblHdr1">Tag</th>
+                  <th scope="col" class="tblHdr2" colspan="3">Synonyms</th>
+                  <th scope="col"></th>
+                </tr>
+              </thead>
+              <tbody>
+                <ng-container *ngFor="let tags of TAG_LIST;let i = index">
+                  <tr *ngIf="TAG_LIST.length>0">
+                    <td class="statusMsg">{{tags.name}}</td>
+                    <td class="statusMsg" colspan="3">
+                      <span *ngFor="let synonyms of tags.luauTagSynonyms;let last = last">{{synonyms.name}}{{last ? "" : ", "}}</span>
+                      <span *ngIf="tags.luauTagSynonyms.length==0">--</span>
+                    </td>
+                    <td class="statusMsg text-right pr-4">
+                        <span class="cusBadge2" (click)="!deleteBtnDissable && deleteTagConfirmation(tags)">Delete</span>
+                    </td>
+                  </tr>
+                    
+                </ng-container>
+                <tr *ngIf="TAG_LIST.length==0" class="noOrderSec">
+                  <td colspan="5">
+                    <h1>No tags found!</h1>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          
+          <mat-card class="bt-card" id="id3">
+            <mat-card-header>
+              <mat-card-title class="mt-2"> Create New Tag</mat-card-title>   
+            </mat-card-header>
+            <form class="pl-4 pr-4" [formGroup]="tagCreateForm" (ngSubmit)="onCreateTag()">
+              <div class="row">
+                <div class="col-4 form-group">
+                  <input type="text" class="form-control luau-inpt" formControlName="name" placeholder="tag name" [ngClass]="{ 'is-invalid': formSubmitted && f.name.errors }">
+                  <div *ngIf="formSubmitted && f.name.errors" class="invalid-feedback requireMsg">
+                    <div *ngIf="f.name.errors.required">Tag name is required.</div>
+                  </div>
+                </div>
+                <div class="col-6 form-group">
+                  <input type="text" class="form-control luau-inpt" formControlName="synonyms" placeholder="synonyms(optional)">
+                </div>
+                <div class="col-2 form-group btn-wrp">
+                  <span class="fas fa-plus-circle plusIcon" (click)="!createBtnDissable && createNewTag()"></span>
+                </div>
+              </div>
+            </form>
+          </mat-card>
+        </mat-card>        
+      </div>
+    </div>
+  </div>
+</div>

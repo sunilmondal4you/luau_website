@@ -1,0 +1,79 @@
+
+.form-control{
+  padding-left: 20px;
+  border-radius:20px;
+  border: 1px solid #F3F3F6;
+  transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+  background:#f3f3f3;
+  color: rgb(39, 34, 34);
+  font-size: 16px;
+  font-weight: regular;
+  font-family: 'avenir_next_r';
+}
+.form-group{
+  min-height: 47px;
+}
+.btn{
+  color: #2A292B;
+  background: #F3F3F6;
+  border-radius: 5px;
+  border: 1px solid #4AD2B4;
+  font-size: 14px;
+  font-weight: bold;
+  font-family: 'avenir_next_b';
+}
+.luau-head{
+  color: #2A292B;
+  line-height: 30px;
+  font-size: 36px;
+  font-weight: bold;
+  font-family: 'avenir_next_b';
+}
+.luau-subhead{
+  color: #2A292B;
+  font-size: 18px;
+  font-weight: regular;
+  font-family: 'avenir_next_r';
+}
+.requireMsg{
+  font-weight: medium;
+  font-family: 'avenir_next_m';
+  margin: 0px 0px -10px 20px;
+}
+.confirmationDialog{
+  position: absolute;
+  top: 20%;
+  left: 40%;
+  min-height: 140px;
+  min-width: 350px;
+  text-align: center;
+  background: #ffffff;
+  border-radius: 3px;
+  padding: 25px;
+  z-index: 999999;
+}
+.cdk-overlay-container{
+  position: relative !important;
+}
+.btnBg{
+  background: #59b2f1;
+  outline: none;
+  color: #fff;
+}
+.btnBg:focus{
+  background: #0e8cfb;
+  outline: none;
+}
+.contSection{
+  min-width: 75px;
+  width: 100%
+}
+input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-outer-spin-button { 
+  -webkit-appearance: none; 
+  margin: 0; 
+}
+.mat-button[disabled][disabled]{
+  color: #fff;
+  cursor: not-allowed;
+}

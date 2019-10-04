@@ -1,0 +1,45 @@
+<div>
+  <div class="loader" *ngIf="loaderStart"></div>
+  <div class="headerSec" *ngIf="!loaderStart">
+    <div class="row">
+      <div class="col-12">
+        <h2 class="luau-head head-font-1 mb-0">Product Categories</h2>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-12 tagCardSec" id="cardId">
+        <mat-card class="tp-card">
+          <div class="tablePdng">
+            <table class="table mb-0 tableMargin">
+              <thead>
+                <tr>
+                  <th scope="col" class="tblHdr1">Category</th>
+                  <th scope="col" class="tblHdr1">ID</th>
+                  <th scope="col" class="tblHdr2">Frontend Category</th>
+                  <th scope="col"></th>
+                </tr>
+              </thead>
+              <tbody>
+                <ng-container *ngFor="let obj of CATEGORIES_LIST;let i = index">
+                  <tr *ngIf="CATEGORIES_LIST.length>0">
+                    <td class="statusMsg">{{obj.categories}}</td>
+                    <td class="statusMsg">{{obj.ID}}</td>
+                    <td class="statusMsg">{{obj.frontend_categories}}</td>
+                    <td class="statusMsg text-right pr-4">
+                        <span class="cusBadge2">View</span>
+                    </td>
+                  </tr>
+                </ng-container>
+                <tr *ngIf="CATEGORIES_LIST.length==0" class="noOrderSec">
+                  <td colspan="4">
+                    <h1>No order available!</h1>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </mat-card>        
+      </div>
+    </div>
+  </div>
+</div>

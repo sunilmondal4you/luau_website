@@ -1,0 +1,70 @@
+<div>
+  <!-- Loader -->
+  <div class="loader" *ngIf="loaderStart"></div>
+
+  <!-- Featured Product List View -->
+  <div class="headerSec" *ngIf="!loaderStart && !prodCreatePageView">
+    <div class="row">
+      <div class="col">
+        <label class="luau-head head-font-1 mb-0">Featured Products</label>
+        <label class="createBtn text-center" (click)="prodCreatePageView =! prodCreatePageView">Create New</label>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-12 tagCardSec" id="cardId">
+        <mat-card class="tp-card">
+          <div class="tablePdng" id="tableId">
+            <table class="table mb-0 tableMargin">
+              <thead>
+                <tr>
+                  <th scope="col" class="tblHdr1">Product</th>
+                  <th scope="col"></th>
+                  <th scope="col" class="tblHdr2">Luau URL</th>
+                  <th scope="col"></th>
+                </tr>
+              </thead>
+              <tbody>
+                <ng-container *ngFor="let obj of PRODUCT_LIST;let i = index">
+                  <tr *ngIf="PRODUCT_LIST.length>0">
+                    <td class="statusMsg">
+                      <img *ngIf="obj.image" [src]="obj.image" class="prodImg">
+                    </td>
+                    <td class="statusMsg align-middle">{{obj.name}}</td>
+                    <td class="statusMsg align-middle">
+                      <a class="prodUrl">{{obj.product_url}}</a>
+                    </td>
+                    <td class="statusMsg actionCol">
+                        <label class="cusBadge2">Edit</label>
+                        <label class="cusBadge1">Delete</label>
+                    </td>
+                  </tr>
+                </ng-container>
+                <tr *ngIf="PRODUCT_LIST.length==0" class="noOrderSec">
+                  <td colspan="4">
+                    <h1>No order available!</h1>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </mat-card>        
+      </div>
+    </div>
+  </div>
+
+  <!-- Create Featured Product View -->
+  <div class="headerSec" *ngIf="!loaderStart && prodCreatePageView">
+    <div class="row">
+      <div class="col">
+        <label class="luau-head head-font-1 mb-0">New Products Creation</label>
+        <label class="createBtn text-center" (click)="createUpdateProduct()">Submit Product</label>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-12" id="cardId">
+              
+      </div>
+    </div>
+  </div>
+
+</div>

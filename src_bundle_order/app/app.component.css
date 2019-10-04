@@ -1,0 +1,118 @@
+.sec1{
+    background: #fbfbfb;
+    box-shadow: 3px -15px 13px 0px #888;
+    padding: 0px !important;
+}
+@media (min-width:768px) {
+    .icon1{
+        width: 50%;
+        margin: 25% 22% 15%;
+        cursor: pointer;
+    }
+	.leftPanelPosition{
+        position: fixed;
+        top: 0%;
+        left: 0%;
+        min-width: 16.5%;
+    }
+    .footerSec{
+        min-width: 16%;
+    }
+    .sec1{
+        margin-bottom: -20px;
+        overflow-y: auto;
+    }
+    .navLink{
+        font-size: 16px;
+    }
+    .navLinkFooter{
+        font-size: 12px;
+    }
+}
+@media (max-width:767px) {
+    .icon1{
+        width: 25%;
+        margin: 85px 36% 20px;
+        cursor: pointer;
+    }
+    .footerSec{
+        min-width: 100%;
+    }
+    .navLink{
+        font-size: 23px;
+    }
+    .navLinkFooter{
+        font-size: 20px;
+    }
+    .routSec{
+        margin-top: 65px
+    }
+}
+/* @media (orientation: landscape) {
+    .routSec {
+        margin: 250px;
+    }
+} */
+  
+
+.routSec{
+    padding: 0px !important;
+    min-height: 65%;
+    margin-top: 0%;
+}
+.mobileView{
+    padding: 5% 10%;
+    height: 65px;
+    position: fixed;
+    top: 0;
+    z-index: 999;
+    width: 100%;
+    background: #fbfbfb;
+}
+.navLink{
+    padding: 4% 10%;
+    font-size: 16px;
+    color: #2A292B;
+    font-family: 'avenir_next_db';
+    font-weight: DemiBold;
+    display: block;
+    cursor: pointer;
+    text-decoration: none;
+}
+.navLink:focus, .navLink:hover, .navLink:active, .navLink.active-link{
+    background: #4bd2bc38;
+    color: #4AD2B4;
+    font-weight: bold;
+    font-family: 'avenir_next_b';    
+    text-decoration: none;
+    outline: none;
+    text-decoration: none
+}
+
+.icon1:focus{
+    outline: none
+}
+.footerSec{
+    position: fixed;
+    bottom: 0;
+    padding: 5px 10px;
+}
+.navLinkFooter{
+    color: #C8C8C8;
+    cursor: pointer;
+    padding: 0px;
+    text-align: center;
+    font-size: 12px;
+    font-weight: medium;
+    font-family: 'avenir_next_m';
+}
+.navLinkFooter:focus, .navLinkFooter:hover, .navLinkFooter:active{
+    color: #4AD2B4;
+    font-weight: medium;
+    font-family: 'avenir_next_m';
+    text-decoration: none;
+    outline: none;
+}
+.navLink a{
+    text-decoration: none;
+}
