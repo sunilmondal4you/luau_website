@@ -1,0 +1,379 @@
+.h-100{
+    height: 100vh;
+}
+ho-100{
+    height: 100vh !important;
+    overflow-y: auto !important;
+}
+.h-80{
+    height: 80vh;
+    overflow-y: auto
+}
+.v-center{
+    display: flex;
+    align-items: center;
+    vertical-align: center;
+}
+.v-center2{
+    display: flex;
+    vertical-align: center;
+}
+.p-rel{
+    position: relative !important;
+}
+.c-pointer{
+    cursor: pointer;
+}
+.c-noDrop{
+    cursor: no-drop !important;
+}
+.pf-2{
+    position: fixed;
+    bottom: 2px;
+}
+.parentDiv{
+    font-family: 'avenir_next_r';
+}
+.loader {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    z-index: 1;
+    width: 150px;
+    height: 150px;
+    margin: -75px 0 0 -75px;
+    border: 10px solid #f3f3f3;
+    border-radius: 50%;
+    border-top: 10px solid #3498db;
+    width: 100px;
+    height: 100px;
+    -webkit-animation: spin 2s linear infinite;
+    animation: spin 2s linear infinite;
+  }
+.emptyBlock{
+  display: block;
+  height: 100%;
+  width: 100%;
+  position: fixed;
+  z-index: 10;
+  top: 0;
+  left: 0;
+}
+.left-panel{
+    background: #ffffff;
+}
+.right-panel, .middle-panel{
+    background: #161716;
+    color: #ffffff;
+}
+.table{
+    color: #ffffff;
+}
+.table-hover tbody tr:hover, .highlighted {
+    color: #fff;
+    background-color: #000000;
+}
+.cusId, .table td, .table th {
+    font-size: 14px;line-height: 19px;letter-spacing: -0.411429px;margin-bottom:0px;font-family: 'avenir_next_db';color: #F3F3F6;
+}
+.cusHr{
+    color:#B4B4B4;margin-bottom: 0px;margin-left: 0px;font-family: 'avenir_next_m';font-size: 10px;line-height: 14px;letter-spacing: -0.308571px;
+}
+.statusCrcl{
+    height: 14px;
+    width: 14px;
+    border-radius: 7px;
+    background: red;
+    margin-right: 5px;
+    margin-bottom: 0px;
+}
+.left-cr-mb{
+    margin-bottom: -3px;
+}
+.right-panel{
+    border-left: 3px solid #333334;
+}
+.orderDText{
+    font-size: 12px;
+    color: #d6d6d6;
+    line-height: 19px;
+    letter-spacing: -0.41px;
+    font-family: 'avenir_next_m';
+}
+.fa-redo{
+    margin-top: 5px;
+    font-size: 14px;
+}
+.fa-filter, fa-cog{
+    font-size: 19px;
+}
+.fa-caret-up{
+    font-size: 25px;
+    margin-bottom: 0px;
+    padding-right: 3px;
+}
+.fa-arrow-circle-left{
+    font-size: 20px;
+    z-index: 999999;
+}
+.boder-wb{
+    border-bottom: 3px solid #F3F3F6;
+}
+.boder-b{
+    border-bottom: 3px solid #333334
+}
+.table td, .table th {
+    border-top: none;
+    padding: .75em .75em .75em 2.5em;
+}
+.table{
+    height: auto;
+    overflow-y: auto;
+}
+.retailerImg{
+    max-height: 35px;
+    width: 35px;
+    border-radius: 22px;
+}
+.searchField{
+    height: 35px;
+    width: 188px;
+    border: none;
+    border-radius: 0px;
+    padding: 0px;
+    color: #FDFDFF;
+    background: #161716;
+    border-bottom: 2px solid #fff;
+    margin-left: 5px;
+    margin-right: 5px
+}
+.searchField:focus{
+    outline: none;
+    box-shadow: none;
+}
+.pagination{
+    margin-bottom: 0px
+}
+.page-link{
+    color: #131313 !important
+}
+.prodStatus{
+    margin-top: 10px;
+    margin-bottom: 0px;
+    font-family: 'avenir_next_r';
+    font-size: 20px;
+    line-height: 27px;
+    letter-spacing: -0.411429px;
+    color: #FDFDFF;
+}
+.orderId{
+    font-size: 14px;
+    line-height: 19px;
+    letter-spacing: -0.411429px;
+    color: #B5B5BD;
+    font-family: 'avenir_next_r';
+}
+.orderAmtTop{
+    color: #FDFDFF !important;
+    font-family: 'avenir_next_m';
+    font-size: 14px;
+    line-height: 19px;
+    letter-spacing: -0.411429px;
+}
+.prodImg{
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 120px;
+    height: 120px;
+}
+.prodName{
+    font-size: 12px;
+    line-height: 16px;
+    text-align: center;
+    color: #FDFDFF;
+    font-family: 'avenir_next_m';
+}
+.prodStyle{
+    font-size: 11px;
+    line-height: 15px;
+    text-align: center;
+    color: #B5B5BD;
+    font-family: 'avenir_next_r';
+}
+.prodUrl{
+    font-size: 13px;
+    font-family: 'avenir_next_m';
+}
+.moiTitle{
+    font-size: 11px;
+    line-height: 15px;
+    color: #B5B5BD;
+    font-family: avenir_next_r;
+    letter-spacing: -0.411429px;
+}
+.filter-h{
+    margin: 15px 2px 7px;
+}
+.filter-h, .filter-h-suf{
+    font-size: 16px;
+    color: #000000;
+    line-height: 22px;
+    font-family: avenir_next_db;
+    letter-spacing: -0.411428px;
+    margin-right: 5px;
+}
+.filter-h-suf{
+    font-family: avenir_next_r;
+}
+.filter-sh, .filter-sh-suf{
+    font-size: 16px;
+    color: #000000;
+    line-height: 22px;
+    font-family: avenir_next_r;
+    letter-spacing: -0.411428px;
+    margin-right: 5px;
+}
+.filter-sh-suf{
+    font-family: avenir_next_r;
+}
+.trackingList{
+    font-size: 13px;
+    color: #FDFDFF;
+    line-height: 24px;
+    font-family: avenir_next_r;
+    letter-spacing: -0.41px;
+    margin-bottom: 16px !important;
+}
+.trackCount{
+    min-width: 12px;
+    text-align: center;
+    font-size: 9px;
+    color: #5E6568;
+    line-height: 22px;
+    font-family: avenir_next_db;
+    letter-spacing: -0.41px;
+}
+.trackingHistory{
+    overflow-y: auto;
+}
+.trackingData{
+    text-align: left
+}
+.noTrackingHistory{
+    text-align: center;
+    font-size: 15px;
+    font-family: 'avenir_next_r'
+}
+.noOrderSec{
+  min-height:300px;text-align: center;align-items: center
+}
+.midCenter, .leftCenter{
+    overflow-y: auto;
+}
+.footerSecDash, .midBottom{
+    position: absolute;
+    bottom: 0;
+    z-index: 9999;
+    padding: 9px 10px;
+}
+.footerSecDash{
+    border-top: 3px solid #F3F3F6;
+}
+.midBottom{
+    background: #161716;
+    border-top: 3px solid #333334
+}
+.navLinkFooter{
+    color: #8E9898;
+    cursor: pointer;
+    padding: 0px;
+    text-align: center;
+    font-size: 14px;
+    font-family: 'avenir_next_db';
+}
+.supportView{
+    border-left: 3px solid #f3f3f6;
+}
+.detailCard{
+    min-width: 143px;
+}
+.cusBadge{
+    cursor: pointer;
+    margin: 2px 0px;
+    padding: 7px 25px;
+    border-radius: 17px;
+    font-family: 'avenir_next_m';
+    background: #5d5d5d !important;
+}
+.cusBadge2{
+    font-size: 12px;
+    cursor: pointer;
+    margin: 2px 0px;
+    padding: 5px 20px;
+    border-radius: 17px;
+    font-family: 'avenir_next_m';
+    background: #5d5d5d !important;
+}
+.moiText{
+    font-size: 12px;
+    margin: 2px 0px;
+    padding: 5px 20px;
+    font-family: 'avenir_next_m';
+}
+.OrderDetailSec{
+    height: auto;
+    position: absolute;
+    top: 40px;
+    left: -115px;
+    z-index: 999;
+    background: #fff;
+    border-radius: 10px;
+    border: 2px solid #d0d0d08f;
+    width: 285px;
+}
+.positionBottom{
+    bottom: 38px;
+    top: auto
+}
+.oSec{
+    padding: 10px 18px;
+    border-bottom: 3px solid #d0d0d08f;
+}
+.oSec2{
+  padding: 10px 18px;
+  min-height: 60px;
+  align-items: center;
+}
+.orderParam1{
+  font-size: 14px;
+  line-height: 30px;
+  color: #1F1F20;
+  font-family: 'avenir_next_db';
+}
+.orderParam2{
+  font-size: 16px;
+  line-height: 25px;
+  color: #1F1F20;
+  font-family: 'avenir_next_r';
+}
+.orderAmt{
+  font-size: 14px;
+  color: #1F1F20;
+  font-family: 'avenir_next_db';
+}
+.addressFront{
+  font-size: 16px !important;
+}
+.cardLogo{
+  height: 28px;
+  margin: 5px;
+}
+.activeFilter{
+    background: #848484 !important;
+    border-radius: 4px;
+    padding-left: 2px;
+}
+.activeFilter span{
+    color: #fff !important;
+}

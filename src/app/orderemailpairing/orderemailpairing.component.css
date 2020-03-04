@@ -1,0 +1,128 @@
+.headerSec{
+    margin-left: 0px;margin: 50px 40px 0px;min-width: 400px;
+    
+}
+@media(max-width: 1029px) {
+    .headerSec {
+        margin: 50px 10px;
+    }
+}
+@media(max-width: 375px) {
+    .headerSec {
+        padding-top: 15px
+    }
+}
+.luau-head{
+    color: #2A292B;font-weight: bold;font-family: 'avenir_next_b';
+}
+.head-font-1{
+    font-size: 48px !important;line-height: 56px;letter-spacing: -0.822857px;
+}
+.tagCardSec{
+    font-family: 'avenir_next_m';padding: 10px 15px 0px;
+}
+.loader{
+    position: absolute;left: 50%;top: 50%;z-index: 1;width: 150px;height: 150px;margin: -75px 0 0 -75px;
+    border: 10px solid #f3f3f3;border-radius: 50%;border-top: 10px solid #3498db;width: 100px;
+    height: 100px;-webkit-animation: spin 2s linear infinite;animation: spin 2s linear infinite;
+}
+/* Safari */
+@-webkit-keyframes spin {
+    0% { -webkit-transform: rotate(0deg); }
+    100% { -webkit-transform: rotate(360deg); }
+}
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+.tagCreateSec{
+    position: absolute;bottom: 0;min-height: 25%;
+}
+.tp-card{
+    margin-bottom: -1px;padding: 0px
+}
+.tablePdng{
+    padding:9px 10px 9px 25px;;height: 82%;overflow-y: auto;
+}
+.tableMargin thead tr{
+    height: 40px;line-height: 40px;
+}
+.tableMargin thead th{
+    border-bottom: none;
+}
+.tp-card table{
+    margin-top: -10px;
+}
+.table td, .table th {
+    padding: .35rem;vertical-align: top;
+}
+.tblHdr1{
+    color:#4AD2B4;
+}
+.tblHdr2{
+    color:#8B8B8B;
+}
+.idColWidth{
+    min-width: 120px;
+}
+.statusMsg{
+    font-family: avenir_next_m;font-size: 16px;line-height: 19px;letter-spacing: -0.411428px;color: #201F20;padding-top: 55px !important;
+}
+.mat-card:not([class*=mat-elevation-z]) {
+    box-shadow: 0 2px 1px -1px rgba(0,0,0,.2), 0 1px 1px 0 rgba(0,0,0,.14), 0 1px 3px 0 rgba(0,0,0,.5);
+}
+mat-card-title{
+    font-family: 'avenir_next_db'
+}
+mat-card{
+    font-family: 'avenir_next_m'
+}
+.cusId{
+    margin-bottom:0px;font-size: 16px;font-family: 'avenir_next_db';color: #2A292B;
+}
+.cusHr{
+    font-size:12px;color:#9D9D9D;margin-bottom: 0px;line-height: 11px;margin-left: 0px;font-family: 'avenir_next_m';
+}
+.mailDetailSec{
+    min-height: 164px;max-width: 300px;min-width:300px;background: #F6F6F9;border-radius: 12px;margin-right: 5px;padding: 10px 12px;flex: auto;height: -webkit-fill-available;
+}
+.mailTitle{
+    font-family:'avenir_next_m';font-size: 14px;line-height: 16px;letter-spacing: -0.48px;color: #201F20;margin-bottom: 5px;
+}
+.brandName{
+    font-family: avenir_next_r;font-size: 14px;line-height: 16px;letter-spacing: -0.48px;color: #201F20;margin-bottom: 0;
+}
+.commOrderStatus{
+    border-radius: 20px;font-family: avenir_next_m;font-size: 14px;line-height: 16px;text-align: center;letter-spacing: -0.308571px;padding: 9px 17px;margin-top: 7px;cursor: pointer;
+}
+.orderStatus1{
+    background: rgba(248, 122, 135, 0.146626);color: #F36275;
+}
+.orderStatus2{
+    background: rgba(119, 201, 239, 0.147164);color: #67BDEB;
+}
+.retailerImg{
+    max-height: 46px;width: 46px;border-radius: 22px;
+}
+.statusImg{
+    padding: 7px 15px;
+}
+.enableViewMore{
+    margin-top: 15px;
+    width: 650px;
+    height: 250px;
+    overflow-y: auto;
+    z-index: +1111111;
+    background: white;
+    border: 1px solid #949494;
+    border-radius: 4px;
+    padding: 5px;
+    position: absolute;
+    display: inline-block;
+}
+.tp-card table .row{flex-wrap: nowrap;}
+.tp-card table td, .tp-card table th{display: flex;}
+.row {
+    margin-right: -10px;
+    margin-left: -17px;
+}

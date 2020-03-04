@@ -1,0 +1,49 @@
+<div class="confirmationDialog row">
+  <div class="contSection">
+    <div mat-dialog-title class="col-12 justify-content-center  m-0 p-0 modal-title">
+      {{message}}
+      <span class="fa fa-times form-control-feedback closeIcon"  (click)="onDialogClose()"></span>
+    </div>
+    <div class="modal-body pb-0">
+      <form [formGroup]="flaggedInputForm" (ngSubmit)="onSubmit()">
+        <div class="form-group" *ngIf="!LMOI">
+          <input type="text" class="form-control luau-inpt" formControlName="tracking_number" placeholder="tracking number" [ngClass]="{ 'is-invalid': f.tracking_number.errors }" />
+          <div *ngIf= "f.tracking_number.errors" class="invalid-feedback requireMsg text-left">
+            <div *ngIf="f.tracking_number.touched && f.tracking_number.errors.required">tracking number is required.</div>
+          </div>
+        </div>
+        <div class="form-group" *ngIf="!LMOI">
+          <input type="text" class="form-control luau-inpt" formControlName="tracking_url" placeholder="tracking url" [ngClass]="{ 'is-invalid': f.tracking_url.errors }" />
+          <div *ngIf= "f.tracking_url.errors" class="invalid-feedback requireMsg text-left">
+            <div *ngIf="(f.tracking_url.touched || f.tracking_url.dirty) && f.tracking_url.errors.required">tracking url is required.</div>
+            <div *ngIf="f.tracking_url.value && f.tracking_url.invalid">not a valid URL</div>
+          </div>
+        </div>
+        <div class="form-group" *ngIf="!OEP">
+          <input type="text" class="form-control luau-inpt" formControlName="merchant_order_id" placeholder="merchant order id" [ngClass]="{ 'is-invalid': f.merchant_order_id.errors }" (ngModelChange)="moiChange('change')"/>
+          <div *ngIf="f.merchant_order_id.errors" class="invalid-feedback requireMsg text-left">
+            <div *ngIf="f.merchant_order_id.touched && f.merchant_order_id.errors.required">merchant order id is required.</div>
+            <div *ngIf="f.merchant_order_id.value && f.merchant_order_id.invalid">merchant order id is not valid.</div>
+          </div>
+          <div class="errorMsg" *ngIf="moiError">{{moiError}}</div>
+        </div>
+        <div class="form-group" *ngIf="!LMOI">
+          <input type="text" class="form-control luau-inpt" formControlName="carrier" placeholder="carrier" [ngClass]="{ 'is-invalid': f.carrier.errors }" />
+          <div *ngIf= "f.carrier.errors" class="invalid-feedback requireMsg text-left">
+            <div *ngIf="f.carrier.touched && f.carrier.errors.required">carrier is required.</div>
+          </div>
+        </div>
+        <div class="form-group" *ngIf="!OEP">
+          <input type="text" class="form-control luau-inpt" formControlName="price" placeholder="retailer price" />
+          <div *ngIf="f.price.invalid && (f.price.dirty || f.price.touched)" class="requireMsg text-left">
+            <small class="form-text text-danger" *ngIf="f.price.errors.pattern" >Only numbers allowed</small>
+          </div>
+          <div class="errorMsg" *ngIf="priceError">{{priceError}}</div>
+        </div>
+      </form>
+    </div>
+    <div mat-dialog-actions class="col-12 justify-content-center">
+      <button mat-button class="btnBg" (click)="onSubmit()" [disabled]="flaggedInputForm.invalid && (!LMOI || f.merchant_order_id.invalid || f.price.errors.pattern)">Submit</button>
+    </div>
+  </div>
+</div>

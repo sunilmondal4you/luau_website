@@ -1,0 +1,65 @@
+<div>
+  <div class="loader" *ngIf="loaderStart"></div>
+  <div class="headerSec" *ngIf="!loaderStart">
+    <div class="row">
+      <div class="col-12">
+        <h2 class="luau-head head-font-1 mb-0">Order Email Pairing</h2>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-12 tagCardSec" id="cardId">
+        <mat-card class="tp-card" id="id1">
+          <div class="tablePdng table-responsive" id="id2">
+            <table class="table table-border mb-0 tableMargin">
+              <thead>
+                <tr class="row">
+                  <th scope="col" class="tblHdr1 col">Order</th>
+                  <th scope="col" class="tblHdr2 col">Username</th>
+                  <th scope="col" class="tblHdr2 col">Retailer</th>
+                  <th scope="col" class="tblHdr2 col">MOI</th>
+                  <th scope="col" class="tblHdr2 col-7">Emails</th>
+                </tr>
+              </thead>
+              <tbody>
+                <ng-container *ngFor="let obj of ORDER_LIST;let i = index">
+                  <tr class="d-flex" *ngIf="ORDER_LIST.length>0 && obj.mail.length>0">
+                    <td class="statusMsg flex-nowrap col">{{obj.id}}</td>
+                    <td class="statusMsg flex-nowrap col">{{obj.full_name}}</td>
+                    <td class="statusMsg statusImg col">
+                      <img [src]="obj.retailer_logo" class="retailerImg">
+                    </td>
+                    <td class="statusMsg flex-nowrap col">{{obj.retailer_order_id}}</td>
+                    <td class="col-7">
+                      <div class="row">
+                        <ng-container *ngFor="let mailObj of obj.mail;let j = index">
+                          <div class="column col-5 mailDetailSec" [ngClass]="{'viewMore': mailObj.enableViewMore}">
+                          <p class="mailTitle">Email - {{j+1}}</p>
+                          <p class="mailTitle">Title - {{mailObj.title}}</p>
+                          <p class="mailTitle">Subject - {{mailObj.subject}}</p>
+                          <div class="text-center">
+                            <label class="commOrderStatus orderStatus1 mr-2" *ngIf="!mailObj.enableViewMore" (click)="viewMore(mailObj, obj.mail)">View More</label>
+                            <label class="commOrderStatus orderStatus1 mr-2" *ngIf="mailObj.enableViewMore" (click)="viewMore(mailObj, obj.mail)">View Less</label>
+                            <label class="commOrderStatus orderStatus2" (click)="orderEmailPairingDialog(mailObj)">Order Pairing</label>
+                          </div>
+                          <div *ngIf="mailObj.enableViewMore" class="enableViewMore">
+                            <label [innerHtml]="mailObj.body"></label>
+                          </div>
+                        </div>
+                      </ng-container>
+                    </div>
+                    </td>
+                  </tr>
+                </ng-container>
+                <tr *ngIf="ORDER_LIST.length==0" class="noOrderSec">
+                  <td class="justify-content-center">
+                    <h1 class="text-center">No order available!</h1>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </mat-card>        
+      </div>
+    </div>
+  </div>
+</div>

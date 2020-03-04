@@ -1,0 +1,37 @@
+<!--The content below is only a placeholder and can be replaced.-->
+<div class="container-fluid p-0 height-100" (window:resize)="onResize($event)">
+  <div class="row area-100 m-0">
+    <div class="mobileView" *ngIf="mobileView">
+      <i class="fas fa-bars fa-2x" *ngIf="!showNavLink" (click)="toggleNavLinks()"></i>
+      <i class="fas fa-times fa-2x" *ngIf="showNavLink" (click)="toggleNavLinks()"></i>
+    </div>
+
+    <div class="col-12 col-md-3 col-lg-2 sec1" *ngIf="(!mobileView || showNavLink) && dispMainMenu">
+      <div class="leftPanelPosition">
+        <img class="icon1" *ngIf="!userData.loggedIn" [src]="imgPath" alt="Luau Icon" routerLink="/home" (click)="startNavigation('/home')">
+        <img class="icon1 adminImg" *ngIf="userData.loggedIn" [src]="imgPathM" alt="Luau Icon">
+
+        <div *ngIf="!userData.loggedIn"><a class="navLink" target="_blank" href="https://itunes.apple.com/in/app/luau-modern-shopping/id1348751802?mt=8">Download</a></div>    
+        
+        <div [ngClass]="{'loggedNavMt': userData.loggedIn}">
+          <ng-container *ngFor="let navObj of linkList">
+            <div *ngIf="userData.loggedIn == navObj.loggedIn" class="navLink" routerLink="{{navObj.routLink}}" routerLinkActive="active-link" (click)="startNavigation(navObj.routLink)">{{navObj.title}}</div>
+          </ng-container>
+        </div>
+      </div>
+      
+      <footer class="footerSec">
+        <div class="row">
+          <ng-container *ngFor="let footerNavObj of footerLinkList">
+            <div class="navLinkFooter col" *ngIf="(userData.loggedIn == footerNavObj.loggedIn) && !footerNavObj.loggedIn" routerLink="{{footerNavObj.routLink}}" (click)="startNavigation(footerNavObj.routLink)">{{footerNavObj.title}}</div>
+            <div class="navLinkFooter col" *ngIf="(userData.loggedIn == footerNavObj.loggedIn) && footerNavObj.loggedIn" routerLink="{{footerNavObj.routLink}}" (click)="startNavigation('logOut')" style="font-size: 18px;">{{footerNavObj.title}}</div>
+          </ng-container>
+        </div>
+      </footer>
+    </div>
+
+    <div class=" col routSec" [ngClass]="{'landscapeMarginTop': mobileView, 'col-12':!dispMainMenu, 'col-12 col-md-9 col-lg-10': dispMainMenu}" *ngIf="!showNavLink || pageOpen">
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+</div>

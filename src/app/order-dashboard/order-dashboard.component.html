@@ -1,0 +1,262 @@
+<div class="col-12 h-100">
+  <div class="row h-100 parentDiv">
+    <div class="emptyBlock" *ngIf="selcOrderDetailId" (click)="selcOrderDetailId=null"></div>
+    <div class="left-panel p-0 col-2 h-100" *ngIf="!dispMainMenu">
+      <div class="boder-wb p-2 pr-3 pl-3 pb-0" id="leftTop">
+        <div>
+          <label class="orderDText">ORDERS DASHBOARD</label>
+          <label class="fa fa-redo float-right c-pointer" (click)="filterReset()"></label>
+        </div>
+        <div class="pt-2">
+          <label class="fa fa-filter mr-2"></label>
+          <label class="fa fa-cog"></label>
+        </div>
+      </div>
+      <div class="p-3 leftCenter" [style.height.px]="leftCenterHt">
+        <ng-container *ngIf="filters">
+          <div class="filter-h c-pointer mt-0" (click)="showFilteredOptions('status')">status</div>
+          <div class="c-pointer" *ngIf="filterdObj.showStatus">
+            <div class="mb-1" [ngClass]="{'activeFilter':filterData.status==item.status}" *ngFor="let item of filters.order_status;let i = index" (click)="searchByFilterOption(item.status, 'status')">
+              <label class="statusCrcl left-cr-mb" [ngStyle]="{'background':getBgColor(item.status)}"></label>
+              <span class="filter-sh">{{item.status}}</span>
+              <span class="filter-sh-suf">({{item.count}})</span>
+            </div>
+          </div>
+
+          <div class="filter-h c-pointer" (click)="showFilteredOptions('retailers')">retailers <span class="filter-h-suf">(all)</span></div>
+          <div class="c-pointer" *ngIf="filterdObj.showRetailer">
+            <div class="mb-1" [ngClass]="{'activeFilter':(filterData.retailer==item.retailer_name)}" *ngFor="let item of filters.retailers;let i = index" (click)="searchByFilterOption(item.retailer_name, 'retailers')">
+              <span class="filter-sh">{{item.retailer_name}}</span>
+              <span class="filter-sh-suf">({{item.order_count}})</span>
+            </div>
+          </div>
+
+          <div class="filter-h c-pointer" (click)="showFilteredOptions('sortBy')">sort by <span class="filter-h-suf">({{this.filterData.sort_by || 'newest'}})</span></div>
+          <div class="c-pointer" *ngIf="filterdObj.showSortBy">
+            <div class="mb-1" [ngClass]="{'activeFilter':filterData.sort_by==item}" *ngFor="let item of filters.sort_by;let i = index" (click)="searchByFilterOption(item, 'sortBy')">
+              <span class="filter-sh">{{item}}</span>
+            </div>
+          </div>
+
+          <div class="filter-h c-pointer" (click)="showFilteredOptions('dateRange')">date range 
+            <span class="filter-h-suf" *ngIf="filterData.date_from_disp">(from {{this.filterData.date_from_disp}})</span>
+            <span class="filter-h-suf" *ngIf="!filterData.date_from_disp">(all)</span>
+          </div>
+          <div *ngIf="filterdObj.showDateRange">
+            <div class="mb-1">
+              <input type="date" [(ngModel)]='fromDate' (change)="selectdate()">
+            </div>
+          </div>
+
+          <div class="filter-h c-pointer" (click)="searchByFilterOption('open_case', 'open_case')">open Case</div>
+        </ng-container>
+      </div>
+      <footer class="footerSecDash col-12 row m-0" id="leftBottom">
+          <div class="navLinkFooter col" (click)="routToSupport()" >Support</div>
+          <div class="navLinkFooter col" (click)="showHideChildLeftMenu()">Menu</div>
+      </footer>
+    </div>
+
+    <div class="col row m-0 p-0" [ngClass]="{'col-12':dispMainMenu, 'col-10': dispMainMenu}" *ngIf="!clildSupportView && !childNavigation">
+      <div class="middle-panel col-9 h-100 p-0">
+        <div class="loader" *ngIf="loaderStart"></div>
+        <div class="" *ngIf="!loaderStart">
+          <div class="pt-2 pl-2 pr-2" id="midTop">
+            <form [formGroup]="searchForm" (ngSubmit)="onSubmit('searched')">
+              <div class="form-group has-search row m-0" (keydown.enter)="onSubmit('searched')">
+                <span class="fa fa-search form-control-feedback v-center"></span>
+                <input type="text" class="form-control searchField" formControlName="order_id"
+                  [ngClass]="{ 'is-invalid': submitted && f.order_id.errors }">
+                <span class="fa fa-times v-center crossIcon" *ngIf="this.searchForm.value.order_id"
+                  (click)="clearSearchField()"></span>
+                <div *ngIf="submitted && f.order_id.errors" class="invalid-feedback requireMsg">
+                  <div *ngIf="f.order_id.errors.required">Order Id is required.</div>
+                </div>
+              </div>
+            </form>
+          </div>
+          <div class="midCenter" [style.height.px]="midCenterHt">
+            <table class="table table-hover mb-1">
+              <thead>
+                <tr>
+                  <th scope="col">Id</th>
+                  <th scope="col">Customer</th>
+                  <th scope="col">Status</th>
+                  <th scope="col">Seller</th>
+                  <th scope="col">Price Diff.</th>
+                  <th scope="col">Order Details</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let order of orderList;let i = index" (click)="orderPageToggle(order)" [class.highlighted]="order === selcOrder">
+                  <th scope="row">
+                    <label class="cusId">#{{order.id}}</label>
+                    <p class="cusHr">{{order.timestamp}}</p>
+                  </th>
+                  <td>{{order.order_details.full_name}}</td>
+                  <td class="v-center">
+                    <label class="statusCrcl" [ngStyle]="{'background':getBgColor(order.order_status)}"></label>
+                    {{order.order_status}}
+                  </td>
+                  <td><img [src]="order.retailer_logo" class="retailerImg"></td>
+                  <td [style.color]="getDifferentialColor(order.product_details)" *ngIf="order.product_details.money_differential">
+                    {{"$"+order.product_details.money_differential_disp || order.product_details.money_differential}}
+                  </td>
+                  <td *ngIf="!order.product_details.money_differential">--</td>
+                  <td class="v-mid">
+                    <div class="p-rel detailCard" id="orderBtnId">
+                      <label class="cusBadge" (click)="selcOrderDetailId = order.id;positionByIndex(i)">Order Detail</label>
+                      <div class="OrderDetailSec" id="orderBoxId" [ngClass]="{'positionBottom': i>6}"
+                        *ngIf="selcOrderDetailId == order.id">
+                        <div class="oSec">
+                          <div class="orderParam1">Order Place Time </div>
+                          <div class="orderParam2">{{order.time}}</div>
+                        </div>
+                        <div class="oSec">
+                          <div class="orderParam1">Address</div>
+                          <div class="orderParam2">
+                            {{order.order_details.shipping_address.first_name}}
+                            {{order.order_details.shipping_address.last_name}}
+                          </div>
+                          <div class="orderParam2 addressFront">{{order.order_details.shipping_address.address_line_one}},
+                            <span
+                              *ngIf="order.order_details.shipping_address.address_line_two">{{order.order_details.shipping_address.address_line_two}},
+                            </span>
+                            <span
+                              *ngIf="order.order_details.shipping_address.city">{{order.order_details.shipping_address.city}},
+                            </span>
+                            <span
+                              *ngIf="order.order_details.shipping_address.state">{{order.order_details.shipping_address.state}},
+                            </span>
+                            <span
+                              *ngIf="order.order_details.shipping_address.country">{{order.order_details.shipping_address.country}},
+                            </span>
+                            <span
+                              *ngIf="order.order_details.shipping_address.zip_code">{{order.order_details.shipping_address.zip_code}},
+                            </span>
+                            <span
+                              *ngIf="order.order_details.shipping_address.phone_number">{{order.order_details.shipping_address.phone_number}},
+                            </span>
+                          </div>
+                        </div>
+                        <div class="oSec">
+                          <div class="orderParam1">Payment</div>
+                          <div class="orderParam2">
+                            <img class="cardLogo" [src]="setCardLogo(order)" alt="CARD LOGO">
+                            <label class="ml-1" *ngIf="order.order_details.payment_method && order.order_details.payment_method.number">{{order.order_details.payment_method.number}}</label>
+                          </div>
+                        </div>
+                        <div class="oSec">
+                          <div class="orderParam1">Username: {{order.order_details.full_name}}</div>
+                          <div class="orderParam2">{{order.order_details.user_email}}</div>
+                        </div>
+                        <div class="row oSec2">
+                          <div class="col-9 orderAmt">Grand Total</div>
+                          <div class="vol-3 orderAmt">${{order.order_details.receiver_total_price || order.order_details.order_grand_total ||  "00.00"}}</div>
+                        </div>
+                      </div>
+                    </div>
+                  </td>
+                </tr>
+                <tr *ngIf="orderList.length==0 && !loaderStart" class="noOrderSec">
+                  <td colspan="6">
+                    <h1>No order available!</h1>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          
+          <div class="col-12 p-0 m-0 pr-2 row midBottom" *ngIf="allItemLen && allItemLen>10" id="midBottom">
+            <ul class="pagination justify-content-end col" *ngIf="pager.pages && pager.pages.length">
+              <li class="page-item" [ngClass]="{disabled:pager.currentPage === 1}">
+                <a class="page-link" (click)="setPage(1)">First</a>
+              </li>
+              <li class="page-item" [ngClass]="{disabled:pager.currentPage === 1}">
+                <a class="page-link" (click)="setPage(pager.currentPage - 1)">Previous</a>
+              </li>
+              <li class="page-item" *ngFor="let page of pager.pages" [ngClass]="{active:pager.currentPage === page}">
+                <a class="page-link" (click)="setPage(page)">{{page}}</a>
+              </li>
+              <li class="page-item" [ngClass]="{disabled:pager.currentPage === pager.totalPages}">
+                <a class="page-link" (click)="setPage(pager.currentPage + 1)">Next</a>
+              </li>
+              <li class="page-item" [ngClass]="{disabled:pager.currentPage === pager.totalPages}">
+                <a class="page-link" (click)="setPage(pager.totalPages)">Last</a>
+              </li>
+            </ul>
+          </div>
+          <span class="fa fa-arrow-circle-left p-2 c-pointer pf-2" *ngIf="dispMainMenu" (click)="showHideChildLeftMenu()"></span>
+        </div>
+      </div>
+      
+      <div class="right-panel col-3 h-100 p-0">
+        <ng-container *ngIf="(selcOrder | json) != '{}' && !loaderStart">
+          <div id="rightTop">
+            <div class="prodSec p-2 boder-b" *ngIf="selcOrder">
+              <p class="prodStatus">
+                {{selcOrder.order_status}} 
+                <label class="statusCrcl float-right" [ngStyle]="{'background':getBgColor(selcOrder.order_status)}"></label>
+              </p>
+              <p class="orderId">
+                Order {{selcOrder.id}} 
+                <label class="orderAmtTop float-right">
+                  ${{selcOrder.order_details.order_grand_total ||selcOrder.order_details.receiver_total_price ||  "00.00"}}
+                </label>
+              </p>
+              <div class="prodImgSec">
+                <img class="prodImg mb-2" [src]="selcOrder.product_details.image || imgPathP" alt="Luau Icon">
+                <div class="prodName">{{selcOrder.product_details.name}}</div>
+                <div class="prodStyle">Color: {{selcOrder.product_details.color}}</div>
+                <div class="prodStyle">Size: {{selcOrder.product_details.size}}</div>
+                <div class="prodStyle">
+                  <a class="prodUrl" [href]="selcOrder.product_details.product_url" target="_blank">Product URL</a>
+                </div>
+              </div>
+            </div>
+            <div class="boder-b p-1">
+              <div class="col moiTitle">Merchant order id</div>
+              <div class="col">
+                <label class="cusBadge2" *ngIf="selcOrder.order_status!='Cancelled'" (click)="linkMerchantOrderIdDialog(selcOrder)">{{selcOrder.merchant_order_id || 'Link MOI'}}</label>
+                <label class="moiText" *ngIf="selcOrder.order_status=='Cancelled'">{{selcOrder.merchant_order_id || '--'}}</label>
+                <label class="cusBadge2 float-right" (click)="orderCancel(selcOrder)" [ngClass]="{'c-noDrop':selcOrder.merchant_order_id}"
+                  *ngIf="(selcOrder.order_placement_status!='0')">Cancel</label>
+                <label class="moiText float-right" *ngIf="selcOrder.order_placement_status == '0'">Cancelled</label>
+              </div>
+            </div>
+          </div>
+          
+          <div class="p-2 trackingHistory" [style.height.px]="trackingHistoryHt" *ngIf="selcOrder.trackingHistoryDisp && selcOrder.trackingHistoryDisp.tracking_history.length > 0">
+            <div *ngFor="let trackDetail of selcOrder.trackingHistoryDisp.tracking_history | reverse; let j = index">
+              <div class="trackingList row m-0" *ngIf="trackDetail.status_details">
+                <span class="trackCount">{{j+1}}</span>
+                <div class='col pr-0'>
+                  <div class="trackingData">
+                    <span *ngIf="trackDetail.status_date">{{trackDetail.status_date|date:'MMMMd @ h:mma':'-0000'+":"}}</span>
+                    <span *ngIf="trackDetail.location && trackDetail.location.city"> {{trackDetail.location.city+", "}}</span>
+                    <span *ngIf="trackDetail.location && trackDetail.location.state">{{trackDetail.location.state}}</span>
+                  </div>
+                  <div class="trackingData" *ngIf="trackDetail.status_details">{{trackDetail.status_details}}</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="p-2 noTrackingHistory" *ngIf="!selcOrder.trackingHistoryDisp">No tracking history available</div>
+        </ng-container>
+      </div>
+    </div>
+
+    <div class="col row m-0 p-0 supportView" [ngClass]="{'col-12':dispMainMenu, 'col-10': dispMainMenu}" *ngIf="clildSupportView">
+      <span class="fa fa-arrow-circle-left p-2 c-pointer pf-2" (click)="showHideChildLeftMenu()"></span>
+      <app-support class="col"></app-support>
+    </div>
+
+    <div class="col row m-0 p-0 supportView ho-100" [ngClass]="{'col-12':dispMainMenu, 'col-10': dispMainMenu}" *ngIf="childNavigation">
+      <span class="fa fa-arrow-circle-left p-2 c-pointer pf-2" (click)="showHideChildLeftMenu()"></span>
+      <app-flagged *ngIf="flaggedPage" class="col ho-100 p-0"></app-flagged>
+      <app-orderemailpairing *ngIf="open_case" class="col ho-100 p-0"></app-orderemailpairing>
+      <span class="fa fa-arrow-circle-left p-2 c-pointer pf-5" *ngIf="dispMainMenu" (click)="showHideChildLeftMenu()"></span>
+    </div>
+  </div>
+
+</div>

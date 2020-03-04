@@ -1,0 +1,57 @@
+<div>
+    <div class="loader" *ngIf="loaderStart"></div>
+    <div class="headerSec" *ngIf="!loaderStart">
+      <div class="row">
+        <div class="col-12">
+          <h2 class="luau-head head-font-1 mb-0">Tracking Numbers</h2>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12 tagCardSec" id="cardId">
+          <mat-card class="tp-card" id="id1">
+            <div class="tablePdng table-responsive" id="id2">
+              <table class="table table-border mb-0 tableMargin">
+                <thead>
+                  <tr class="row">
+                    <th scope="col" class="tblHdr1">Order</th>
+                    <th scope="col" class="tblHdr2 col-1">Username</th>
+                    <th scope="col" class="tblHdr2 col-11">Products</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <ng-container *ngFor="let obj of TRACKING_NUMBER_LIST;let i = index">
+                    <tr class="row" *ngIf="TRACKING_NUMBER_LIST.length>0">
+                      <td class="statusMsg d-flex align-items-center flex-nowrap idColWidth">
+                        <div>
+                          <label class="cusId">#{{obj.id}}</label>
+                          <p class="cusHr">{{obj.timestamp}}</p>
+                        </div>
+                      </td>
+                      <td class="statusMsg col-1 d-flex align-items-center flex-nowrap">{{obj.order_details.username}}</td>
+                      <td class="statusMsg col-11">
+                        <div class="row">
+                          <div class="column col-5 prodDetailSec" *ngFor="let prod of obj.product_details;let j = index">
+                            <p class="prodName">{{(prod.name.length>25)? (prod.name | slice:0:25)+'..':(prod.name)}}</p>
+                            <p class="brandName">{{prod.brand}}</p>
+                            <label *ngIf="prod.order_status==1" class="commOrderStatus orderStatus1">NEEDS TRACKING</label>
+                            <label *ngIf="prod.order_status==2" class="commOrderStatus orderStatus2">SHIPPED</label>
+                            <label *ngIf="prod.order_status==3" class="commOrderStatus orderStatus2">DELIVERED</label>
+                          </div>
+                        </div>
+                      </td>
+                    </tr>
+                  </ng-container>
+                  <tr *ngIf="TRACKING_NUMBER_LIST.length==0" class="noOrderSec">
+                    <td>
+                      <h1>No order available!</h1>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </mat-card>        
+        </div>
+      </div>
+    </div>
+  </div>
+  

@@ -1,0 +1,70 @@
+<div>
+  <div class="loader" *ngIf="loaderStart"></div>
+  <div class="headerSec" *ngIf="!loaderStart">
+    <div class="row">
+      <div class="col-6">
+        <h2 class="luau-head head-font-1 mb-0">Retailers</h2>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-12 tagCardSec" id="cardId">
+        <mat-card class="tp-card" id="id1">
+          <div class="tablePdng" id="id2">
+            <table class="table mb-0 tableMargin">
+              <thead>
+                <tr>
+                  <th scope="col" class="text-center">Logo</th>
+                  <th scope="col" class="text-center">Retailer</th>
+                  <th scope="col" class="text-center" colspan="3">Last Updated at</th>
+                  <th scope="col" class="text-center">Re-index</th>
+                </tr>
+              </thead>
+              <tbody>
+                <ng-container *ngFor="let item of RETAILER_LIST;let i = index">
+                  <tr *ngIf="RETAILER_LIST.length>0">
+                    <td class="statusMsg text-center">
+                      <img [src]="item.logo" class="retailerImg">
+                    </td>
+                    <td class="statusMsg text-center">{{item.name}}</td>
+                    <td class="statusMsg text-center" colspan="3">{{item.lastReindexedAt| UTCDate}}</td>
+                    <td class="statusMsg text-center">
+                        <span class="cusBadge2" (click)="reindexConfirmation(item)">reindex</span>
+                    </td>
+                  </tr>
+                    
+                </ng-container>
+                <tr *ngIf="RETAILER_LIST.length==0" class="noOrderSec">
+                  <td colspan="5">
+                    <h1>No Retailer found!</h1>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div id="id3">
+            <div *ngIf="allItemLen && allItemLen>pageSize">
+              <ul class="pagination justify-content-end m-0" *ngIf="pager.pages && pager.pages.length">
+                <li class="page-item" [ngClass]="{disabled:pager.currentPage === 1}">
+                  <a class="page-link" (click)="setPage(1)">First</a>
+                </li>
+                <li class="page-item" [ngClass]="{disabled:pager.currentPage === 1}">
+                  <a class="page-link" (click)="setPage(pager.currentPage - 1)">Previous</a>
+                </li>
+                <li class="page-item" *ngFor="let page of pager.pages" [ngClass]="{active:pager.currentPage === page}">
+                  <a class="page-link" (click)="setPage(page)">{{page}}</a>
+                </li>
+                <li class="page-item" [ngClass]="{disabled:pager.currentPage === pager.totalPages}">
+                  <a class="page-link" (click)="setPage(pager.currentPage + 1)">Next</a>
+                </li>
+                <li class="page-item" [ngClass]="{disabled:pager.currentPage === pager.totalPages}">
+                  <a class="page-link" (click)="setPage(pager.totalPages)">Last</a>
+                </li>
+              </ul>
+            </div>
+
+          </div>
+        </mat-card>        
+      </div>
+    </div>
+  </div>
+</div>

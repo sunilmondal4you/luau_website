@@ -1,0 +1,76 @@
+.bigContSec{
+    max-width: 98%;
+    min-height: 95%;
+    margin-top: 0%;
+}
+@media (min-width:768px) {
+    .privacyheader{
+        position: fixed;
+        top: 0%;
+        width: 98%;
+        z-index: 999;
+        margin-left: -10px;
+    }
+    .bigContSec{
+        margin-top:2% !important;
+    }
+    .policy{
+        margin-top:-19%;
+    }
+}
+@media screen and (max-width:767px){
+    .privacyheader{
+        position: fixed;
+        top: 60px;
+        width: 98%;
+        z-index: 999;
+        margin-left: 0px;
+    }
+    .bigContSec{
+        margin-top:33%;
+    }
+    .policy{
+        margin-top:20%;
+    }
+}
+@media (orientation: landscape) {
+    .policy{
+        margin-top:13%;
+    }
+}
+.privacyheader{
+    padding: 2% 1.5%;
+    color: #fff;
+    background: #3c3c3c;
+}
+.privacyheader h1{
+    font-size: 36px;
+    font-weight: bold;
+    font-family: 'avenir_next_b';
+}
+.privacyheader p{
+    font-size: 18px;
+    font-weight: medium;
+    font-family: 'avenir_next_m';
+}
+
+.policy h1{
+    font-size: 16px;
+    font-weight: DemiBold;
+    font-family: 'avenir_next_db';
+}
+.content p{
+    font-size: 18px !important;
+    font-weight: medium;
+    font-family: 'avenir_next_m';
+}
+.content ul li{
+    font-size: 16px !important;
+    font-weight: medium;
+    font-family: 'avenir_next_m';
+}
+.content ol li{
+    font-size: 16px !important;
+    font-weight: regular;
+    font-family: 'avenir_next_r';
+}
